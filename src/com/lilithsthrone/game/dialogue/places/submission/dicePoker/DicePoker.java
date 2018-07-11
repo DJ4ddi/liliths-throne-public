@@ -378,7 +378,7 @@ public class DicePoker {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index==1) {
-				return new ResponseEffectsOnly("Call ("+UtilText.formatAsMoney(getRaiseAmount(), "span")+")", UtilText.parse(gambler, "Match [npc.name]'s raise of "+UtilText.formatAsMoney(getRaiseAmount(), "span")+".")) {
+				return new ResponseEffectsOnly("Call ("+UtilText.formatAsMoney(getRaiseAmount(), "span")+")", UtilText.parse(gambler, "Match [npc.namePos] raise of "+UtilText.formatAsMoney(getRaiseAmount(), "span")+".")) {
 					@Override
 					public void effects() {
 						moneyPool+=getRaiseAmount();
@@ -392,7 +392,7 @@ public class DicePoker {
 								+ "[npc.speech(Fine,)] [npc.name] huffs, [npc.speech(that's only going to be more money for me! Now, let's finish this!)]"
 							+ "</p>"
 							+ "<p style='text-align:center;'>"
-								+ "<i>You <b>called</b> [npc.name]'s raise!<br/>"
+								+ "<i>You <b>called</b> [npc.namePos] raise!<br/>"
 								+ "Click the dice you want to reroll, then press 'Roll'.</i>"
 							+ "</p>";
 						calculateGamblerRerolls();
@@ -402,7 +402,7 @@ public class DicePoker {
 				};
 				
 			} else if(index==2) {
-				return new ResponseEffectsOnly("Fold", UtilText.parse(gambler, "Surrender to [npc.name]'s and let [npc.herHim] take the pool of "+UtilText.formatAsMoney(moneyPool, "span")+".")) {
+				return new ResponseEffectsOnly("Fold", UtilText.parse(gambler, "Surrender to [npc.namePos] and let [npc.herHim] take the pool of "+UtilText.formatAsMoney(moneyPool, "span")+".")) {
 					@Override
 					public void effects() {
 						moneyPool+=getRaiseAmount();
@@ -476,11 +476,11 @@ public class DicePoker {
 							responseContent = "<p>"
 												+ (diceRerolled
 														?"As the dice come clattering to a halt, [npc.name] lets out a defeated sigh as [npc.she] sees that you've won."
-														:"As both you and [npc.name] choose not to reroll any dice, [npc.she]'s already resigned [npc.herself] to a loss, and lets out a frustrated little sigh.")
+														:"As both you and [npc.name] choose not to reroll any dice, [npc.sheIs] already resigned [npc.herself] to a loss, and lets out a frustrated little sigh.")
 													+ " [npc.speech(Damn it... Well, good game...)]"
 												+ "</p>"
 												+ "<p>"
-													+ "You collect your winnings and return [npc.name]'s polite remark, before moving off and taking your leave..."
+													+ "You collect your winnings and return [npc.namePos] polite remark, before moving off and taking your leave..."
 												+ "</p>"
 												+ "<p style='text-align:center;'>"
 													+ "[style.colourExcellent(You won!)]</i>"
@@ -492,7 +492,7 @@ public class DicePoker {
 						} else {
 							responseContent =  "<p>"
 												+ (diceRerolled
-														?"As the dice come clattering to a halt, [npc.name] lets out a triumphant laugh as [npc.she] sees that [npc.she]'s won."
+														?"As the dice come clattering to a halt, [npc.name] lets out a triumphant laugh as [npc.she] sees that [npc.sheIs] won."
 														:"As both you and [npc.name] choose not to reroll any dice, you've already resigned yourself to a loss, and try not to feel too unhappy as your opponent lets out a triumphant laugh.")
 													+ " [npc.speech(Hah! Good game, but you never stood a chance!)]"
 												+ "</p>"

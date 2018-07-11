@@ -38,6 +38,7 @@ import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
 import com.lilithsthrone.game.sex.Sex;
+import com.lilithsthrone.game.sex.SexAreaInterface;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
@@ -232,11 +233,9 @@ public class Ralph extends NPC {
 	}
 
 	@Override
-	public void endSex(boolean applyEffects) {
-		if(applyEffects) {
-			for(AbstractClothing c : this.getClothingCurrentlyEquipped()) {
-				c.getDisplacedList().clear();
-			}
+	public void endSex() {
+		for(AbstractClothing c : this.getClothingCurrentlyEquipped()) {
+			c.getDisplacedList().clear();
 		}
 	}
 	
@@ -302,8 +301,8 @@ public class Ralph extends NPC {
 		}
 		return AbstractClothingType.getEquipDescriptions(target, equipper, rough,
 				"You tear open the packet and roll the condom down the length of your [pc.penis].",
-				"You tear open the packet and roll the condom down the length of [npc.name]'s [npc.penis].",
-				"You tear open the packet and forcefully roll the condom down the length [npc.name]'s [npc.penis].",
+				"You tear open the packet and roll the condom down the length of [npc.namePos] [npc.penis].",
+				"You tear open the packet and forcefully roll the condom down the length [npc.namePos] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of [npc.her] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of your [pc.penis].",
 				"[npc.Name] tears open the packet and forcefully rolls the condom down the length of your [pc.penis].", null, null);
@@ -311,7 +310,7 @@ public class Ralph extends NPC {
 	
 	
 	@Override
-	public String getPenetrationDescription(boolean initialPenetration, GameCharacter characterPenetrating, SexAreaPenetration penetrationType, GameCharacter characterPenetrated, SexAreaOrifice orifice) {
+	public String getPenetrationDescription(boolean initialPenetration, GameCharacter characterPenetrating, SexAreaPenetration penetrationType, GameCharacter characterPenetrated, SexAreaInterface orifice) {
 		if(Math.random()>0.3) {
 			if(penetrationType == SexAreaPenetration.PENIS && orifice == SexAreaOrifice.VAGINA) {
 				return UtilText.returnStringAtRandom(

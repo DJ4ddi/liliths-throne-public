@@ -60,7 +60,7 @@ public class SlimeCavernAttacker extends NPC {
 	
 	public SlimeCavernAttacker(Gender gender, boolean isImported) {
 		super(null, "",
-				Util.random.nextInt(9)+18, Util.randomItemFrom(Month.values()), 1+Util.random.nextInt(25),
+				Util.random.nextInt(21)+18, Util.randomItemFrom(Month.values()), 1+Util.random.nextInt(25),
 				3, gender, RacialBody.HUMAN, RaceStage.HUMAN,
 				new CharacterInventory(10), WorldType.BAT_CAVERNS, PlaceType.BAT_CAVERN_DARK, false);
 
@@ -97,6 +97,7 @@ public class SlimeCavernAttacker extends NPC {
 					case FOX_ASCENDANT_FENNEC:
 					case HARPY:
 					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 					case HORSE_MORPH:
 					case HORSE_MORPH_ZEBRA:
 					case HUMAN:
@@ -139,6 +140,7 @@ public class SlimeCavernAttacker extends NPC {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -161,7 +163,7 @@ public class SlimeCavernAttacker extends NPC {
 			
 			// PERSONALITY & BACKGROUND:
 			
-			CharacterUtils.setHistoryAndPersonality(this);
+			CharacterUtils.setHistoryAndPersonality(this, true);
 			
 			// ADDING FETISHES:
 			
@@ -217,8 +219,8 @@ public class SlimeCavernAttacker extends NPC {
 	public String getDescription() {
 		if(this.isSlave()) {
 			return (UtilText.parse(this,
-					"[npc.Name]'s days of getting high on mushrooms and attacking innocent travellers in the Bat Caverns are now over."
-							+ " Having been enslaved as punishment for [npc.her] lawless behaviour, [npc.she]'s now a slave, and is no more than [npc.her] owner's property."));
+					"[npc.NamePos] days of getting high on mushrooms and attacking innocent travellers in the Bat Caverns are now over."
+							+ " Having been enslaved as punishment for [npc.her] lawless behaviour, [npc.sheIs] now a slave, and is no more than [npc.her] owner's property."));
 		} else {
 			return (UtilText.parse(this,
 					"[npc.Name] is a resident of the bat caverns, and loves nothing more than getting high on mushrooms, attacking innocent travellers, and having sex."));
@@ -226,11 +228,9 @@ public class SlimeCavernAttacker extends NPC {
 	}
 	
 	@Override
-	public void endSex(boolean applyEffects) {
-		if(applyEffects) {
-			if(!isSlave()) {
-				setPendingClothingDressing(true);
-			}
+	public void endSex() {
+		if(!isSlave()) {
+			setPendingClothingDressing(true);
 		}
 	}
 

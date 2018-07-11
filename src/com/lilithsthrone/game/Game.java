@@ -640,6 +640,12 @@ public class Game implements Serializable, XMLSaving {
 					if(Main.isVersionOlderThan(loadingVersion, "0.2.3.5")) {
 						gen.worldGeneration(WorldType.BAT_CAVERNS);
 					}
+					if(Main.isVersionOlderThan(loadingVersion, "0.2.8")) {
+						gen.worldGeneration(WorldType.NIGHTLIFE_CLUB);
+					}
+					if(Main.isVersionOlderThan(loadingVersion, "0.2.8.1")) {
+						gen.worldGeneration(WorldType.EMPTY);
+					}
 					if(Main.game.worlds.get(wt)==null) {
 						gen.worldGeneration(wt);
 					}
@@ -782,10 +788,18 @@ public class Game implements Serializable, XMLSaving {
 					Main.game.addNPC(new Axel(), false);
 					Main.game.addNPC(new Epona(), false);
 				}
-				if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Roxy.class))) { // Add nightclub NPCs:
+				if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Jules.class))) { // Add nightclub NPCs:
 					Main.game.addNPC(new Jules(), false);
 					Main.game.addNPC(new Kruger(), false);
 					Main.game.addNPC(new Kalahari(), false);
+					Main.game.getKalahari().setFather(Main.game.getKruger());
+					Main.game.getKalahari().setAffection(Main.game.getKruger(), AffectionLevel.POSITIVE_FOUR_LOVE.getMedianValue());
+					Main.game.getKruger().setAffection(Main.game.getKalahari(), AffectionLevel.POSITIVE_FOUR_LOVE.getMedianValue());
+				}
+				if(Main.isVersionOlderThan(loadingVersion, "0.2.8")) {
+					Main.game.getJules().setLocation(WorldType.NIGHTLIFE_CLUB, PlaceType.WATERING_HOLE_ENTRANCE);
+					Main.game.getKruger().setLocation(WorldType.NIGHTLIFE_CLUB, PlaceType.WATERING_HOLE_VIP_AREA);
+					Main.game.getKalahari().setLocation(WorldType.NIGHTLIFE_CLUB, PlaceType.WATERING_HOLE_BAR);
 				}
 				
 				// To prevent errors from previous versions, reset Zaranix progress if prior to 0.1.95:
@@ -1063,6 +1077,9 @@ public class Game implements Serializable, XMLSaving {
 			addNPC(new Jules(), false);
 			addNPC(new Kruger(), false);
 			addNPC(new Kalahari(), false);
+			Main.game.getKalahari().setFather(Main.game.getKruger());
+			Main.game.getKalahari().setAffection(Main.game.getKruger(), AffectionLevel.POSITIVE_FOUR_LOVE.getMedianValue());
+			Main.game.getKruger().setAffection(Main.game.getKalahari(), AffectionLevel.POSITIVE_FOUR_LOVE.getMedianValue());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1252,7 +1269,7 @@ public class Game implements Serializable, XMLSaving {
 			// Prostitutes stay on promiscuity pills to avoid pregnancies, and, if the NPC is male, to avoid knocking up their clients
 			if((!npc.isPregnant()
 					&& !npc.isSlave()
-					&& npc.getHistory()==History.PROSTITUTE
+					&& npc.getHistory()==History.NPC_PROSTITUTE
 					&& !npc.hasStatusEffect(StatusEffect.PROMISCUITY_PILL)
 					&& !npc.getLocation().equals(Main.game.getPlayer().getLocation()))
 					|| (npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PREGNANCY).contains(SlavePermissionSetting.PREGNANCY_PROMISCUITY_PILLS))) {
@@ -1295,7 +1312,11 @@ public class Game implements Serializable, XMLSaving {
 			
 			if(newDay) {
 				npc.resetDaysOrgasmCount();
-				npc.dailyReset();
+				try {
+					npc.dailyReset();
+				} catch(Exception ex) {
+					System.err.println("Issue in method: dailyReset(), for character ID: "+npc.getId()+"\n"+ex.getMessage());
+				}
 			}
 			
 			// Companions:
@@ -2024,12 +2045,18 @@ public class Game implements Serializable, XMLSaving {
 										:"style='color:"+Colour.TEXT_HALF_GREY.toWebHexString()+";'"))
 							+" id='tab_" + responsePageCounter + "'>"
 							+(responsePageCounter==responseTab-1
-								?"<b class='hotkey-icon'>"+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_TAB) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_TAB).getFullName()) + "</b>"
+								?"<b class='hotkey-icon'>"
+									+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_TAB) == null
+										? "" 
+										: Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_TAB).getFullName()) + "</b>"
 								:(responsePageCounter==responseTab+1
-									?"<b class='hotkey-icon'>"+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_TAB) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_TAB).getFullName()) + "</b>"
+									?"<b class='hotkey-icon'>"
+										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_TAB) == null
+											? ""
+											: Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_TAB).getFullName()) + "</b>"
 									:""))
 //							+ (responseTab==responsePageCounter+1?"<b class='hotkey-icon'>" + KeyboardAction.RESPOND_PREVIOUS_PAGE + "</b>" : "" )
-							+ node.getResponseTabTitle(responsePageCounter)
+							+ UtilText.parse(node.getResponseTabTitle(responsePageCounter))
 						+"</div>");
 				responsePageCounter++;
 			}
@@ -2471,6 +2498,12 @@ public class Game implements Serializable, XMLSaving {
 		charactersPresent.sort(Comparator.comparing(GameCharacter::getName));
 		
 		return charactersPresent;
+	}
+	
+	public List<NPC> getCharactersPresent(WorldType worldType, PlaceType placeType) {
+		Cell cell = worlds.get(worldType).getCell(placeType);
+		
+		return getCharactersPresent(cell);
 	}
 	
 	public String getWeatherImage() {
@@ -3009,6 +3042,7 @@ public class Game implements Serializable, XMLSaving {
 	public void removeNPC(NPC npc) {
 		if(npc.isPregnant()) {
 			npc.endPregnancy(false);
+			
 		} else if(npc.hasStatusEffect(StatusEffect.PREGNANT_0)) {
 			npc.removeStatusEffect(StatusEffect.PREGNANT_0);
 		}

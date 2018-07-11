@@ -144,13 +144,13 @@ public class PartnerSelfFingerVagina {
 		@Override
 		public String getDescription() {
 			return UtilText.returnStringAtRandom(
-					"[npc.A_moan+] escapes from between [npc.name]'s [npc.lips+] as [npc.she] slowly pushes [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+].",
+					"[npc.A_moan+] escapes from between [npc.namePos] [npc.lips+] as [npc.she] slowly pushes [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+].",
 					
 					"Gently pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+], [npc.name] starts letting out a series of delighted [npc.moans] as [npc.she] rhythmically fingers [npc.herself].",
 					
 					"Curling [npc.her] [npc.fingers] up inside [npc.her] [npc.pussy], [npc.name] lets out a little whimper as [npc.she] starts stroking [npc.her] vaginal walls.",
 					
-					"Focusing on the pleasure [npc.she]'s giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts gently pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
+					"Focusing on the pleasure [npc.sheIs] giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts gently pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
 		}
 		
 	};
@@ -186,13 +186,13 @@ public class PartnerSelfFingerVagina {
 		@Override
 		public String getDescription() {
 			return UtilText.returnStringAtRandom(
-					"[npc.A_moan+] escapes from between [npc.name]'s [npc.lips+] as [npc.she] greedily pushes [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+].",
+					"[npc.A_moan+] escapes from between [npc.namePos] [npc.lips+] as [npc.she] greedily pushes [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+].",
 					
 					"Pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+], [npc.name] starts letting out a series of delighted [npc.moans] as [npc.she] rhythmically fingers [npc.herself].",
 					
 					"Curling [npc.her] [npc.fingers] up inside [npc.her] [npc.pussy], [npc.name] lets out [npc.a_moan] as [npc.she] starts stroking [npc.her] vaginal walls.",
 					
-					"Focusing on the pleasure [npc.she]'s giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
+					"Focusing on the pleasure [npc.sheIs] giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
 		}
 		
 	};
@@ -228,13 +228,13 @@ public class PartnerSelfFingerVagina {
 		@Override
 		public String getDescription() {
 			return UtilText.returnStringAtRandom(
-					"[npc.A_moan+] escapes from between [npc.name]'s [npc.lips+] as [npc.she] roughly slams [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+], before starting to roughly finger [npc.herself].",
+					"[npc.A_moan+] escapes from between [npc.namePos] [npc.lips+] as [npc.she] roughly slams [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+], before starting to roughly finger [npc.herself].",
 					
 					"Roughly pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+], [npc.name] starts letting out a series of delighted [npc.moans] as [npc.she] ruthlessly fingers [npc.herself].",
 					
 					"Forcefully curling [npc.her] [npc.fingers] up inside [npc.her] [npc.pussy], [npc.name] lets out [npc.a_moan] as [npc.she] starts roughly grinding [npc.her] fingertips up against [npc.her] vaginal walls.",
 					
-					"Focusing on the pleasure [npc.she]'s giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts roughly slamming [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
+					"Focusing on the pleasure [npc.sheIs] giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts roughly slamming [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
 		}
 
 	};
@@ -270,13 +270,13 @@ public class PartnerSelfFingerVagina {
 		@Override
 		public String getDescription() {
 			return UtilText.returnStringAtRandom(
-					"[npc.A_moan+] escapes from between [npc.name]'s [npc.lips+] as [npc.she] greedily pushes [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+].",
+					"[npc.A_moan+] escapes from between [npc.namePos] [npc.lips+] as [npc.she] greedily pushes [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+].",
 					
 					"Pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+], [npc.name] starts letting out a series of delighted [npc.moans] as [npc.she] rhythmically fingers [npc.herself].",
 					
 					"Curling [npc.her] [npc.fingers] up inside [npc.her] [npc.pussy], [npc.name] lets out [npc.a_moan] as [npc.she] starts stroking [npc.her] vaginal walls.",
 					
-					"Focusing on the pleasure [npc.she]'s giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
+					"Focusing on the pleasure [npc.sheIs] giving [npc.herself] between [npc.her] [npc.legs], [npc.name] starts pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
 		}
 		
 	};
@@ -312,13 +312,13 @@ public class PartnerSelfFingerVagina {
 		@Override
 		public String getDescription() {
 			return UtilText.returnStringAtRandom(
-					"[npc.A_moan+] escapes from between [npc.name]'s [npc.lips+] as [npc.she] eagerly slams [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+], before starting to desperately finger [npc.herself].",
+					"[npc.A_moan+] escapes from between [npc.namePos] [npc.lips+] as [npc.she] eagerly slams [npc.her] [npc.fingers] deep inside [npc.her] [npc.pussy+], before starting to desperately finger [npc.herself].",
 					
 					"Enthusiastically pumping [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+], [npc.name] starts letting out a series of delighted [npc.moans] as [npc.she] frantically fingers [npc.herself].",
 					
 					"Desperately curling [npc.her] [npc.fingers] up inside [npc.her] [npc.pussy], [npc.name] lets out [npc.a_moan] as [npc.she] starts eagerly grinding [npc.her] fingertips up against [npc.her] vaginal walls.",
 					
-					"Focusing on the pleasure [npc.she]'s giving [npc.herself] between [npc.her] [npc.legs], [npc.name] eagerly starts slamming [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
+					"Focusing on the pleasure [npc.sheIs] giving [npc.herself] between [npc.her] [npc.legs], [npc.name] eagerly starts slamming [npc.her] [npc.fingers] in and out of [npc.her] [npc.pussy+].");
 		}
 
 	};

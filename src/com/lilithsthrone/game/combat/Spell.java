@@ -182,10 +182,10 @@ public enum Spell {
 			descriptionSB.append("<p>"
 									+getCastDescription(caster, target,
 											"With a flick of your wrist, you summon a blinding flash of light right in front of your own face!",
-											"With a flick of your wrist, you summon a blinding flash of light right in front of [npc.name]'s face!",
+											"With a flick of your wrist, you summon a blinding flash of light right in front of [npc.namePos] face!",
 											"",
 											"With a flick of [npc.her] wrist, [npc.name] summons a blinding flash of light right in front of your face!",
-											"With a flick of [npc1.her] wrist, [npc1.name] summons a blinding flash of light right in front of [npc2.name]'s face!")
+											"With a flick of [npc1.her] wrist, [npc1.name] summons a blinding flash of light right in front of [npc2.namePos] face!")
 								);
 			if(caster.hasSpellUpgrade(SpellUpgrade.FLASH_2)) {
 				descriptionSB.append(" A secondary flash of light arcs away from the first, seeking out another target!");
@@ -211,7 +211,7 @@ public enum Spell {
 						
 					} else {
 						descriptionSB.append("<p>"
-								+"The second Flash shoots out in front of "+(secondaryTarget.isPlayer()?"your face, blinding you as well!":UtilText.parse(secondaryTarget,"[npc.name]'s face, blinding [npc.herHim] as well!"))
+								+"The second Flash shoots out in front of "+(secondaryTarget.isPlayer()?"your face, blinding you as well!":UtilText.parse(secondaryTarget,"[npc.namePos] face, blinding [npc.herHim] as well!"))
 							+"</p>");
 
 						descriptionSB.append(getDamageDescription(caster, secondaryTarget, 0, isHit, isCritical));
@@ -505,10 +505,10 @@ public enum Spell {
 			descriptionSB.append("<p>"
 									+getCastDescription(caster, target,
 											"With an upwards thrust of your [pc.arm], you summon forth a cloud of rain above your own head!",
-											"With an upwards thrust of your [pc.arm], you summon forth a cloud of rain above [npc.name]'s head!",
+											"With an upwards thrust of your [pc.arm], you summon forth a cloud of rain above [npc.namePos] head!",
 											"",
 											"With an upwards thrust of [npc.her] [npc.arm], [npc.name] summons forth a cloud of rain above your head!",
-											"With an upwards thrust of [npc1.her] [npc1.arm], [npc1.name] summons forth a cloud of rain above [npc2.name]'s head!")
+											"With an upwards thrust of [npc1.her] [npc1.arm], [npc1.name] summons forth a cloud of rain above [npc2.namePos] head!")
 								+"</p>");
 
 			descriptionSB.append(getDamageDescription(caster, target, 0, isHit, isCritical));
@@ -1387,10 +1387,10 @@ public enum Spell {
 			descriptionSB.append("<p>"
 									+getCastDescription(caster, target,
 											"You focus your arcane energy on projecting an arousing vision into your own mind",
-											"You focus your arcane energy on projecting an arousing vision into [npc.name]'s mind.",
+											"You focus your arcane energy on projecting an arousing vision into [npc.namePos] mind.",
 											"",
 											"[npc.Name] focuses [npc.her] arcane energy on projecting an arousing vision into your mind!",
-											"[npc.Name] focuses [npc.her] arcane energy on projecting an arousing vision into [npc2.name]'s mind!")
+											"[npc.Name] focuses [npc.her] arcane energy on projecting an arousing vision into [npc2.namePos] mind!")
 								+"</p>");
 			
 			descriptionSB.append(getDamageDescription(caster, target, damage, isHit, isCritical));
@@ -1465,10 +1465,10 @@ public enum Spell {
 			descriptionSB.append("<p>"
 									+getCastDescription(caster, target,
 											"You focus your arcane energy on enabling your thoughts to be projected into others' minds!",
-											"You focus your arcane energy on enabling [npc.name]'s thoughts to be projected into others' minds!",
+											"You focus your arcane energy on enabling [npc.namePos] thoughts to be projected into others' minds!",
 											"[npc.Name] focuses [npc.her] arcane energy on enabling [npc.her] thoughts to be projected into others' minds!",
 											"[npc.Name] focuses [npc.her] arcane energy on enabling your thoughts to be projected into others' minds!",
-											"[npc1.Name] focuses [npc1.her] arcane energy on enabling [npc2.name]'s thoughts to be projected into others' minds!")
+											"[npc1.Name] focuses [npc1.her] arcane energy on enabling [npc2.namePos] thoughts to be projected into others' minds!")
 								+"</p>");
 
 			descriptionSB.append(getDamageDescription(caster, target, 0, isHit, isCritical));
@@ -1539,10 +1539,10 @@ public enum Spell {
 			descriptionSB.append("<p>"
 									+getCastDescription(caster, target,
 											"With an upwards thrust of your [pc.arm], you summon forth an arcane cloud above your own head!",
-											"With an upwards thrust of your [pc.arm], you summon forth an arcane cloud above [npc.name]'s head!",
+											"With an upwards thrust of your [pc.arm], you summon forth an arcane cloud above [npc.namePos] head!",
 											"",
 											"With an upwards thrust of [npc.her] [npc.arm], [npc.name] summons forth an arcane cloud above your head!",
-											"With an upwards thrust of [npc1.her] [npc1.arm], [npc1.name] summons forth an arcane cloud above [npc2.name]'s head!")
+											"With an upwards thrust of [npc1.her] [npc1.arm], [npc1.name] summons forth an arcane cloud above [npc2.namePos] head!")
 								+"</p>");
 
 			descriptionSB.append(getDamageDescription(caster, target, 0, isHit, isCritical));
@@ -1711,10 +1711,10 @@ public enum Spell {
 			descriptionSB.append("<p>"
 									+getCastDescription(caster, target,
 											"Thrusting out your [pc.hand] and clenching your fist, you channel your arcane power into stealing one of your own items...",
-											"Thrusting out your [pc.hand] and clenching your fist, you channel your arcane power into stealing one of [npc.name]'s items!",
+											"Thrusting out your [pc.hand] and clenching your fist, you channel your arcane power into stealing one of [npc.namePos] items!",
 											"",
 											"Thrusting out [npc.her] [npc.hand] and clenching [npc.her] fist, [npc.name] channels [npc.her] arcane power into stealing one of your items!",
-											"Thrusting out [npc.her] [npc.hand] and clenching [npc.her] fist, [npc.name] channels [npc.her] arcane power into stealing one of [npc2.name]'s items!")
+											"Thrusting out [npc.her] [npc.hand] and clenching [npc.her] fist, [npc.name] channels [npc.her] arcane power into stealing one of [npc2.namePos] items!")
 								+"</p>");
 			
 			// If attack hits, apply damage and effects:
@@ -1731,10 +1731,10 @@ public enum Spell {
 						descriptionSB.append("<p>"
 								+ getCastDescription(caster, target,
 										"You stole your own "+clothingToSteal.getName()+"...",
-										"[npc.Name] lets out an embarrassed cry as you steal the "+clothingToSteal.getName()+" that [npc.she]'s currently wearing, [npc.speech(Y-You pervert!)]",
+										"[npc.Name] lets out an embarrassed cry as you steal the "+clothingToSteal.getName()+" that [npc.sheIs] currently wearing, [npc.speech(Y-You pervert!)]",
 										"",
 										"You can't help but let out an embarrassed cry as [npc.name] steals the "+clothingToSteal.getName()+" that you're currently wearing, [pc.speech(Y-You pervert!)]",
-										"[npc2.Name] lets out an embarrassed cry as [npc1.name] steals the "+clothingToSteal.getName()+" that [npc2.she]'s currently wearing, [npc2.speech(Y-You pervert!)]")
+										"[npc2.Name] lets out an embarrassed cry as [npc1.name] steals the "+clothingToSteal.getName()+" that [npc2.sheIs] currently wearing, [npc2.speech(Y-You pervert!)]")
 								+ "</p>"
 								+ caster.addClothing(clothingToSteal, true));
 					}
@@ -1779,10 +1779,10 @@ public enum Spell {
 						descriptionSB.append("<p>"
 								+ getCastDescription(caster, target,
 										"You stole your own "+weapon.getName()+"...",
-										"You stole [npc.name]'s "+weapon.getName()+" from out of [npc.her] [npc.hands]!",
+										"You stole [npc.namePos] "+weapon.getName()+" from out of [npc.her] [npc.hands]!",
 										"",
 										"[npc.Name] stole your "+weapon.getName()+" from out of your [pc.hands]!",
-										"[npc1.Name] stole [npc2.name]'s "+weapon.getName()+" from out of [npc2.her] [npc2.hands]!")
+										"[npc1.Name] stole [npc2.namePos] "+weapon.getName()+" from out of [npc2.her] [npc2.hands]!")
 								+ "</p>"
 								+ caster.addWeapon(weapon, true));
 						
@@ -1792,10 +1792,10 @@ public enum Spell {
 						descriptionSB.append("<p>"
 								+ getCastDescription(caster, target,
 										"You stole your own "+weapon.getName()+"...",
-										"You stole [npc.name]'s "+weapon.getName()+" from out of [npc.her] [npc.hands]!",
+										"You stole [npc.namePos] "+weapon.getName()+" from out of [npc.her] [npc.hands]!",
 										"",
 										"[npc.Name] stole your "+weapon.getName()+" from out of your [pc.hands]!",
-										"[npc1.Name] stole [npc2.name]'s "+weapon.getName()+" from out of [npc2.her] [npc2.hands]!")
+										"[npc1.Name] stole [npc2.namePos] "+weapon.getName()+" from out of [npc2.her] [npc2.hands]!")
 								+ "</p>"
 								+ caster.addWeapon(weapon, true));
 						
@@ -1818,10 +1818,10 @@ public enum Spell {
 							descriptionSB.append("<p>"
 									+ getCastDescription(caster, target,
 											"You stole your own "+item.getName()+"...",
-											"You stole [npc.name]'s "+item.getName()+" from out of [npc.her] inventory!",
+											"You stole [npc.namePos] "+item.getName()+" from out of [npc.her] inventory!",
 											"",
 											"[npc.Name] stole your "+item.getName()+" from out of your inventory!",
-											"[npc1.Name] stole [npc2.name]'s "+item.getName()+" from out of [npc2.her] inventory!")
+											"[npc1.Name] stole [npc2.namePos] "+item.getName()+" from out of [npc2.her] inventory!")
 									+ "</p>"
 									+ caster.addItem(item, false));
 							
@@ -1830,10 +1830,10 @@ public enum Spell {
 							descriptionSB.append("<p>"
 									+ getCastDescription(caster, target,
 											"You stole your own "+weapon.getName()+"...",
-											"You stole [npc.name]'s "+weapon.getName()+" from out of [npc.her] inventory!",
+											"You stole [npc.namePos] "+weapon.getName()+" from out of [npc.her] inventory!",
 											"",
 											"[npc.Name] stole your "+weapon.getName()+" from out of your inventory!",
-											"[npc1.Name] stole [npc2.name]'s "+weapon.getName()+" from out of [npc2.her] inventory!")
+											"[npc1.Name] stole [npc2.namePos] "+weapon.getName()+" from out of [npc2.her] inventory!")
 									+ "</p>"
 									+ caster.addWeapon(weapon, false));
 							
@@ -1842,10 +1842,10 @@ public enum Spell {
 							descriptionSB.append("<p>"
 									+ getCastDescription(caster, target,
 											"You stole your own "+clothing.getName()+"...",
-											"You stole [npc.name]'s "+clothing.getName()+" from out of [npc.her] inventory!",
+											"You stole [npc.namePos] "+clothing.getName()+" from out of [npc.her] inventory!",
 											"",
 											"[npc.Name] stole your "+clothing.getName()+" from out of your inventory!",
-											"[npc1.Name] stole [npc2.name]'s "+clothing.getName()+" from out of [npc2.her] inventory!")
+											"[npc1.Name] stole [npc2.namePos] "+clothing.getName()+" from out of [npc2.her] inventory!")
 									+ "</p>"
 									+ caster.addClothing(clothing, false));
 						}
@@ -1855,10 +1855,10 @@ public enum Spell {
 						descriptionSB.append("<p>"
 								+ getCastDescription(caster, target,
 										"You stole your own "+clothingToSteal.getName()+"...",
-										"[npc.Name] lets out an embarrassed cry as you steal the "+clothingToSteal.getName()+" that [npc.she]'s currently wearing!",
+										"[npc.Name] lets out an embarrassed cry as you steal the "+clothingToSteal.getName()+" that [npc.sheIs] currently wearing!",
 										"",
 										"You can't help but let out an embarrassed cry as [npc.name] steals the "+clothingToSteal.getName()+" that you're currently wearing!",
-										"[npc2.Name] lets out an embarrassed cry as [npc1.name] steals the "+clothingToSteal.getName()+" that [npc2.she]'s currently wearing!")
+										"[npc2.Name] lets out an embarrassed cry as [npc1.name] steals the "+clothingToSteal.getName()+" that [npc2.sheIs] currently wearing!")
 								+ "</p>"
 								+ caster.addClothing(clothingToSteal, true));
 						
@@ -1998,7 +1998,7 @@ public enum Spell {
 											"Drawing an immense amount of power from your arcane aura, you project the words of Lilith herself into the mind of [npc.name], ordering [npc.herHim] to submit.",
 											"",
 											"Drawing an immense amount of power from [npc.her] arcane aura, [npc.name] projects the words of Lilith herself into your mind, ordering you to submit!",
-											"Drawing an immense amount of power from [npc1.her] arcane aura, [npc1.name] projects the words of Lilith herself into [npc2.name]'s mind, ordering [npc2.herHim] to submit!")
+											"Drawing an immense amount of power from [npc1.her] arcane aura, [npc1.name] projects the words of Lilith herself into [npc2.namePos] mind, ordering [npc2.herHim] to submit!")
 								+"</p>");
 			
 			// If attack hits, apply damage and effects:
@@ -2011,10 +2011,10 @@ public enum Spell {
 					success = Math.random()<0.75f;
 					
 				} else if(caster.hasSpellUpgrade(SpellUpgrade.LILITHS_COMMAND_1)) {
-					success = Math.random()<0.5f && target.getRace().isVulnerableToLilithsLustStorm();
+					success = Math.random()<0.5f && target.getRace().isVulnerableToArcaneStorm();
 					
 				} else {
-					success = Math.random()<0.25f && target.getRace().isVulnerableToLilithsLustStorm();
+					success = Math.random()<0.25f && target.getRace().isVulnerableToArcaneStorm();
 				}
 				
 				descriptionSB.append("<p>");
@@ -2040,7 +2040,7 @@ public enum Spell {
 						descriptionSB.append(
 								"You shake your head and jump back as you resist the effects of Lilith's Command!");
 						
-					} else if(target.getRace().isVulnerableToLilithsLustStorm() || !caster.hasSpellUpgrade(SpellUpgrade.LILITHS_COMMAND_2)) {
+					} else if(target.getRace().isVulnerableToArcaneStorm() || !caster.hasSpellUpgrade(SpellUpgrade.LILITHS_COMMAND_2)) {
 						descriptionSB.append(UtilText.parse(target, "[npc.Name] shakes [npc.her] head and jumps back as [npc.she] resists the effects of Lilith's Command!"));
 					} else {
 						descriptionSB.append(UtilText.parse(target, "[npc.Name] grins as [npc.she] taunts, [npc.speech(That cheap trick isn't going to affect [npc.a_race] like me!)]"));

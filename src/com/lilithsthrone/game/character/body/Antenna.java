@@ -154,9 +154,9 @@ public class Antenna implements BodyPartInterface, Serializable {
 			} else {
 				return UtilText.parse(owner,
 						"<p>"
-							+ "A tingling feeling spreads over [npc.name]'s [npc.antennae], before moving down and concentrating into [npc.her] forehead."
+							+ "A tingling feeling spreads over [npc.namePos] [npc.antennae], before moving down and concentrating into [npc.her] forehead."
 							+ " [npc.She] can't help but let out a little cry as [npc.she] feels some of them [style.boldShrink(falling away)] and disappearing back down into [npc.her] [npc.faceSkin].<br/>"
-							+ "After a few moments, [npc.she]'s left with [style.boldTfGeneric("+getDeterminer(owner)+" [npc.antennae])]."
+							+ "After a few moments, [npc.sheIs] left with [style.boldTfGeneric("+getDeterminer(owner)+" [npc.antennae])]."
 						+ "</p>");
 			}
 			
@@ -171,9 +171,9 @@ public class Antenna implements BodyPartInterface, Serializable {
 			} else {
 				return UtilText.parse(owner,
 						"<p>"
-							+ "A tingling feeling spreads over [npc.name]'s [npc.antennae], before moving down and concentrating into [npc.her] forehead."
+							+ "A tingling feeling spreads over [npc.namePos] [npc.antennae], before moving down and concentrating into [npc.her] forehead."
 							+ " [npc.She] can't help but let out a little cry as [npc.she] feels new [npc.horns] [style.boldGrow(pushing up)] and growing out of [npc.her] [npc.faceSkin].<br/>"
-							+ "After a few moments, [npc.she]'s left with [style.boldTfGeneric("+getDeterminer(owner)+" [npc.antennae])]."
+							+ "After a few moments, [npc.sheIs] left with [style.boldTfGeneric("+getDeterminer(owner)+" [npc.antennae])]."
 						+ "</p>");
 			}
 		}

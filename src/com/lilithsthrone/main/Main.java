@@ -64,7 +64,7 @@ public class Main extends Application {
 	public static Stage primaryStage;
 	public static String author = "Innoxia";
 
-	public static final String VERSION_NUMBER = "0.2.7.8",
+	public static final String VERSION_NUMBER = "0.2.8.2",
 			VERSION_DESCRIPTION = "Alpha";
 	
 	private final static boolean DEBUG = false;
@@ -80,8 +80,12 @@ public class Main extends Application {
 		+ "</p>"
 			
 		+ "<p>"
-			+ "Due to some issues I've been having this week, I'm afraid that I haven't managed to get much progress done since last Friday's hotfix."
-			+ " As a result, I'll release this week's version as another 'progress update', and will release the finished version of 0.2.8 (publicly again) next week."
+			+ "For this hotfix, I've sorted out all of the major sex scene bugs that you've reported, as well as writing in all of the nightclub's descriptions."
+			+ " I plan on adding a few more things to the club (including gloryholes and a way to let your partner take cahrge and lead you around), which will hopefully make it into the next version."
+		+ "</p>"
+			
+		+ "<p>"
+			+ "For the next couple of versions, I'm going to focus on catching up on all of the Patreon poll winners, as well as fixing bugs and implementing as many smaller features as I can. ^^"
 		+ "</p>"
 			
 		+ "<p>"
@@ -255,6 +259,136 @@ public class Main extends Application {
 			+"<ul>You can now end sex when starting submissive sex with a companion.</ul>"
 			+"<ul>Fixed case where dominant NPC would refuse to take any action in sex.</ul>"
 		+ "</list>"
+
+		+ "<br/>"
+
+		+ "<list>"
+			+ "<h6>v0.2.8</h6>"
+			+"<li>Gameplay:</li>"
+			+"<ul>Added 'The Watering Hole' nightclub to Nightlife. The descriptions are all placeholders at the moment, but I will get them written in fully for a hotfix.</ul>"
+			
+			+"<li>Sex action conversion:</li>"
+			+"<ul>All anal fingering actions.</ul>"
+			+"<ul>All nipple and breast actions. Improved some nipple fingering action descriptions and added actions for reacting to being nipple fingered.</ul>"
+			+"<ul>All vaginal fingering actions. Improved structure of clit-related action.</ul>"
+			+"<ul>All cock/ball stroking actions. Added 'handjob' as an ongoing sex action, with all associated reactions.</ul>"
+			+"<ul>All anilingus actions. Fixed some incorrect descriptions in anilingus actions.</ul>"
+			+"<ul>All cunnilingus actions. Separated clit and 'genderless mound' actions from vaginal actions.</ul>"
+			+"<ul>All breast kissing and breastfeeding actions.</ul>"
+			+"<ul>All tail-anal actions. Fixed several (long-standing) errors in these actions, such as incorrect references to vaginas and some actions being incorrectly blocked for subs. Expanded tail-pegging reaction descriptions.</ul>"
+			+"<ul>All tail-vaginal actions. Improved and expanded several old descriptions.</ul>"
+			+"<ul>All vaginal sex actions.</ul>"
+			+"<ul>All anal sex actions.</ul>"
+			+"<ul>All blowjob sex actions. Fixed several old errors in descriptions, and changed the 'deep throat' actions to be independent of pace.</ul>"
+			
+			+"<li>Contributors:</li>"
+			+"<ul>Fixed issues with stocks sex not working. (CognitiveMist)</ul>"
+			
+			+"<li>Other:</li>"
+			+"<ul>Improved initial penetration descriptions.</ul>"
+			+"<ul>Added 'rose gold' and 'steel' colours to fur and scale dye colours.</ul>"
+			+"<ul>Added indication in skin/fur/hair dying menus for metallic colours.</ul>"
+			+"<ul>Added metallic colours to feather dyes.</ul>"
+			+"<ul>You can now resist after choosing to submit upon combat victories.</ul>"
+			+"<ul>Changed big cat icons.</ul>"
+			+"<ul>Changed Wolf Whiskey's description.</ul>"
+			+"<ul>Added harpy subspecies 'bald-eagle'. (Dark brown feathers on body, with white head feathers.)</ul>"
+			
+			+"<li>Bugs:</li>"
+			+"<ul>Fixed cause of bug where walking into a milking room shows the correct management UI, but the PC stays out of the room on the map.</ul>"
+			+"<ul>Typo/parsing fixes.</ul>"
+			+"<ul>Fixed dirty talk referring to tits when the character was flat-chested.</ul>"
+			+"<ul>Fixed Amber having the wrong foot fetish.</ul>"
+			+"<ul>Fixed bug in sex where some sex actions were not being added (mainly affected kissing actions).</ul>"
+			+"<ul>Fixed being able to equip tail/horn/wing clothing if you didn't have a tail/horns/wings.</ul>"
+			+"<ul>Fixed penetration description errors.</ul>"
+			+"<ul>Fixed metal buttplugs to actually use metal colours.</ul>"
+			+"<ul>Added checks for enchantment loading to handle cases of old saves having clothing enchanted with the old broodmother/seeder fetishes.</ul>"
+			+"<ul>Strapless dildo now correctly requires the wearer to have a vagina.</ul>"
+			+"<ul>Clothing that plugs vagina/anus/nipples now correctly blocks those orifices from being used.</ul>"
+			+"<ul>Fixed sex stats being inverted (e.g. performing vaginal sex was counting as receiving vaginal sex in stats).</ul>"
+			+"<ul>Fixed some fox-morph descriptions referencing wolf parts.</ul>"
+			+"<ul>Fixed facesitting positioning action being available even while facesitting is ongoing.</ul>"
+			+"<ul>Fixed cultists being able to spawn in disliking/hating using their cock.</ul>"
+			+"<ul>Fixed position changing not working in stocks scene.</ul>"
+			+"<ul>Fixed NPCs locked in stocks (and milking stalls) being able to perform actions with their hands.</ul>"
+			+"<ul>Fixed stocks (and milking stalls) not having anilingus options.</ul>"
+			+"<ul>Fixed being able to perform actions in the cultist's 'sealed' sex scene.</ul>"
+			+"<ul>Fixed both cat-morph hair types having the same TF name.</ul>"
+			+"<ul>Fixed kissing actions not being available if your partner was the one to initiate kissing.</ul>"
+			+"<ul>Fixed breast groping action not applying milking effects to the correct character.</ul>"
+			+"<ul>Characters no longer need breasts in order to be milked (they just need to be producing milk).</ul>"
+		+ "</list>"
+
+		+ "<br/>"
+
+		+ "<list>"
+			+ "<h6>v0.2.8.1</h6>"
+			+"<li>Gameplay:</li>"
+			+"<ul>Finished all descriptions in the new club area, and improved several actions.</ul>"
+			+"<ul>Added more options to the club, allowing you to save characters you meet in order to see them there again.</ul>"
+			
+			+"<li>Other:</li>"
+			+"<ul>Increased maximum age of randomly spawned NPCs from 26 to 38.</ul>"
+			+"<ul>NPCs will no longer insist on stopping kissing before penetrating in sex.</ul>"
+			+"<ul>Improved elixir and potion descriptions, and increased base prices from 1000 to 1500 and 500 to 750, respectively.</ul>"
+			+"<ul>Foxes now spawn in with red cocks.</ul>"
+			+"<ul>Added all feather colours to angel wings. (You can still only get angel parts through the debug menu. Type 'buggy' during gameplay to bring it up.)</ul>"
+			+"<ul>Added self-legs and self-groin as orgasm targets.</ul>"
+			+"<ul>Added harpies, alligator-morphs, and rat-morphs to the subspecies found in the nightclub, and removed Youko. (Youko are special subspecies, and will be found only in special areas in the Fields.)</ul>"
+			+"<ul>Removed 'freckled' pattern from tongue.</ul>"
+			+"<ul>Fixed NPCs spawning in hating some fetishes which are related to fetishes they already have.</ul>"
+			+"<ul>Slightly improved self-taking virginity text.</ul>"
+			+"<ul>Demonic hoofs now prevent you from wearing footwear.</ul>"
+			+"<ul>Biojuice canister's corruption increase is now permanent.</ul>"
+			
+			+"<li>Bugs:</li>"
+			+"<ul>Fixed sexual area exposed descriptions not being shown at start of sex.</ul>"
+			+"<ul>Fixed handjob orgasms causing sex scenes to break.</ul>"
+			+"<ul>Fixed hooded cloak's 'Pull Up' displacement not revealing lower body clothing slots.</ul>"
+			+"<ul>Fixed Kalahari generating a new outfit after sex.</ul>"
+			+"<ul>Fixed closing time text not displaying correctly in the club.</ul>"
+			+"<ul>Fixed incorrect descriptions for buying your partner a drink in the club.</ul>"
+			+"<ul>Fixed several cases of 'command_unknown' being displayed in (and out of) sex.</ul>"
+			+"<ul>Fixed tooltip descriptions being very broken in sex.</ul>"
+			+"<ul>Fixed some incorrect labels on actions in sex (such as penis+vagina being labelled as 'Tail-fucked', and cunnilingus being labelled as 'anilingus').</ul>"
+			+"<ul>Fixed clitoris girth and TF modifiers sometimes not working.</ul>"
+			+"<ul>Fixed clitoris and vagina modifiers not being saved/loaded correctly.</ul>"
+			+"<ul>Fixed issues with chair sex scene positioning.</ul>"
+			+"<ul>Fixed broken formatting of ongoing and initial penetration descriptions.</ul>"
+			+"<ul>Fixed broken descriptions of areas being exposed during sex.</ul>"
+			+"<ul>Minor typo and parsing fixes.</ul>"
+			+"<ul>Fixed 'no_clothing_covering_nipples' errors in breast groping action.</ul>"
+			+"<ul>Fixed game referring to your breasts in orgasm scene, even if you didn't have breasts.</ul>"
+			+"<ul>Fixed 'Beg to stop' action returning incorrect dialogue.</ul>"
+			+"<ul>Converted positioning, orgasming, miscellaneous, and dirty talk actions to new format, so parsing bugs in those actions should have been fixed.</ul>"
+			+"<ul>Fixed 'self' sex actions not having masturbation fetish associated with them.</ul>"
+			+"<ul>Improved clothing concealment method to fix issues such as the one where pulling up someone's skirt wouldn't reveal their swimsuit (even though it should then be visible), if the swimsuit's main slot (chest) was concealed. </ul>"
+			+"<ul>(Hopefully) fixed the issue where Nyan, Finch, and the Winter Reindeer wouldn't restock their clothing properly.</ul>"
+			+"<ul>Prevented use of tails in breeding stalls to stop the target from blocking their vagina with their tail.</ul>"
+			+"<ul>Slaves in the holding cells at slaver alley will no longer be able to attack you in Lilaya's house.</ul>"
+			+"<ul>Fixed combat win/loss stats not saving & loading correctly.</ul>"
+		+ "</list>"
+
+		+ "<br/>"
+
+		+ "<list>"
+			+ "<h6>v0.2.8.2</h6>"
+			+"<li>Other:</li>"
+			+"<ul>Added ongoing descriptions for handjobs.</ul>"
+			
+			+"<li>Bugs:</li>"
+			+"<ul><b>Fixed:</b> A couple of causes of the game soft-locking upon orgasm.</ul>"
+			+"<ul>Fixed 'Resist fingering' being available while fingering your partner's anus.</ul>"
+			+"<ul>Fixed tooltips not working correctly in the final action of sex.</ul>"
+			+"<ul>Fixed a cause of a lot of parsing errors in the nightclub.</ul>"
+			+"<ul>Fixed incorrect ongoing kissing descriptions.</ul>"
+			+"<ul>Fixed issue where you'd be unable to move after telling Kruger that you're leaving.</ul>"
+			+"<ul>Typo fixes.</ul>"
+			+"<ul>Fixed incorrect initial penis penetration parsing.</ul>"
+			+"<ul>Fixed incorrect descriptions of having your parts revealed in sex. (Things like 'You lets out a moan as...', instead of 'Lilaya lets out a moan as...')</ul>"
+			+"<ul>Fixed incorrect descriptions of targeted areas in orgasm tooltips.</ul>"
+		+ "</list>"
 		;
 	
 	public static String disclaimer = "<h6 style='text-align: center; color:"+Colour.GENERIC_ARCANE.toWebHexString()+";'>You must read and agree to the following in order to play this game!</h6>"
@@ -358,6 +492,8 @@ public class Main extends Application {
 		credits.add(new CreditsSlot("Kitsune Lyn", "", 0, 0, 0, 2));
 		credits.add(new CreditsSlot("Kahvi_Toope", "", 0, 0, 0, 2));
 		credits.add(new CreditsSlot("Starchiller", "", 0, 0, 0, 2));
+		credits.add(new CreditsSlot("Dace617", "", 0, 0, 0, 2));
+		
 		credits.add(new CreditsSlot("Daniel D Magnan", "", 0, 0, 2, 0));
 		credits.add(new CreditsSlot("shrikes", "", 0, 0, 2, 0));
 		credits.add(new CreditsSlot("Chattyneko", "", 0, 0, 2, 0));
@@ -366,13 +502,14 @@ public class Main extends Application {
 		credits.add(new CreditsSlot("IreCobra", "", 0, 0, 2, 0));
 		credits.add(new CreditsSlot("Garkylal", "", 0, 0, 2, 0));
 		credits.add(new CreditsSlot("Apthydragon", "", 0, 0, 2, 0));
+		credits.add(new CreditsSlot("Mylerra", "", 0, 0, 2, 0));
 		
-		
-
 		credits.add(new CreditsSlot("Blackheart", "", 0, 0, 0, 1));
 		credits.add(new CreditsSlot("xerton", "", 0, 0, 1, 0));
 		credits.add(new CreditsSlot("BlakLite", "", 0, 0, 1, 0));
-		
+		credits.add(new CreditsSlot("Steph", "", 0, 0, 1, 0));
+
+		credits.add(new CreditsSlot("CrowCorvus", "", 0, 0, 1, 0));
 		
 		
 		credits.add(new CreditsSlot("Adhana Konker", "", 0, 0, 3, 0));

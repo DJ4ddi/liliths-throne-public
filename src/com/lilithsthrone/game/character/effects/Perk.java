@@ -24,6 +24,20 @@ public enum Perk {
 	
 	// NPC Histories:
 	
+	JOB_MISC(20,
+			true,
+			"Misc",
+			PerkCategory.JOB,
+			"perks/jobs/prostitute",
+			Colour.BASE_PINK,
+			Util.newHashMapOfValues(),
+			null) {
+		@Override
+		public String getDescription(GameCharacter owner) {
+			return ".";//TODO
+		}
+	},
+	
 	JOB_PROSTITUTE(20,
 			true,
 			"The oldest profession",
@@ -1031,7 +1045,7 @@ public enum Perk {
 			if (owner.isPlayer()) {
 				return "Your seed is incredibly weak, and you are highly unlikely to ever get anyone pregnant.";
 			} else {
-				return UtilText.parse(owner, "[npc.Name]'s seed is incredibly weak, and [npc.she]'s highly unlikely to ever get anyone pregnant.");
+				return UtilText.parse(owner, "[npc.NamePos] seed is incredibly weak, and [npc.sheIs] highly unlikely to ever get anyone pregnant.");
 			}
 		}
 	},
@@ -1053,7 +1067,7 @@ public enum Perk {
 				return "Your body is built for one thing; pumping out as many children as possible."
 							+ " Whether due to an effect of your arcane aura, or perhaps just because of your body's natural fertility, you seem to always give birth to huge numbers of children at once.";
 			} else {
-				return UtilText.parse(owner, "[npc.Name]'s body is built for one thing; pumping out as many children as possible."
+				return UtilText.parse(owner, "[npc.NamePos] body is built for one thing; pumping out as many children as possible."
 						+ " [npc.She] seems to always give birth to huge numbers of children at once.");
 			}
 		}
@@ -1088,7 +1102,7 @@ public enum Perk {
 			if (owner.isPlayer()) {
 				return "Your seed has the potent effect of causing anyone impregnated by it to give birth to huge numbers of children.";
 			} else {
-				return UtilText.parse(owner, "[npc.Name]'s seed has the potent effect of causing anyone impregnated by it to give birth to huge numbers of children.");
+				return UtilText.parse(owner, "[npc.NamePos] seed has the potent effect of causing anyone impregnated by it to give birth to huge numbers of children.");
 			}
 		}
 

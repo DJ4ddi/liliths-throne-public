@@ -143,16 +143,12 @@ public class DominionSuccubusAttacker extends NPC {
 	}
 	
 	@Override
-	public void endSex(boolean applyEffects) {
-		if (applyEffects) {
-			if(!isSlave()) {
-				if(this.getGender()!=this.getGenderIdentity() && !this.isPregnant()) {
-					this.setPendingTransformationToGenderIdentity(true);
-				}
-//				setVaginaType(VaginaType.DEMON_COMMON);
-//				setPenisType(PenisType.NONE);
-				setPendingClothingDressing(true);
+	public void endSex() {
+		if(!isSlave()) {
+			if(this.getGender()!=this.getGenderIdentity() && !this.isPregnant()) {
+				this.setPendingTransformationToGenderIdentity(true);
 			}
+			setPendingClothingDressing(true);
 		}
 	}
 
@@ -242,7 +238,7 @@ public class DominionSuccubusAttacker extends NPC {
 							return "<p>"
 										+ "You try to give [npc.name] your "+item.getName()+", but [npc.she] takes one look at it and laughs,"
 										+ " [npc.speech(Hah! Nice try, but do you really expect me to drink some random potion?!)]<br/>"
-										+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.she]'s not interested."
+										+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.sheIs] not interested."
 									+ "</p>";
 						}
 						
@@ -265,7 +261,7 @@ public class DominionSuccubusAttacker extends NPC {
 						return "<p>"
 									+ "You try to give [npc.name] your "+item.getName()+", but [npc.she] takes one look at it and laughs,"
 									+ " [npc.speech(Hah! Nice try, but do you really expect me to drink some random potion?!)]<br/>"
-									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.she]'s not interested."
+									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.sheIs] not interested."
 								+ "</p>";
 					}
 					
@@ -284,7 +280,7 @@ public class DominionSuccubusAttacker extends NPC {
 							return "<p>"
 										+ "You try to give [npc.name] your "+item.getName()+", but [npc.she] takes one look at it and laughs,"
 										+ " [npc.speech(Hah! Did you really think I was going to eat that?!)]<br/>"
-										+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.she]'s not interested."
+										+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.sheIs] not interested."
 									+ "</p>";
 						}
 						
@@ -409,8 +405,8 @@ public class DominionSuccubusAttacker extends NPC {
 		}
 		return AbstractClothingType.getEquipDescriptions(target, equipper, rough,
 				"You tear open the packet and roll the condom down the length of your [pc.penis].",
-				"You tear open the packet and roll the condom down the length of [npc.name]'s [npc.penis].",
-				"You tear open the packet and forcefully roll the condom down the length [npc.name]'s [npc.penis].",
+				"You tear open the packet and roll the condom down the length of [npc.namePos] [npc.penis].",
+				"You tear open the packet and forcefully roll the condom down the length [npc.namePos] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of [npc.her] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of your [pc.penis].",
 				"[npc.Name] tears open the packet and forcefully rolls the condom down the length of your [pc.penis].", null, null);

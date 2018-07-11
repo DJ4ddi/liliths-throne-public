@@ -336,7 +336,10 @@ public abstract class AbstractClothing extends AbstractCoreItem implements Seria
 				NodeList effectElements = element.getElementsByTagName("effect");
 				for(int i=0; i<effectElements.getLength(); i++){
 					Element e = ((Element)effectElements.item(i));
-					clothing.addEffect(ItemEffect.loadFromXML(e, doc));
+					ItemEffect ie = ItemEffect.loadFromXML(e, doc);
+					if(ie!=null) {
+						clothing.addEffect(ie);
+					}
 				}
 			} catch(Exception ex) {
 			}
@@ -850,7 +853,7 @@ public abstract class AbstractClothing extends AbstractCoreItem implements Seria
 				extraInformationSB.append((getClothingType().isPlural() ? "They are" : "It is") + " [style.boldCorruption(jinxed)] and can't be removed!<br/>");
 				
 			} else if(this.getClothingType().isDiscardedOnUnequip()) {
-				extraInformationSB.append("[style.boldBad(Removing [npc.name]'s "+this.getName()+" will cause "+(getClothingType().isPlural() ? "them" : "it")+" to be discarded!)]<br/>");
+				extraInformationSB.append("[style.boldBad(Removing [npc.namePos] "+this.getName()+" will cause "+(getClothingType().isPlural() ? "them" : "it")+" to be discarded!)]<br/>");
 			}
 
 			if(cummedIn) {

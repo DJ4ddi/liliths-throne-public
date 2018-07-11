@@ -90,6 +90,12 @@ public class Cultist extends NPC {
 			this.addFetish(Fetish.FETISH_VAGINAL_GIVING);
 			this.addFetish(Fetish.FETISH_IMPREGNATION);
 			CharacterUtils.addFetishes(this);
+			if(this.getFetishDesire(Fetish.FETISH_NON_CON_DOM)==FetishDesire.ONE_DISLIKE || this.getFetishDesire(Fetish.FETISH_NON_CON_DOM)==FetishDesire.ZERO_HATE) {
+				this.setFetishDesire(Fetish.FETISH_NON_CON_DOM, FetishDesire.TWO_NEUTRAL);
+			}
+			if(this.getFetishDesire(Fetish.FETISH_PENIS_GIVING)==FetishDesire.ONE_DISLIKE || this.getFetishDesire(Fetish.FETISH_PENIS_GIVING)==FetishDesire.ZERO_HATE) {
+				this.setFetishDesire(Fetish.FETISH_PENIS_GIVING, FetishDesire.TWO_NEUTRAL);
+			}
 			
 			CharacterUtils.randomiseBody(this);
 			
@@ -182,6 +188,9 @@ public class Cultist extends NPC {
 		if(this.getFetishDesire(Fetish.FETISH_NON_CON_DOM)==FetishDesire.ONE_DISLIKE || this.getFetishDesire(Fetish.FETISH_NON_CON_DOM)==FetishDesire.ZERO_HATE) {
 			this.setFetishDesire(Fetish.FETISH_NON_CON_DOM, FetishDesire.TWO_NEUTRAL);
 		}
+		if(this.getFetishDesire(Fetish.FETISH_PENIS_GIVING)==FetishDesire.ONE_DISLIKE || this.getFetishDesire(Fetish.FETISH_PENIS_GIVING)==FetishDesire.ZERO_HATE) {
+			this.setFetishDesire(Fetish.FETISH_PENIS_GIVING, FetishDesire.TWO_NEUTRAL);
+		}
 	}
 	
 	@Override
@@ -211,7 +220,7 @@ public class Cultist extends NPC {
 	}
 
 	@Override
-	public void endSex(boolean applyEffects) {
+	public void endSex() {
 	}
 
 	@Override
@@ -268,7 +277,7 @@ public class Cultist extends NPC {
 						Main.game.getPlayer().useItem(item, target, false);
 						return "<p>"
 								+ "Holding out a 'Promiscuity pill' to [npc.name], you tell [npc.her] to swallow it so that you don't have to worry about any unexpected pregnancies."
-								+ " [npc.She] lets out an angry huff, but as [npc.she]'s in no position to refuse, [npc.she] reluctantly does as you ask,"
+								+ " [npc.She] lets out an angry huff, but as [npc.sheIs] in no position to refuse, [npc.she] reluctantly does as you ask,"
 								+ " [npc.speech(This is an insult to Lilith herself...)]"
 								+ "</p>";
 					} else {
@@ -314,7 +323,7 @@ public class Cultist extends NPC {
 						return "<p>"
 									+ "You try to give [npc.name] your "+item.getName()+", but [npc.she] takes one look at it and laughs,"
 									+ " [npc.speech(Hah! Nice try, but do you really expect me to drink some random potion?!)]<br/>"
-									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.she]'s not interested."
+									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.sheIs] not interested."
 								+ "</p>";
 					}
 					
@@ -337,7 +346,7 @@ public class Cultist extends NPC {
 						return "<p>"
 									+ "You try to give [npc.name] your "+item.getName()+", but [npc.she] takes one look at it and laughs,"
 									+ " [npc.speech(Hah! Nice try, but do you really expect me to drink some random potion?!)]<br/>"
-									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.she]'s not interested."
+									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.sheIs] not interested."
 								+ "</p>";
 					}
 					
@@ -356,7 +365,7 @@ public class Cultist extends NPC {
 						return "<p>"
 									+ "You try to give [npc.name] your "+item.getName()+", but [npc.she] takes one look at it and laughs,"
 									+ " [npc.speech(Hah! Did you really think I was going to eat that?!)]<br/>"
-									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.she]'s not interested."
+									+ "You reluctantly put the "+item.getName()+" back in your inventory, disappointed that [npc.sheIs] not interested."
 								+ "</p>";
 					}
 						
@@ -468,8 +477,8 @@ public class Cultist extends NPC {
 		
 		return AbstractClothingType.getEquipDescriptions(target, equipper, rough,
 				"You tear open the packet and roll the condom down the length of your [pc.penis].",
-				"You tear open the packet and roll the condom down the length of [npc.name]'s [npc.penis].",
-				"You tear open the packet and forcefully roll the condom down the length [npc.name]'s [npc.penis].",
+				"You tear open the packet and roll the condom down the length of [npc.namePos] [npc.penis].",
+				"You tear open the packet and forcefully roll the condom down the length [npc.namePos] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of [npc.her] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of your [pc.penis].",
 				"[npc.Name] tears open the packet and forcefully rolls the condom down the length of your [pc.penis].", null, null);

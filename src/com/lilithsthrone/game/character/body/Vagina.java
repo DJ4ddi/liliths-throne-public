@@ -177,7 +177,7 @@ public class Vagina implements BodyPartInterface, Serializable {
 									?"<b>the possibility of being pregnant has prevented [npc.her] vagina from transforming</b>!"
 									:"<b>[npc.her] ongoing pregnancy has prevented [npc.her] vagina from transforming</b>!")
 							+ "<br/>"
-							+ "[npc.Name]'s pussy remains [style.boldTfSex(unchanged)]."
+							+ "[npc.NamePos] pussy remains [style.boldTfSex(unchanged)]."
 						+ "</p>"));
 			}
 			return UtilText.transformationContentSB.toString()
@@ -254,7 +254,7 @@ public class Vagina implements BodyPartInterface, Serializable {
 						+ "<p>"
 							+ "Just as [npc.she] starts to think that the transformation is over, a warm, tingling feeling shoots up into [npc.her] lower abdomen,"
 								+ " and [npc.she] can't help but let out a desperate squeal as [npc.she] feels a full female reproductive system rapidly growing inside of [npc.herHim]."
-							+ " As [npc.her] transformation finally comes to an end, [npc.she]'s left panting and covered in sweat, and [npc.she] lets out a lewd moan as [npc.she] feels that [npc.her] new cunt is already soaking wet from arousal."
+							+ " As [npc.her] transformation finally comes to an end, [npc.sheIs] left panting and covered in sweat, and [npc.she] lets out a lewd moan as [npc.she] feels that [npc.her] new cunt is already soaking wet from arousal."
 							+ "<br/>"
 							+ "[npc.Name] now has a [style.boldTfSex(vagina)]!"
 						+ "</p>"));
@@ -491,14 +491,14 @@ public class Vagina implements BodyPartInterface, Serializable {
 				if(owner.isPlayer()) {
 					UtilText.transformationContentSB.append(
 							" You let out a squeal of excitement as a wave of pleasure runs up from your groin, and you feel your slit shifting and contracting with a mind of its own."
-							+ " Within moments, the feeling fades away, and you discover that your pussy has shaped itself into a that of a wolf-morph."
+							+ " Within moments, the feeling fades away, and you discover that your pussy has shaped itself into a that of a fox-morph."
 							+ " Although it looks like a normal human pussy, a short layer of soft "+owner.getCovering(type.getBodyCoveringType(owner)).getColourDescriptor(owner, false, false)
 								+" fur has grown around it, giving your feminine sex a rather animalistic appearance."
 						+ "</p>"
 						+ "<p>"
 							+ "Just as you think that the transformation has come to an end, your pussy involuntarily clenches down,"
 								+ " and a desperate squeal escapes from between your [pc.lips+] as a warm, tingling feeling spreads up through your lower abdomen."
-							+ " Images of knotted wolf-like cocks slamming deep into your new pussy flash before your eyes, and your squeal turns into a satisfied moan as you imagine them pumping their potent seed deep into your vulpine womb."
+							+ " Images of knotted fox-like cocks slamming deep into your new pussy flash before your eyes, and your squeal turns into a satisfied moan as you imagine them pumping their potent seed deep into your vulpine womb."
 							+ " Just as quickly as they came, the images fade from your mind, and as one last wave of tingling pleasure washes through your body, you feel your female reproductive organs finishing their transformation."
 							+ "</br>"
 							+ "You now have a [style.boldFoxMorph(vulpine vagina)], with [pc.pussyColourPrimary(true)] labia and [pc.pussyColourSecondary(true)] internal walls."
@@ -507,14 +507,14 @@ public class Vagina implements BodyPartInterface, Serializable {
 					UtilText.transformationContentSB.append(UtilText.parse(owner, 
 							" [npc.She] lets out a squeal of excitement as a wave of pleasure runs up through [npc.her] groin, and as [npc.she] feels [npc.her] slit shifting and contracting with a mind of its own,"
 									+ " [npc.she] desperately clamps [npc.her] [npc.legs] shut."
-							+ " Within moments, the feeling fades away, and [npc.she] discovers that [npc.her] pussy has shaped itself into a that of a wolf-morph."
+							+ " Within moments, the feeling fades away, and [npc.she] discovers that [npc.her] pussy has shaped itself into a that of a fox-morph."
 							+ " Although it looks like a normal human pussy, a short layer of soft "+owner.getCovering(type.getBodyCoveringType(owner)).getColourDescriptor(owner, false, false)
 								+" fur has grown around it, giving [npc.her] feminine sex a rather animalistic appearance."
 						+ "</p>"
 						+ "<p>"
 							+ "Just as [npc.she] starts think that the transformation has come to an end, [npc.her] pussy involuntarily clenches down,"
 								+ " and a desperate squeal escapes from between [npc.her] [npc.lips+] as a warm, tingling feeling spreads up through [npc.her] lower abdomen."
-							+ " Images of knotted wolf-like cocks slamming deep into [npc.her] new pussy flash before [npc.her] eyes,"
+							+ " Images of knotted fox-like cocks slamming deep into [npc.her] new pussy flash before [npc.her] eyes,"
 								+ " and [npc.her] squeal turns into a satisfied moan as [npc.she] imagines them pumping their potent seed deep into [npc.her] vulpine womb."
 							+ " Just as quickly as they came, the images fade from [npc.her] mind, and as one last wave of tingling pleasure washes through [npc.her] body,"
 								+ " [npc.she] feels [npc.her] female reproductive organs finishing their transformation."
@@ -974,7 +974,7 @@ public class Vagina implements BodyPartInterface, Serializable {
 			if(owner.isPlayer()) {
 				return "<p style='text-align:center;'>[style.colourDisabled(The size of your labia doesn't change...)]</p>";
 			} else {
-				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.name]'s labia doesn't change...)]</p>");
+				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.namePos] labia doesn't change...)]</p>");
 			}
 		} else if (sizeChange > 0) {
 			if (owner.isPlayer()) {
@@ -1025,7 +1025,7 @@ public class Vagina implements BodyPartInterface, Serializable {
 				return "<p>Your [pc.pussy] is now [style.boldGrow(pierced)]!</p>";
 			} else {
 				return UtilText.parse(owner,
-						"<p>[npc.Name]'s [npc.pussy] is now [style.boldGrow(pierced)]!</p>");
+						"<p>[npc.NamePos] [npc.pussy] is now [style.boldGrow(pierced)]!</p>");
 			}
 		} else {
 			AbstractClothing c = owner.getClothingInSlot(InventorySlot.PIERCING_VAGINA);
@@ -1043,7 +1043,7 @@ public class Vagina implements BodyPartInterface, Serializable {
 			} else {
 				return UtilText.parse(owner,
 						"<p>"
-								+ "[npc.Name]'s [npc.pussy] is [style.boldShrink(no longer pierced)]!"
+								+ "[npc.NamePos] [npc.pussy] is [style.boldShrink(no longer pierced)]!"
 						+ "</p>"
 						+piercingUnequip);
 			}

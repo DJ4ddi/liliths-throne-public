@@ -59,7 +59,7 @@ public class SlaveInStocks extends NPC {
 	
 	public SlaveInStocks(Gender gender, boolean isImported) {
 		super(null, "",
-				Util.random.nextInt(9)+18, Util.randomItemFrom(Month.values()), 1+Util.random.nextInt(25),
+				Util.random.nextInt(21)+18, Util.randomItemFrom(Month.values()), 1+Util.random.nextInt(25),
 				3, gender, RacialBody.DOG_MORPH, RaceStage.GREATER,
 				new CharacterInventory(10), WorldType.SLAVER_ALLEY, PlaceType.SLAVER_ALLEY_PUBLIC_STOCKS, false);
 
@@ -78,6 +78,7 @@ public class SlaveInStocks extends NPC {
 					case DEMON:
 					case HARPY:
 					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 					case HUMAN:
 					case IMP:
 					case IMP_ALPHA:
@@ -103,6 +104,7 @@ public class SlaveInStocks extends NPC {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -213,16 +215,16 @@ public class SlaveInStocks extends NPC {
 			
 			if(this.isFeminine()) {
 				if(Math.random()>0.5f) {
-					this.setHistory(History.PROSTITUTE);
+					this.setHistory(History.NPC_PROSTITUTE);
 					setSexualOrientation(SexualOrientation.AMBIPHILIC);
 					setName(Name.getRandomProstituteTriplet());
 					useItem(AbstractItemType.generateItem(ItemType.PROMISCUITY_PILL), this, false);
 				} else {
-					this.setHistory(History.MUGGER);
+					this.setHistory(History.NPC_MUGGER);
 				}
 				
 			} else {
-				this.setHistory(History.MUGGER);
+				this.setHistory(History.NPC_MUGGER);
 			}
 			
 			// ADDING FETISHES:
@@ -275,10 +277,10 @@ public class SlaveInStocks extends NPC {
 	
 	@Override
 	public String getDescription() {
-		if(this.getHistory()==History.PROSTITUTE) {
+		if(this.getHistory()==History.NPC_PROSTITUTE) {
 			if(this.isSlave()) {
 				return (UtilText.parse(this,
-						"[npc.Name]'s days of whoring [npc.herself] out in the back alleys of Dominion are now over. Having run afoul of the law, [npc.she]'s now a slave, and is no more than [npc.her] owner's property."));
+						"[npc.NamePos] days of whoring [npc.herself] out in the back alleys of Dominion are now over. Having run afoul of the law, [npc.sheIs] now a slave, and is no more than [npc.her] owner's property."));
 			} else {
 				return (UtilText.parse(this,
 						"[npc.Name] is a prostitute who whores [npc.herself] out in the backalleys of Dominion."));
@@ -287,17 +289,11 @@ public class SlaveInStocks extends NPC {
 		} else {
 			if(this.isSlave()) {
 				return (UtilText.parse(this,
-						"[npc.Name]'s days of prowling the back alleys of Dominion and mugging innocent travellers are now over. Having run afoul of the law, [npc.she]'s now a slave, and is no more than [npc.her] owner's property."));
+						"[npc.NamePos] days of prowling the back alleys of Dominion and mugging innocent travellers are now over. Having run afoul of the law, [npc.sheIs] now a slave, and is no more than [npc.her] owner's property."));
 			} else {
 				return (UtilText.parse(this,
 						"[npc.Name] is a resident of Dominion, who prowls the back alleys in search of innocent travellers to mug and rape."));
 			}
-		}
-	}
-	
-	@Override
-	public void endSex(boolean applyEffects) {
-		if(applyEffects) {
 		}
 	}
 

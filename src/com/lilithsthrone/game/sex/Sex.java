@@ -129,7 +129,6 @@ public enum Sex {
 	private static boolean consensual;
 	private static boolean subHasEqualControl;
 	private static boolean publicSex;
-	private static boolean positionChangingAllowed;
 
 	private static Map<GameCharacter, SexPositionSlot> dominants;
 	private static Map<GameCharacter, SexPositionSlot> submissives;
@@ -137,6 +136,7 @@ public enum Sex {
 	private static NPC activePartner;
 	private static GameCharacter characterPerformingAction;
 	private static SexManagerInterface sexManager;
+	private static SexManagerInterface initialSexManager;
 	private static String sexDescription, unequipClothingText, dyeClothingText, usingItemText;
 	private static AbstractClothing clothingBeingRemoved;
 	private static StringBuilder sexSB = new StringBuilder();
@@ -169,6 +169,8 @@ public enum Sex {
 	private static Map<GameCharacter, Map<SexAreaInterface, Map<GameCharacter, Set<SexAreaInterface>>>> ongoingActionsMap;
 	
 	private static Map<GameCharacter, Integer> orgasmCountMap;
+
+	private static Map<GameCharacter, Map<GameCharacter, Integer>> cummedInsideMap;
 	
 	private static Set<SexAreaOrifice> penetrationRequestsPlayer;
 	
@@ -198,7 +200,6 @@ public enum Sex {
 		
 		Sex.consensual = consensual;
 		Sex.subHasEqualControl = subHasEqualControl;
-		Sex.positionChangingAllowed = sexManager.isPositionChangingAllowed();
 		
 //		Main.game.setActiveNPC(activePartner);
 
@@ -217,6 +218,7 @@ public enum Sex {
 		forceSexPaceMap = new HashMap<>();
 		
 		setSexManager(sexManager);
+		initialSexManager = sexManager;
 		characterPerformingAction = Main.game.getPlayer();
 		
 		publicSex = sexManager.isPublicSex();
@@ -239,6 +241,7 @@ public enum Sex {
 		sexFinished = false;
 		partnerAllowedToUseSelfActions = true;
 		orgasmCountMap = new HashMap<>();
+		cummedInsideMap = new HashMap<>();
 		
 		charactersAbleToRemoveSelfClothing = new HashSet<>();
 		charactersAbleToRemoveOthersClothing = new HashSet<>();
@@ -267,11 +270,11 @@ public enum Sex {
 		for(GameCharacter character : Sex.getAllParticipants()) {
 			areasExposed.put(character, new ArrayList<>());
 			
-			for (CoverableArea area : CoverableArea.values()) {
-				if (character.isAbleToAccessCoverableArea(area, false)) {
-					areasExposed.get(character).add(area);
-				}
-			}
+//			for (CoverableArea area : CoverableArea.values()) {
+//				if (character.isAbleToAccessCoverableArea(area, false)) {
+//					areasExposed.get(character).add(area);
+//				}
+//			}
 		}
 		
 		penetrationRequestsPlayer = new HashSet<>();
@@ -384,30 +387,29 @@ public enum Sex {
 		sexSB.append(sexManager.getStartSexDescription());
 		
 		if(Sex.isPublicSex()) {
-			sexSB.append(Sex.getSexManager().getPublicSexStartingDescription());
+			sexSB.append(Sex.getInitialSexManager().getPublicSexStartingDescription());
 		}
 
 		sexSB.append("<p style='text-align:center;'><b>Starting Position:</b> <b style='color:"+Colour.GENERIC_ARCANE.toWebHexString()+";'>"+sexManager.getPosition().getName()+"</b><br/>"
 				+"<i><b>"+sexManager.getPosition().getDescription()+"</b></i></p>");
 		
-		// Starting exposed:
-		for(GameCharacter character : Sex.getAllParticipants()) {
-			handleExposedDescriptions(character, true);
-		}
 		
 		// This method appends wet descriptions to the sexSB StringBuilder: TODO
 		calculateWetAreas(true);
 
-		sexDescription = sexSB.toString();
+		for(Entry<GameCharacter, List<CoverableArea>> entry : sexManager.exposeAtStartOfSexMap().entrySet()) {
+			for(CoverableArea ca : entry.getValue()) {
+				entry.getKey().displaceClothingForAccess(ca);
+			}
+		}
+		
+		// Starting exposed:
+		for(GameCharacter character : Sex.getAllParticipants()) {
+			handleExposedDescriptions(character, true);
+		}
 
 		Main.game.setInSex(true);
 		
-		//TODO why was this here?
-		// The reason has long been lost in time, like... tears in rain...
-//		Main.mainController.openInventory();
-
-		// Main.mainController.updateUI();
-
 		// Store status of all clothes for both partners (so they can be restored afterwards):
 		clothingPreSexMap = new HashMap<>();
 		
@@ -415,7 +417,6 @@ public enum Sex {
 			clothingPreSexMap.put(character, new HashMap<>());
 			for (AbstractClothing c : character.getClothingCurrentlyEquipped()) {
 				clothingPreSexMap.get(character).put(c, new ArrayList<>(c.getDisplacedList()));
-//				System.out.println(c.getName()+": "+clothingPreSexMap.get(character).get(c));
 			}
 		}
 
@@ -443,11 +444,7 @@ public enum Sex {
 			}
 		}
 		
-		for(Entry<GameCharacter, List<CoverableArea>> entry : sexManager.exposeAtStartOfSexMap().entrySet()) {
-			for(CoverableArea ca : entry.getValue()) {
-				entry.getKey().displaceClothingForAccess(ca);
-			}
-		}
+		sexDescription = sexSB.toString();
 
 		// Populate available SexAction list:
 		populatePlayerSexLists();
@@ -486,7 +483,7 @@ public enum Sex {
 		for(GameCharacter participant : Sex.getAllParticipants()) {
 			if(participant instanceof NPC) {
 				((NPC) participant).setLastTimeHadSex(Main.game.getMinutesPassed(), Sex.getNumberOfOrgasms(participant)>0);
-				((NPC)participant).endSex(true);
+				((NPC)participant).endSex();
 			}
 		}
 	}
@@ -883,7 +880,7 @@ public enum Sex {
 						&& Main.game.isInNewWorld()) {
 					participant.removeStatusEffect(StatusEffect.FRUSTRATED_NO_ORGASM);
 					if(participant.hasStatusEffect(StatusEffect.RECOVERING_AURA)) {
-						sexSB.append("<p style='text-align:center'><b>[npc.Name]'s arcane aura is still strengthened from a previous sexual encounter, so</b> [style.boldArcane(you don't receive any arcane essences!)]</p>");
+						sexSB.append("<p style='text-align:center'><b>[npc.NamePos] arcane aura is still strengthened from a previous sexual encounter, so</b> [style.boldArcane(you don't receive any arcane essences!)]</p>");
 						
 					} else {
 						
@@ -896,9 +893,9 @@ public enum Sex {
 											"<p>"
 												+ "As you disentangle yourself from [npc.name], you suddenly become aware of a strange, shimmering pink glow that's started to materialise around [npc.her] body,"
 													+ " just like the one you saw in Lilaya's lab when she ran her tests on you."
-												+ " Quickly realising that you're somehow able to see [npc.name]'s arcane aura, you watch, fascinated, as it rapidly increases in luminosity."
+												+ " Quickly realising that you're somehow able to see [npc.namePos] arcane aura, you watch, fascinated, as it rapidly increases in luminosity."
 												+ " Just as you think that it can't get any brighter, [npc.her] aura suddenly leaps back into [npc.her] body, but as it does so, a single shard breaks off and flies towards you."
-												+ " Unable to dodge in time, you find yourself sharply inhaling as the small piece of [npc.name]'s aura shoots into your chest."
+												+ " Unable to dodge in time, you find yourself sharply inhaling as the small piece of [npc.namePos] aura shoots into your chest."
 											+ "</p>"
 											+ "<p>"
 												+ "Alarmed at what's just happened, you look back over at [npc.name], only to see that [npc.she] seems completely oblivious to what you've just witnessed."
@@ -912,9 +909,9 @@ public enum Sex {
 											"<p>"
 												+ "As you disentangle yourself from [npc.name], you suddenly become aware of a strange, shimmering pink glow that's started to materialise around [npc.her] body,"
 													+ " just like the one you saw in Lilaya's lab when she ran her tests on you."
-												+ " Quickly realising that you're somehow able to see [npc.name]'s arcane aura, you watch, fascinated, as it rapidly increases in luminosity."
+												+ " Quickly realising that you're somehow able to see [npc.namePos] arcane aura, you watch, fascinated, as it rapidly increases in luminosity."
 												+ " Just as you think that it can't get any brighter, [npc.her] aura suddenly leaps back into [npc.her] body, but as it does so, a single shard breaks off and flies towards you."
-												+ " Unable to dodge in time, you find yourself sharply inhaling as the small piece of [npc.name]'s aura shoots into your chest."
+												+ " Unable to dodge in time, you find yourself sharply inhaling as the small piece of [npc.namePos] aura shoots into your chest."
 											+ "</p>"
 											+ "<p>"
 												+ "Alarmed at what's just happened, you look back over at [npc.name], only to see that [npc.she] seems completely oblivious to what you've just witnessed."
@@ -925,7 +922,7 @@ public enum Sex {
 							}
 						}
 						
-						sexSB.append("<p style='text-align:center'>You feel your aura drawing strength from the sexual energy of [npc.name]'s orgasm...</p>"
+						sexSB.append("<p style='text-align:center'>You feel your aura drawing strength from the sexual energy of [npc.namePos] orgasm...</p>"
 								+"<div class='container-full-width' style='text-align:center;'>"
 									+ (Main.game.getPlayer().hasTrait(Perk.NYMPHOMANIAC, true)
 											?Main.game.getPlayer().incrementEssenceCount(TFEssence.ARCANE, 4, true)
@@ -1239,7 +1236,7 @@ public enum Sex {
 				&& sexActionPlayer!=SexActionUtility.CLOTHING_DYE) {
 			s = UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(sexActionPlayer), sexSB.toString());
 		} else {
-			s = UtilText.parse(Sex.getActivePartner(), sexSB.toString());
+			s = UtilText.parse(Sex.getCharacterTargetedForSexAction(sexActionPlayer), sexSB.toString());
 		}
 		sexSB.setLength(0);
 		sexSB.append(s);
@@ -1282,7 +1279,7 @@ public enum Sex {
 									&& sexActionPartner!=SexActionUtility.CLOTHING_DYE) {
 								s = UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(sexActionPartner), sexSB.toString());
 							} else {
-								s = UtilText.parse(character, sexSB.toString());
+								s = UtilText.parse(Sex.getCharacterPerformingAction(), sexSB.toString());
 							}
 							sexSB.setLength(0);
 							sexSB.append(s);
@@ -1306,7 +1303,7 @@ public enum Sex {
 			}
 			
 			if(Sex.isPublicSex()) {
-				sexSB.append(Sex.getSexManager().getRandomPublicSexDescription());
+				sexSB.append(Sex.getInitialSexManager().getRandomPublicSexDescription());
 				sexDescription = sexSB.toString();
 			}
 			
@@ -1611,15 +1608,15 @@ public enum Sex {
 			
 			// Add actions:
 			for (SexActionInterface sexAction : Sex.getActionsAvailablePartner()) {
-				if (sexAction.isAddedToAvailableSexActions() && (partnerAllowedToUseSelfActions || sexAction.getParticipantType()!=SexParticipantType.SELF)) {
+				if (sexAction.isAddedToAvailableSexActions()
+						&& (partnerAllowedToUseSelfActions || sexAction.getParticipantType()!=SexParticipantType.SELF)) {
 					
-					if(// Do not add action if the partner is resisting and this action is SUB_EAGER or SUB_NORMAL or is a self action
-						(Main.game.isNonConEnabled()
-							&& getSexPace(activePartner)==SexPace.SUB_RESISTING
-							&& ((sexAction.getSexPace()!=null && sexAction.getSexPace()!=SexPace.SUB_RESISTING) || sexAction.getParticipantType()==SexParticipantType.SELF))
-						// Do not add action if action does not correspond to the partner's preferred action pace
-						|| (sexAction.getSexPace()!=null && getSexPace(activePartner)!=sexAction.getSexPace())) {
-						
+					// Do not add action if the partner is resisting and this action is SUB_EAGER or SUB_NORMAL or is a self action
+					// Do not add action if action does not correspond to the partner's preferred action pace
+					if((Main.game.isNonConEnabled()
+						&& getSexPace(activePartner)==SexPace.SUB_RESISTING
+						&& ((sexAction.getSexPace()!=null && sexAction.getSexPace()!=SexPace.SUB_RESISTING) || sexAction.getParticipantType()==SexParticipantType.SELF))
+							|| (sexAction.getSexPace()!=null && getSexPace(activePartner)!=sexAction.getSexPace())) {
 						
 					} else {
 						// Add action as normal:
@@ -1796,8 +1793,9 @@ public enum Sex {
 					if(cumProvidor.getPenisOrgasmCumQuantity() != CumProduction.ZERO_NONE) {
 						if (sexAction.getAreasCummedIn(cumProvidor, cumTarget) != null) {
 							if(!cumProvidor.isWearingCondom() || sexAction.ignoreCondom(cumProvidor)){
+								Sex.incrementTimesCummedInside(cumProvidor, cumTarget, 1);
+								
 								for(SexAreaOrifice ot : sexAction.getAreasCummedIn(cumProvidor, cumTarget)) {
-									
 									cumTarget.incrementCumCount(new SexType(SexParticipantType.NORMAL, ot, SexAreaPenetration.PENIS));
 									cumProvidor.incrementCumCount(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.PENIS, ot));
 									sexSB.append(cumTarget.ingestFluid(cumProvidor, cumProvidor.getCum().getType(), ot, cumProvidor.getPenisRawOrgasmCumQuantity(), cumProvidor.getCum().getFluidModifiers()));
@@ -1993,7 +1991,7 @@ public enum Sex {
 				activePartner.setArousal(20);
 				activePartner.addStatusEffect(StatusEffect.FRUSTRATED_NO_ORGASM, 240+postSexDialogue.getMinutesPassed());
 				sexSB.append(UtilText.parse(activePartner,
-						"<p style='text-align:center'>Without producing any cum, [npc.name]'s climax can't be counted as a real orgasm, and makes [npc.name] feel [style.boldBad(frustrated and horny)]!</p>"));
+						"<p style='text-align:center'>Without producing any cum, [npc.namePos] climax can't be counted as a real orgasm, and makes [npc.name] feel [style.boldBad(frustrated and horny)]!</p>"));
 			}
 
 			// Reset appropriate flags:
@@ -2020,8 +2018,8 @@ public enum Sex {
 					for(GameCharacter characterTarget : Sex.getAllParticipants()) {
 						if(entry.getValue().containsKey(characterTarget)) {
 							for(SexAreaInterface sArea : entry.getValue().get(characterTarget)) {
-								if(entry.getKey().isPenetration() && sArea.isOrifice()) {//TODO
-									applyPenetrationEffects(character, (SexAreaPenetration)entry.getKey(), characterTarget, (SexAreaOrifice)sArea);
+								if(entry.getKey().isPenetration()) {//TODO
+									applyPenetrationEffects(character, (SexAreaPenetration)entry.getKey(), characterTarget, sArea);
 								}
 								List<Fetish> selfFetishes = sexAction.getFetishesFromPenetrationAndOrificeTypes(character, entry.getKey(), characterTarget, sArea, true);
 								List<Fetish> targetFetishes = sexAction.getFetishesFromPenetrationAndOrificeTypes(character, entry.getKey(), characterTarget, sArea, false);
@@ -2052,22 +2050,28 @@ public enum Sex {
 						+ "<b style='color:"+finalPace.getColour().toWebHexString()+";'>"+Util.capitaliseSentence(finalPace.getName())+" Pace</b><br/>");
 				switch(finalPace) {
 					case DOM_GENTLE:
-						sexSB.append("[npc.Name] lets out a soft sigh as [npc.she] calms down a little...");
+						sexSB.append(UtilText.parse(entry.getKey(),
+								"[npc.Name] lets out a soft sigh as [npc.she] calms down a little..."));
 						break;
 					case DOM_NORMAL:
-						sexSB.append("[npc.Name] lets out "+(entry.getValue()==SexPace.DOM_GENTLE?"[npc.a_moan+] as [npc.she] starts getting more turned on":"a soft [npc.moan] as [npc.she] calms down a little")+"...");
+						sexSB.append(UtilText.parse(entry.getKey(),
+								"[npc.Name] lets out "+(entry.getValue()==SexPace.DOM_GENTLE?"[npc.a_moan+] as [npc.she] starts getting more turned on":"a soft [npc.moan] as [npc.she] calms down a little")+"..."));
 						break;
 					case DOM_ROUGH:
-						sexSB.append("[npc.Name] lets out a wild [npc.moan] as [npc.she] finds [npc.herself] filled with lust...");
+						sexSB.append(UtilText.parse(entry.getKey(),
+								"[npc.Name] lets out a wild [npc.moan] as [npc.she] finds [npc.herself] filled with lust..."));
 						break;
 					case SUB_EAGER:
-						sexSB.append("[npc.Name] lets out a desperate [npc.moan] as [npc.she] finds [npc.herself] filled with lust...");
+						sexSB.append(UtilText.parse(entry.getKey(),
+								"[npc.Name] lets out a desperate [npc.moan] as [npc.she] finds [npc.herself] filled with lust..."));
 						break;
 					case SUB_NORMAL:
-						sexSB.append("[npc.Name] lets out "+(entry.getValue()==SexPace.SUB_RESISTING?"[npc.a_moan+] as [npc.she] starts getting more turned on":"a soft [npc.moan] as [npc.she] calms down a little")+"...");
+						sexSB.append(UtilText.parse(entry.getKey(),
+								"[npc.Name] lets out "+(entry.getValue()==SexPace.SUB_RESISTING?"[npc.a_moan+] as [npc.she] starts getting more turned on":"a soft [npc.moan] as [npc.she] calms down a little")+"..."));
 						break;
 					case SUB_RESISTING:
-						sexSB.append("[npc.Name] lets out an uncomfortable whine as [npc.she] suddenly finds [npc.herself] not happy with the current situation...");
+						sexSB.append(UtilText.parse(entry.getKey(),
+								"[npc.Name] lets out an uncomfortable whine as [npc.she] suddenly finds [npc.herself] not happy with the current situation..."));
 						break;
 				}
 				sexSB.append("</p>");
@@ -2138,15 +2142,16 @@ public enum Sex {
 					areasExposed.get(Main.game.getPlayer()).add(CoverableArea.NIPPLES);
 				}
 			}
+			
 		} else {
 			// Partner:
 			if (!areasExposed.get(characterBeingExposed).contains(CoverableArea.ANUS)) {
 				if (characterBeingExposed.isAbleToAccessCoverableArea(CoverableArea.ANUS, false)) {
-					sexSB.append(
+					sexSB.append(UtilText.parse(characterBeingExposed,
 							formatCoverableAreaBecomingExposed(
 									(atStartOfSex
-											?"[npc.Name]'s [npc.asshole+] was already exposed before starting sex!"
-											:"[npc.Name]'s [npc.asshole+] is now exposed!"))
+											?"[npc.NamePos] [npc.asshole+] was already exposed before starting sex!"
+											:"[npc.NamePos] [npc.asshole+] is now exposed!")))
 							+ sexManager.getPartnerAssRevealReaction()
 							+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaOrifice.ANUS)));
 					areasExposed.get(characterBeingExposed).add(CoverableArea.ANUS);
@@ -2155,11 +2160,11 @@ public enum Sex {
 			if (!areasExposed.get(characterBeingExposed).contains(CoverableArea.PENIS)) {
 				if (characterBeingExposed.isAbleToAccessCoverableArea(CoverableArea.PENIS, false)) {
 					if (characterBeingExposed.hasPenis()) {
-						sexSB.append(
+						sexSB.append(UtilText.parse(characterBeingExposed,
 								formatCoverableAreaBecomingExposed(
 										(atStartOfSex
-												?"[npc.Name]'s [npc.cock+] was already exposed before starting sex!"
-												:"[npc.Name]'s [npc.cock+] is now exposed!"))
+												?"[npc.NamePos] [npc.cock+] was already exposed before starting sex!"
+												:"[npc.NamePos] [npc.cock+] is now exposed!")))
 								+ sexManager.getPartnerPenisRevealReaction()
 								+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaPenetration.PENIS)));
 					}
@@ -2169,20 +2174,20 @@ public enum Sex {
 			if (!areasExposed.get(characterBeingExposed).contains(CoverableArea.VAGINA)) {
 				if (characterBeingExposed.isAbleToAccessCoverableArea(CoverableArea.VAGINA, false)) {
 					if (characterBeingExposed.hasVagina()) {
-						sexSB.append(
+						sexSB.append(UtilText.parse(characterBeingExposed,
 								formatCoverableAreaBecomingExposed(
 										(atStartOfSex
-												?"[npc.Name]'s [npc.pussy+] was already exposed before starting sex!"
-												:"[npc.Name]'s [npc.pussy+] is now exposed!"))
+												?"[npc.NamePos] [npc.pussy+] was already exposed before starting sex!"
+												:"[npc.NamePos] [npc.pussy+] is now exposed!")))
 								+ sexManager.getPartnerVaginaRevealReaction()
 								+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaOrifice.VAGINA)));
 	
 					} else if (characterBeingExposed.getVaginaType() == VaginaType.NONE && characterBeingExposed.getPenisType() == PenisType.NONE) {
-						sexSB.append(
+						sexSB.append(UtilText.parse(characterBeingExposed,
 								formatCoverableAreaBecomingExposed(
 										(atStartOfSex
-												?"[npc.Name]'s doll-like mound was already exposed before starting sex!"
-												:"[npc.Name]'s doll-like mound is now exposed!"))
+												?"[npc.NamePos] doll-like mound was already exposed before starting sex!"
+												:"[npc.NamePos] doll-like mound is now exposed!")))
 								+ sexManager.getPartnerMoundRevealReaction());
 					}
 					areasExposed.get(characterBeingExposed).add(CoverableArea.VAGINA);
@@ -2190,11 +2195,11 @@ public enum Sex {
 			}
 			if (!areasExposed.get(characterBeingExposed).contains(CoverableArea.NIPPLES)) {
 				if (characterBeingExposed.isAbleToAccessCoverableArea(CoverableArea.NIPPLES, false)) {
-					sexSB.append(
+					sexSB.append(UtilText.parse(characterBeingExposed,
 							formatCoverableAreaBecomingExposed(
 									(atStartOfSex
-											?"[npc.Name]'s [npc.nipples+] were already exposed before starting sex!"
-											:"[npc.Name]'s [npc.nipples+] are now exposed!"))
+											?"[npc.NamePos] [npc.nipples+] were already exposed before starting sex!"
+											:"[npc.NamePos] [npc.nipples+] are now exposed!")))
 								+ sexManager.getPartnerBreastsRevealReaction()
 								+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaOrifice.NIPPLE)));
 					areasExposed.get(characterBeingExposed).add(CoverableArea.NIPPLES);
@@ -2340,7 +2345,7 @@ public enum Sex {
 		if(wetAreas.get(character).get(area).isEmpty()) {
 			return "";
 		}
-		StringBuilder description = new StringBuilder((character.isPlayer() ?"Your " :"[npc.Name]'s ")+area.getName(character) +" "+(area.isPlural()?"are":"is")+" lubricated with ");
+		StringBuilder description = new StringBuilder((character.isPlayer() ?"Your " :"[npc.NamePos] ")+area.getName(character) +" "+(area.isPlural()?"are":"is")+" lubricated with ");
 		List<String> lubes = new ArrayList<>();
 		for(LubricationType lube : wetAreas.get(character).get(area)) {
 			lubes.add(lube.getName());
@@ -2363,7 +2368,7 @@ public enum Sex {
 		
 		if(wetAreas.get(character).get(orifice).add(lubrication)){
 			if(appendDescription && appendTextToSex) {
-				sexSB.append(formatCoverableAreaGettingWet((character.isPlayer()?"Your ":"[npc.Name]'s ")+orifice.getName(character)+" "+(orifice.isPlural()?"are":"is")+" quickly lubricated by "+lubrication.getName()+"."));
+				sexSB.append(formatCoverableAreaGettingWet((character.isPlayer()?"Your ":"[npc.NamePos] ")+orifice.getName(character)+" "+(orifice.isPlural()?"are":"is")+" quickly lubricated by "+lubrication.getName()+"."));
 			}
 		}
 	}
@@ -2383,7 +2388,7 @@ public enum Sex {
 					: true)) { // Can't lubricate if covered by condom
 			if(wetAreas.get(character).get(penetrationType).add(lubrication)){
 				if(appendDescription && appendTextToSex) {
-					sexSB.append(formatCoverableAreaGettingWet((character.isPlayer()?"Your ":"[npc.Name]'s ")+penetrationType.getName(character)+" "+(penetrationType.isPlural()?"are":"is")+" quickly lubricated by "+lubrication.getName()+"."));
+					sexSB.append(formatCoverableAreaGettingWet((character.isPlayer()?"Your ":"[npc.NamePos] ")+penetrationType.getName(character)+" "+(penetrationType.isPlural()?"are":"is")+" quickly lubricated by "+lubrication.getName()+"."));
 				}
 			}
 		}
@@ -2392,9 +2397,6 @@ public enum Sex {
 
 	
 	public static void applyOngoingAction(GameCharacter characterPerformingAction, SexAreaInterface performerArea, GameCharacter characterTargeted, SexAreaInterface targetedArea) {
-		
-		SexType relatedSexTypePenetrator = new SexType(SexParticipantType.NORMAL, performerArea, targetedArea);
-		SexType relatedSexTypePenetrated = new SexType(SexParticipantType.NORMAL, targetedArea, performerArea);
 		
 		// Free up orifice and penetrator:
 		stopOngoingAction(characterPerformingAction, performerArea, characterTargeted, targetedArea);
@@ -2412,11 +2414,14 @@ public enum Sex {
 		initialPenetrations.get(characterPerformingAction).add(performerArea);
 		
 		if(characterPerformingAction != null && characterTargeted != null) {
-			characterPerformingAction.incrementSexCount(relatedSexTypePenetrated);
-			characterTargeted.incrementSexCount(relatedSexTypePenetrator);
+			SexType relatedSexTypePerformer = new SexType(SexParticipantType.NORMAL, performerArea, targetedArea);
+			SexType relatedSexTypeTargeted = new SexType(SexParticipantType.NORMAL, targetedArea, performerArea);
 			
-			characterTargeted.addSexPartner(characterPerformingAction, relatedSexTypePenetrator);
-			characterPerformingAction.addSexPartner(characterTargeted, relatedSexTypePenetrated);
+			characterPerformingAction.incrementSexCount(relatedSexTypePerformer);
+			characterTargeted.incrementSexCount(relatedSexTypeTargeted);
+
+			characterPerformingAction.addSexPartner(characterTargeted, relatedSexTypePerformer);
+			characterTargeted.addSexPartner(characterPerformingAction, relatedSexTypeTargeted);
 			
 		} else {
 			System.err.println("Warning! Sex.applyPenetration() is finding 'characterPenetrated' or 'characterPenetrating' to be null!!!");
@@ -2461,172 +2466,190 @@ public enum Sex {
 		
 	}
 
-	private static void applyPenetrationEffects(GameCharacter characterPenetrating, SexAreaPenetration penetrationType, GameCharacter characterPenetrated, SexAreaOrifice orifice) { //TODO formatting
-
-		SexType relatedSexTypeForCharacterPenetrating = new SexType(SexParticipantType.NORMAL, penetrationType, orifice);
-		SexType relatedSexTypeForCharacterPenetrated = new SexType(SexParticipantType.NORMAL, orifice, penetrationType);
+	private static void applyPenetrationEffects(GameCharacter characterPenetrating, SexAreaPenetration penetrationType, GameCharacter characterPenetrated, SexAreaInterface orifice) { //TODO formatting
 		
-		String penileVirginityLoss = "";
-		
-		if (penetrationType == SexAreaPenetration.PENIS) {
-			if(characterPenetrating.isPenisVirgin()
-					&& characterPenetrating.hasPenisIgnoreDildo()
-					&& orifice.isTakesPenisVirginity()) {
-				penileVirginityLoss = characterPenetrating.getVirginityLossPenetrationDescription(characterPenetrating, SexAreaPenetration.PENIS, characterPenetrated, orifice);
-				if(characterPenetrated.hasFetish(Fetish.FETISH_DEFLOWERING)) {
-					characterPenetrated.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrated), true);
-					characterPenetrated.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+		if(orifice.isOrifice()) {
+			SexAreaOrifice actualOrifice = (SexAreaOrifice) orifice;
+			
+			SexType relatedSexTypeForCharacterPenetrating = new SexType(SexParticipantType.NORMAL, penetrationType, orifice);
+			SexType relatedSexTypeForCharacterPenetrated = new SexType(SexParticipantType.NORMAL, orifice, penetrationType);
+			
+			String penileVirginityLoss = "";
+			
+			if (penetrationType == SexAreaPenetration.PENIS) {
+				if(characterPenetrating.isPenisVirgin()
+						&& characterPenetrating.hasPenisIgnoreDildo()
+						&& actualOrifice.isTakesPenisVirginity()) {
+					penileVirginityLoss = characterPenetrating.getVirginityLossPenetrationDescription(characterPenetrating, SexAreaPenetration.PENIS, characterPenetrated, actualOrifice);
+					if(characterPenetrated.hasFetish(Fetish.FETISH_DEFLOWERING)) {
+						characterPenetrated.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrated), true);
+						characterPenetrated.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+					}
+					characterPenetrating.setVirginityLoss(relatedSexTypeForCharacterPenetrating, characterPenetrated.getName("a") + " " + characterPenetrated.getLostVirginityDescriptor());
+					characterPenetrating.setPenisVirgin(false);
 				}
-				characterPenetrating.setVirginityLoss(relatedSexTypeForCharacterPenetrating, characterPenetrated.getName("a") + " " + characterPenetrated.getLostVirginityDescriptor());
-				characterPenetrating.setPenisVirgin(false);
+				
 			}
 			
+			if (actualOrifice == SexAreaOrifice.ASS) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.ASS)) {
+					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					
+					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.ASS);
+					
+				} else {
+					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+				}
+					
+			} else if (actualOrifice == SexAreaOrifice.BREAST) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.BREAST)) {
+					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					
+					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.BREAST);
+					
+				} else {
+					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+				}
+					
+			} else if (actualOrifice == SexAreaOrifice.ANUS) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.ANUS)) {
+					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					
+					if (characterPenetrated.isAssVirgin()) {
+						if (penetrationType.isTakesVirginity()) {
+							sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.ANUS));
+							if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
+								characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
+								characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+							}
+							characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
+							characterPenetrated.setAssVirgin(false);
+						}
+					}
+					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.ANUS);
+				} else {
+					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+				}
+					
+			} else if (actualOrifice == SexAreaOrifice.VAGINA) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.VAGINA)) {
+					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					
+					if (characterPenetrated.isVaginaVirgin()) {
+						if (penetrationType.isTakesVirginity()) {
+							sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.VAGINA));
+							if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
+								characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingVaginalVirginity(characterPenetrating), true);
+								characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+							}
+							characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
+							characterPenetrated.setVaginaVirgin(false);
+						}
+					}
+					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.VAGINA);
+				} else {
+					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+				}
+				
+			} else if (actualOrifice == SexAreaOrifice.NIPPLE) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.NIPPLE)) {
+						sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+						
+						if (characterPenetrated.isNippleVirgin()) {
+							if (penetrationType.isTakesVirginity()) {
+								sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.NIPPLE));
+								if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
+									characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
+									characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+								}
+								characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
+								characterPenetrated.setNippleVirgin(false);
+							}
+						}
+						initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.NIPPLE);
+					} else {
+						sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					}
+					
+			} else if (actualOrifice == SexAreaOrifice.URETHRA_PENIS) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.URETHRA_PENIS)) {
+						sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+						
+						if (characterPenetrated.isUrethraVirgin()) {
+							if (penetrationType.isTakesVirginity()) {
+								sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.URETHRA_PENIS));
+								if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
+									characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
+									characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+								}
+								characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
+								characterPenetrated.setUrethraVirgin(false);
+							}
+						}
+						initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.URETHRA_PENIS);
+					} else {
+						sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					}
+				
+			} else if (actualOrifice == SexAreaOrifice.URETHRA_VAGINA) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.URETHRA_VAGINA)) {
+					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					
+					if (characterPenetrated.isVaginaUrethraVirgin()) {
+						if (penetrationType.isTakesVirginity()) {
+							sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.URETHRA_VAGINA));
+							if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
+								characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
+								characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+							}
+							characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
+							characterPenetrated.setVaginaUrethraVirgin(false);
+						}
+					}
+					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.URETHRA_VAGINA);
+				} else {
+					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+				}
+			
+			} else if (actualOrifice == SexAreaOrifice.MOUTH) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.MOUTH)) {
+						sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+						
+						if (characterPenetrated.isFaceVirgin()) {
+							if (penetrationType.isTakesVirginity()) {
+								sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.MOUTH));
+								if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
+									characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
+									characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
+								}
+								characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
+								characterPenetrated.setFaceVirgin(false);
+							}
+						}
+						initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.MOUTH);
+					} else {
+						sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, actualOrifice)));
+					}
+					
+			}
+			
+			sexSB.append(penileVirginityLoss);
+			
+		} else {
+			if (penetrationType == SexAreaPenetration.FINGER && orifice == SexAreaPenetration.PENIS) {
+				if (initialPenetrations.get(characterPenetrated).contains(SexAreaPenetration.PENIS)) {
+					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
+					
+					initialPenetrations.get(characterPenetrated).remove(SexAreaPenetration.PENIS);
+					
+				} else {
+					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
+				}
+				
+			}
 		}
 		
-		if (orifice == SexAreaOrifice.ASS) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.ASS)) {
-				sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				
-				initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.ASS);
-				
-			} else {
-				sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-			}
-				
-		} else if (orifice == SexAreaOrifice.BREAST) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.BREAST)) {
-				sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				
-				initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.BREAST);
-				
-			} else {
-				sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-			}
-				
-		} else if (orifice == SexAreaOrifice.ANUS) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.ANUS)) {
-				sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				
-				if (characterPenetrated.isAssVirgin()) {
-					if (penetrationType.isTakesVirginity()) {
-						sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.ANUS));
-						if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
-							characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
-							characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
-						}
-						characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
-						characterPenetrated.setAssVirgin(false);
-					}
-				}
-				initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.ANUS);
-			} else {
-				sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-			}
-				
-		} else if (orifice == SexAreaOrifice.VAGINA) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.VAGINA)) {
-				sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				
-				if (characterPenetrated.isVaginaVirgin()) {
-					if (penetrationType.isTakesVirginity()) {
-						sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.VAGINA));
-						if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
-							characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingVaginalVirginity(characterPenetrating), true);
-							characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
-						}
-						characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
-						characterPenetrated.setVaginaVirgin(false);
-					}
-				}
-				initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.VAGINA);
-			} else {
-				sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-			}
-			
-		} else if (orifice == SexAreaOrifice.NIPPLE) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.NIPPLE)) {
-					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-					
-					if (characterPenetrated.isNippleVirgin()) {
-						if (penetrationType.isTakesVirginity()) {
-							sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.NIPPLE));
-							if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
-								characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
-								characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
-							}
-							characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
-							characterPenetrated.setNippleVirgin(false);
-						}
-					}
-					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.NIPPLE);
-				} else {
-					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				}
-				
-		} else if (orifice == SexAreaOrifice.URETHRA_PENIS) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.URETHRA_PENIS)) {
-					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-					
-					if (characterPenetrated.isUrethraVirgin()) {
-						if (penetrationType.isTakesVirginity()) {
-							sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.URETHRA_PENIS));
-							if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
-								characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
-								characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
-							}
-							characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
-							characterPenetrated.setUrethraVirgin(false);
-						}
-					}
-					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.URETHRA_PENIS);
-				} else {
-					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				}
-			
-		} else if (orifice == SexAreaOrifice.URETHRA_VAGINA) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.URETHRA_VAGINA)) {
-				sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				
-				if (characterPenetrated.isVaginaUrethraVirgin()) {
-					if (penetrationType.isTakesVirginity()) {
-						sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.URETHRA_VAGINA));
-						if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
-							characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
-							characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
-						}
-						characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
-						characterPenetrated.setVaginaUrethraVirgin(false);
-					}
-				}
-				initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.URETHRA_VAGINA);
-			} else {
-				sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-			}
 		
-		} else if (orifice == SexAreaOrifice.MOUTH) {
-			if (initialPenetrations.get(characterPenetrated).contains(SexAreaOrifice.MOUTH)) {
-					sexSB.append(formatInitialPenetration(characterPenetrating.getPenetrationDescription(true, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-					
-					if (characterPenetrated.isFaceVirgin()) {
-						if (penetrationType.isTakesVirginity()) {
-							sexSB.append(characterPenetrating.getVirginityLossOrificeDescription(characterPenetrating, penetrationType, characterPenetrated, SexAreaOrifice.MOUTH));
-							if(characterPenetrating.hasFetish(Fetish.FETISH_DEFLOWERING)) {
-								characterPenetrating.incrementExperience(Fetish.getExperienceGainFromTakingOtherVirginity(characterPenetrating), true);
-								characterPenetrating.incrementFetishExperience(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_DEFLOWERING.getExperienceGainFromSexAction());
-							}
-							characterPenetrated.setVirginityLoss(relatedSexTypeForCharacterPenetrated, characterPenetrating.getName("a") + " " + characterPenetrating.getLostVirginityDescriptor());
-							characterPenetrated.setFaceVirgin(false);
-						}
-					}
-					initialPenetrations.get(characterPenetrated).remove(SexAreaOrifice.MOUTH);
-				} else {
-					sexSB.append(formatPenetration(characterPenetrating.getPenetrationDescription(false, characterPenetrating, penetrationType, characterPenetrated, orifice)));
-				}
-				
-		}
-		
-		sexSB.append(penileVirginityLoss);
-
 		// TODO apply masochism effects to stretching:
 
 		// Stretching effects (will only stretch from penises):
@@ -2840,11 +2863,7 @@ public enum Sex {
 		if(!characterWantingToChangePosition.isPlayer() && SexFlags.positioningBlockedPartner) {
 			return false;
 		}
-		return positionChangingAllowed;
-	}
-
-	public static void setPositionChangingAllowed(boolean positionChangingAllowed) {
-		Sex.positionChangingAllowed = positionChangingAllowed;
+		return Sex.getInitialSexManager().isPositionChangingAllowed(characterWantingToChangePosition);
 	}
 	
 	
@@ -2853,7 +2872,10 @@ public enum Sex {
 	 * @return The character that the 'targeter' is currently focusing on.
 	 */
 	public static GameCharacter getTargetedPartner(GameCharacter targeter) {
-		if(targeter!=null && targeter.isPlayer() && Sex.allParticipants!=null && Sex.allParticipants.size()>1) {
+		if(targeter!=null
+				&& targeter.isPlayer()
+				&& Sex.allParticipants!=null
+				&& Sex.allParticipants.size()>1) {
 			return activePartner;
 		} else {
 			return Main.game.getPlayer();
@@ -3089,8 +3111,11 @@ public enum Sex {
 		return ongoingActionsMap.get(character).get(sexArea);
 	}
 	
-	public static Set<SexAreaInterface> getAllContactingSexAreas(GameCharacter character, SexAreaInterface sexArea) {
-		Set<SexAreaInterface> returnList = new HashSet<>();
+	/**
+	 * Get all of the SexAreaInterfaces that this character's area is in contact with.
+	 */
+	public static List<SexAreaInterface> getAllContactingSexAreas(GameCharacter character, SexAreaInterface sexArea) {
+		List<SexAreaInterface> returnList = new ArrayList<>();
 		for(Set<SexAreaInterface> set : ongoingActionsMap.get(character).get(sexArea).values()) {
 			returnList.addAll(set);
 		}
@@ -3179,7 +3204,7 @@ public enum Sex {
 	/**
 	 * Returns a set, not a single instance of GameCharacter, as the 'characterPenetrating' could be penetrating multiple characters with tentacles, tails, hands, etc.
 	 */
-	public static List<GameCharacter> getCharactersBeingPenetratedBy(GameCharacter characterPenetrating, SexAreaPenetration penetration) {
+	public static List<GameCharacter> getCharactersHavingOngoingActionWith(GameCharacter characterPenetrating, SexAreaPenetration penetration) {
 		return new ArrayList<>(ongoingActionsMap.get(characterPenetrating).get(penetration).keySet());
 	}
 	
@@ -3213,6 +3238,10 @@ public enum Sex {
 
 	public static SexManagerInterface getSexManager() {
 		return sexManager;
+	}
+
+	public static SexManagerInterface getInitialSexManager() {
+		return initialSexManager;
 	}
 
 	public static void setSexManager(SexManagerInterface sexManager) {
@@ -3416,13 +3445,15 @@ public enum Sex {
 							if (action.getActionType().isOrgasmOption()) {
 								if(addedForCharacter) {
 									orgasmActionsAvailable.get(character).get(target).add(action);
-								} else if(addedForTarget) {
+								}
+								if(addedForTarget) {
 									orgasmActionsAvailable.get(target).get(character).add(action);
 								}
 							} else {
 								if(addedForCharacter) {
 									actionsAvailable.get(character).get(target).add(action);
-								} else if(addedForTarget) {
+								}
+								if(addedForTarget) {
 									actionsAvailable.get(target).get(character).add(action);
 								}
 							}
@@ -3617,6 +3648,23 @@ public enum Sex {
 		character.incrementTotalOrgasmCount(increment);
 		orgasmCountMap.putIfAbsent(character, 0);
 		orgasmCountMap.put(character, orgasmCountMap.get(character)+increment);
+	}
+	
+	public static int getTimesCummedInside(GameCharacter character, GameCharacter target) {
+		cummedInsideMap.putIfAbsent(character, new HashMap<>());
+		cummedInsideMap.get(character).putIfAbsent(target, 0);
+		return cummedInsideMap.get(character).get(target);
+	}
+	
+	public static void setTimesCummedInside(GameCharacter character, GameCharacter target, int count) {
+		cummedInsideMap.putIfAbsent(character, new HashMap<>());
+		cummedInsideMap.get(character).put(target, count);
+	}
+	
+	public static void incrementTimesCummedInside(GameCharacter character, GameCharacter target, int increment) {
+		cummedInsideMap.putIfAbsent(character, new HashMap<>());
+		cummedInsideMap.get(character).putIfAbsent(target, 0);
+		cummedInsideMap.get(character).put(target, cummedInsideMap.get(character).get(target)+increment);
 	}
 	
 	public static SexPositionType getPosition() {

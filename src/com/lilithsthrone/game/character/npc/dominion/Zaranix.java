@@ -169,7 +169,7 @@ public class Zaranix extends NPC {
 	}
 	
 	@Override
-	public void endSex(boolean applyEffects) {
+	public void endSex() {
 	}
 	
 	@Override
@@ -242,7 +242,7 @@ public class Zaranix extends NPC {
 					+ "<p>"
 						+ "[zaranix.speech(If it were anyone else, I'd have refused to let you go, but I just realised who this [pc.race] is,)]"
 						+ " Zaranix says, stepping back and collapsing down into a nearby chair."
-						+ " [zaranix.speech(<i>[pc.She]'s</i> the [pc.race] who's moved in with Lilaya... Yes, I know who you are. I may not get out much, but I still keep my ear close to the grapevine.)]"
+						+ " [zaranix.speech(<i>[pc.sheIs</i> the [pc.race] who's moved in with Lilaya... Yes, I know who you are. I may not get out much, but I still keep my ear close to the grapevine.)]"
 					+ "</p>"
 					+ "<p>"
 						+ "[arthur.speech(Bloody hell! So it's Lilaya who's behind this rescue?)]"
@@ -292,7 +292,7 @@ public class Zaranix extends NPC {
 							+ " [pc.speech(I think you owe me an apology...)]"
 						+ "</p>"
 						+ "<p>"
-							+ "Despite the fact that [zaranix.she]'s a powerful demon, [zaranix.name] lets out a lewd little sigh as [zaranix.she] looks up into your [pc.eyes]."
+							+ "Despite the fact that [zaranix.sheIs] a powerful demon, [zaranix.name] lets out a lewd little sigh as [zaranix.she] looks up into your [pc.eyes]."
 							+ " Your strong arcane aura is quite clearly having a profound effect on [zaranix.herHim], and as you approach, [zaranix.she] pleads,"
 							+ " [zaranix.speech(Please! Let me make it up to you!)]"
 						+ "</p>"
@@ -304,7 +304,7 @@ public class Zaranix extends NPC {
 				return new ResponseSex("Submit",
 						"Allow Zaranix to fuck you.",
 						Util.newArrayListOfValues(Fetish.FETISH_SUBMISSIVE), null, CorruptionLevel.THREE_DIRTY, null, null, null,
-						true, true,
+						false, false,
 						new SMStanding(
 								Util.newHashMapOfValues(new Value<>(Main.game.getZaranix(), SexPositionSlot.STANDING_DOMINANT)),
 								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.STANDING_SUBMISSIVE))),

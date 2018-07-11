@@ -317,7 +317,7 @@ public class Lab {
 									+ "Rose hooks her arms around Lilaya's neck and leans back, letting out a deep moan as the half-demon's fingers continue working away between her legs."
 									+ " She suddenly notices you out of the corner of her eye, and, turning to give you an evil grin, she pointedly grinds down against your demonic aunt,"
 										+ " before letting out a little eek and jumping to her feet as she feigns surprise."
-									+ " [rose.speech(M-Mistress! [pc.Name]'s here!)]"
+									+ " [rose.speech(M-Mistress! [pc.NamePos] here!)]"
 								+ "</p>"
 								+ "<p>"
 									+ "Lilaya, upon hearing that, mirrors her maid's movements and jumps out of her chair."
@@ -355,7 +355,7 @@ public class Lab {
 								"<p>"
 									+ "Rose hooks her arms around Lilaya's neck and leans back, letting out a deep moan as the half-demon's fingers continue working away between her legs."
 									+ " She suddenly notices you out of the corner of her eye, and, letting out a little eek, she quickly leaps up onto her feet."
-									+ " [rose.speech(M-Mistress! [pc.Name]'s here!)]"
+									+ " [rose.speech(M-Mistress! [pc.NamePos] here!)]"
 								+ "</p>"
 								+ "<p>"
 									+ "Lilaya, upon hearing that, mirrors her maid's movements and jumps out of her chair."
@@ -3225,7 +3225,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3258,6 +3260,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -3334,7 +3337,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3367,6 +3372,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -3443,7 +3449,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3476,6 +3484,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -3552,7 +3561,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3585,6 +3596,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:

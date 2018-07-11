@@ -83,8 +83,8 @@ public class HarpyNympho extends NPC {
 			this.addFetish(Fetish.FETISH_EXHIBITIONIST);
 			
 			this.setEyeCovering(new Covering(BodyCoveringType.EYE_HARPY, Colour.EYE_GREEN));
-			this.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, Colour.FEATHERS_PINK), true);
-			this.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, Colour.FEATHERS_WHITE), true);
+			this.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, Colour.COVERING_PINK), true);
+			this.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, Colour.COVERING_WHITE), true);
 			this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_OLIVE), true);
 			
 			this.setFemininity(95);
@@ -152,7 +152,7 @@ public class HarpyNympho extends NPC {
 	}
 
 	@Override
-	public void endSex(boolean applyEffects) {
+	public void endSex() {
 	}
 	
 	@Override
@@ -194,7 +194,9 @@ public class HarpyNympho extends NPC {
 
 	@Override
 	public String getItemUseEffects(AbstractItem item, GameCharacter user, GameCharacter target){
-		if(user.isPlayer() && !target.isPlayer() && (item.getItemType().equals(ItemType.FETISH_UNREFINED) || item.getItemType().equals(ItemType.FETISH_REFINED))){
+		if(user.isPlayer()
+				&& !target.isPlayer()
+				&& (item.getItemType().equals(ItemType.FETISH_UNREFINED) || item.getItemType().equals(ItemType.FETISH_REFINED))){
 			if(Sex.isDom(Main.game.getPlayer())) {
 				Main.game.getPlayer().removeItem(item);
 				return "<p>"

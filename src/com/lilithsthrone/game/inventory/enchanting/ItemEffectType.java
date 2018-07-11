@@ -622,7 +622,7 @@ public class ItemEffectType {
 						return UtilText.parse(target,
 								"<p>"
 									+ "[npc.Name] gulps down the rich, creamy liquid, quickly draining the entire bottle."
-									+ " Seeing as [npc.she]'s already in the final stage of pregnancy, nothing happens..."
+									+ " Seeing as [npc.sheIs] already in the final stage of pregnancy, nothing happens..."
 								+ "</p>");
 					} else {
 						if(target.hasStatusEffect(StatusEffect.PREGNANT_1)) {
@@ -645,14 +645,14 @@ public class ItemEffectType {
 						return UtilText.parse(target,
 								"<p>"
 									+ "[npc.Name] gulps down the rich, creamy liquid, quickly draining the entire bottle."
-									+ " Although [npc.she] don't know if [npc.she]'s actually pregnant yet, [npc.she] starts to feel a soothing warmth spreading throughout [npc.her] abdomen..."
+									+ " Although [npc.she] don't know if [npc.sheIs] actually pregnant yet, [npc.she] starts to feel a soothing warmth spreading throughout [npc.her] abdomen..."
 								+ "</p>");
 						
 					} else {
 						return UtilText.parse(target,
 								"<p>"
 									+ "[npc.Name] gulps down the rich, creamy liquid, quickly draining the entire bottle."
-									+ " Seeing as [npc.she]'s not pregnant, nothing happens..."
+									+ " Seeing as [npc.sheIs] not pregnant, nothing happens..."
 								+ "</p>");
 					}
 				}
@@ -675,12 +675,11 @@ public class ItemEffectType {
 			target.incrementHealth(target.getAttributeValue(Attribute.HEALTH_MAXIMUM)/20);
 			
 			return "<p style='text-align:center;'>"
-						+(target.isPlayer()
-							?"A powerful wave of arcane energy washes over you......"
-							:UtilText.parse(target, "A powerful wave of arcane energy washes over [npc.name]..."))
-						+ "<br/>"
-						+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
+					+(target.isPlayer()
+						?"A powerful wave of arcane energy washes over you..."
+						:UtilText.parse(target, "A powerful wave of arcane energy washes over [npc.name]..."))
 					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
 					+ target.incrementAlcoholLevel(0.15f);
 		}
 	};
@@ -705,11 +704,11 @@ public class ItemEffectType {
 			target.incrementHealth(target.getAttributeValue(Attribute.HEALTH_MAXIMUM)/20);
 
 			return "<p style='text-align:center;'>"
-						+(target.isPlayer()
-							?"A powerful wave of arcane energy washes over you......"
-							:UtilText.parse(target, "A powerful wave of arcane energy washes over [npc.name]..."))
-						+ "<br/>"
-						+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
+					+(target.isPlayer()
+						?"A powerful wave of arcane energy washes over you..."
+						:UtilText.parse(target, "A powerful wave of arcane energy washes over [npc.name]..."))
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
 					+"</p>";
 		}
 	};
@@ -726,11 +725,10 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A powerful wave of arcane energy washes over you......"
+						?"A powerful wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A powerful wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
+					+ "</p>"
 					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
-					+"</p>"
 					+ target.incrementAlcoholLevel(0.4f);
 		}
 	};
@@ -747,9 +745,8 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+"A powerful wave of arcane energy washes over you..."
-					+ "<br/>"
+					+ "</p>"
 					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
-					+"</p>"
 					+ target.incrementAlcoholLevel(0.5f);
 		}
 	};
@@ -765,10 +762,9 @@ public class ItemEffectType {
 			target.incrementHealth(target.getAttributeValue(Attribute.HEALTH_MAXIMUM)/20);
 
 			return "<p style='text-align:center;'>"
-					+"A powerful wave of arcane energy washes over you..."
-					+ "<br/>"
+						+"A powerful wave of arcane energy washes over you..."
+					+ "</p>"
 					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
-					+"</p>"
 					+ target.incrementAlcoholLevel(0.5f);
 		}
 	};
@@ -787,11 +783,10 @@ public class ItemEffectType {
 			
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A cool wave of arcane energy washes over you......"
+						?"A cool wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A cool wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
+					+ "</p>"
 					+ target.addPotionEffect(Attribute.MAJOR_ARCANE, 1)
-					+"</p>"
 					+ target.incrementAlcoholLevel(0.1f);
 		}
 	};
@@ -809,10 +804,9 @@ public class ItemEffectType {
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
 						?"Your senses are heightened..."
-						:UtilText.parse(target, "[npc.Name]'s senses are heightened..."))
-					+ "</br>"
+						:UtilText.parse(target, "[npc.NamePos] senses are heightened..."))
+					+ "</p>"
 					+ target.addPotionEffect(Attribute.CRITICAL_DAMAGE, 10)
-					+"</p>"
 					+ target.incrementAlcoholLevel(0.1f);
 		}
 	};
@@ -828,11 +822,10 @@ public class ItemEffectType {
 			
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-							?"A cool wave of arcane energy washes over you......"
+							?"A cool wave of arcane energy washes over you..."
 							:UtilText.parse(target, "A cool wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.MAJOR_ARCANE, 1)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_ARCANE, 1);
 		}
 	};
 	
@@ -850,11 +843,10 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A soothing wave of arcane energy washes over you......"
+						?"A soothing wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A soothing wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
+					+ "</p>"
 					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
-					+"</p>"
 					+ target.incrementAlcoholLevel(0.05f);
 		}
 	};
@@ -870,11 +862,10 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A soothing wave of arcane energy washes over you......"
+						?"A soothing wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A soothing wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1);
 		}
 	};
 	
@@ -889,11 +880,10 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A soothing wave of arcane energy washes over you......"
+						?"A soothing wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A soothing wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.MAJOR_ARCANE, 1)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_ARCANE, 1);
 		}
 	};
 	
@@ -908,11 +898,10 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A soothing wave of arcane energy washes over you......"
+						?"A soothing wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A soothing wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1);
 		}
 	};
 	
@@ -925,13 +914,12 @@ public class ItemEffectType {
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A soothing wave of arcane energy washes over you......"
+						?"A soothing wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A soothing wave of arcane energy washes over [npc.name]..."))
 					+ "<br/>"
 					+ target.incrementFemininity(1)
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.DAMAGE_LUST, 5)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.DAMAGE_LUST, 5);
 		}
 	};
 	
@@ -945,7 +933,7 @@ public class ItemEffectType {
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A warm wave of arcane energy washes over you......"
+						?"A warm wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A warm wave of arcane energy washes over [npc.name]..."))
 					+ "</p>"
 					+ (target.hasVagina()?target.incrementVaginaWetness(1):"")
@@ -964,7 +952,7 @@ public class ItemEffectType {
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A warm wave of arcane energy washes over you......"
+						?"A warm wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A warm wave of arcane energy washes over [npc.name]..."))
 					+ "</p>"
 					+ target.addPotionEffect(Attribute.FERTILITY, 5)
@@ -982,13 +970,11 @@ public class ItemEffectType {
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A warm wave of arcane energy washes over you......"
+						?"A warm wave of arcane energy washes over you..."
 						:UtilText.parse(target, "A warm wave of arcane energy washes over [npc.name]..."))
-					+ "<br/>"
-							+ target.addPotionEffect(Attribute.DAMAGE_LUST, 1)
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.DAMAGE_FIRE, 1)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.DAMAGE_LUST, 1)
+					+ target.addPotionEffect(Attribute.DAMAGE_FIRE, 1);
 		}
 	};
 	
@@ -1007,11 +993,10 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A sickly wave of corruptive arcane energy washes over you......"
+						?"A sickly wave of corruptive arcane energy washes over you..."
 						:UtilText.parse(target, "A sickly wave of corruptive arcane energy washes over [npc.name]..."))
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.MAJOR_CORRUPTION, 1)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_CORRUPTION, 1);
 		}
 	};
 
@@ -1026,11 +1011,10 @@ public class ItemEffectType {
 
 			return "<p style='text-align:center;'>"
 					+(target.isPlayer()
-						?"A sickly wave of corruptive arcane energy washes over you......"
+						?"A sickly wave of corruptive arcane energy washes over you..."
 						:UtilText.parse(target, "A sickly wave of corruptive arcane energy washes over [npc.name]..."))
-					+ "<br/>"
-					+ target.addPotionEffect(Attribute.MAJOR_CORRUPTION, 5)
-					+"</p>";
+					+ "</p>"
+					+ target.addPotionEffect(Attribute.MAJOR_CORRUPTION, 5);
 		}
 	};
 	
@@ -1062,7 +1046,7 @@ public class ItemEffectType {
 						?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
 								+ " As you stagger back from the brink of unconsciousness, you realise that you've [style.boldGood(gained)] the [style.boldFetish("+f.getName(target)+" fetish)]!"
 						:UtilText.parse(target, "A staggering wave of arcane energy crashes over [npc.name], the sheer strength of which almost causes [npc.herHim] to black out."
-								+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.she]'s [style.boldGood(gained)] the [style.boldFetish("+f.getName(target)+" fetish)]!"))
+								+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.sheIs] [style.boldGood(gained)] the [style.boldFetish("+f.getName(target)+" fetish)]!"))
 						+"</p>";
 				
 			} else {
@@ -1074,7 +1058,7 @@ public class ItemEffectType {
 						?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
 								+ " As you stagger back from the brink of unconsciousness, you realise that you've [style.boldBad(lost)] your [style.boldFetish("+f.getName(target)+" fetish)]!"
 						:UtilText.parse(target, "A staggering wave of arcane energy crashes over [npc.name], the sheer strength of which almost causes [npc.herHim] to black out."
-								+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.she]'s [style.boldBad(lost)] [npc.her] [style.boldFetish("+f.getName(target)+" fetish)]!"))
+								+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.sheIs] [style.boldBad(lost)] [npc.her] [style.boldFetish("+f.getName(target)+" fetish)]!"))
 						+"</p>";
 			}
 		}
@@ -1130,7 +1114,7 @@ public class ItemEffectType {
 					if(target.isPlayer()) {
 						sb.append("Your slimy body starts [style.boldTfGeneric(glowing)]!");
 					} else {
-						sb.append(UtilText.parse(target, "[npc.Name]'s slimy body starts [style.boldTfGeneric(glowing)]!"));
+						sb.append(UtilText.parse(target, "[npc.NamePos] slimy body starts [style.boldTfGeneric(glowing)]!"));
 					}
 					
 					target.getCovering(BodyCoveringType.SLIME).setPrimaryGlowing(true);
@@ -1167,7 +1151,7 @@ public class ItemEffectType {
 					if(target.isPlayer()) {
 						sb.append("The interiors of all of your orifices start to [style.boldTfGeneric(glow)]!");
 					} else {
-						sb.append(UtilText.parse(target, "The interiors of all of [npc.name]'s orifices start to [style.boldTfGeneric(glow)]!"));
+						sb.append(UtilText.parse(target, "The interiors of all of [npc.namePos] orifices start to [style.boldTfGeneric(glow)]!"));
 					}
 
 					target.getCovering(BodyCoveringType.MOUTH).setSecondaryGlowing(true);
@@ -1184,7 +1168,7 @@ public class ItemEffectType {
 				if(target.isPlayer()) {
 					sb.append("Multi-coloured stars and spots start to fade in and out of your vision, and you feel your head spinning as you start to [style.boldPsychoactive(trip out)]!");
 				} else {
-					sb.append(UtilText.parse(target, "Multi-coloured stars and spots start to fade in and out of [npc.name]'s vision, and [npc.she] feels [npc.her] head spinning as [npc.she] starts to [style.boldPsychoactive(trip out)]!"));
+					sb.append(UtilText.parse(target, "Multi-coloured stars and spots start to fade in and out of [npc.namePos] vision, and [npc.she] feels [npc.her] head spinning as [npc.she] starts to [style.boldPsychoactive(trip out)]!"));
 				}
 			sb.append("</p>");
 			
@@ -1348,12 +1332,12 @@ public class ItemEffectType {
 		
 		@Override
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
-			return (target.isPlayer()
-						?"You start to feel a lot healthier..."
-						:UtilText.parse(target, "[npc.Name] starts to feel a lot healthier..."))
-					+ "<br/>"
+			return "<p style='text-align:center;'>"
+						+(target.isPlayer()
+							?"You start to feel a lot healthier..."
+							:UtilText.parse(target, "[npc.Name] starts to feel a lot healthier..."))
+					+ "</p>"
 					+ target.addPotionEffect(Attribute.MAJOR_PHYSIQUE, 1)
-					+ "<br/>"
 					+ target.addPotionEffect(Attribute.MAJOR_ARCANE, 1);
 		}
 	};
@@ -1635,7 +1619,7 @@ public class ItemEffectType {
 				}
 				
 			} else {
-				return target.addPotionEffect(Attribute.MAJOR_CORRUPTION, 50)
+				return target.incrementAttribute(Attribute.MAJOR_CORRUPTION, 50)
 						+ "<br/>"
 						+ target.setBodyMaterial(BodyMaterial.SLIME);
 			}
@@ -1926,7 +1910,7 @@ public class ItemEffectType {
 			StringBuilder sb = new StringBuilder();
 			
 			sb.append("<p>"
-						+ "As the lollipop's transformative effects start to make themselves known, you start to feel very light-headed..."
+						+ UtilText.parse(target, "As the lollipop's transformative effects start to make themselves known, [npc.name] [npc.verb(start)] to feel very light-headed...")
 					+ "</p>");
 			
 			if(!target.hasFetish(Fetish.FETISH_BIMBO)) {
@@ -1940,11 +1924,12 @@ public class ItemEffectType {
 				} else {
 					sb.append(UtilText.parse(target, "<br/>"
 							+ "<p>"
-								+ "A giggle escapes from between [npc.name]'s [npc.lips], and [npc.she] suddenly finds [npc.herself] unable to think of anything other than how, like, super awesome bimbos are and stuff!"
+								+ "A giggle escapes from between [npc.namePos] [npc.lips], and [npc.she] suddenly finds [npc.herself] unable to think of anything other than how, like, super awesome bimbos are and stuff!"
 								+ "<br/><b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>[npc.Name] has gained the bimbo fetish!</b>"
 							+ "</p>"));
 				}
 			}
+			
 			
 			// Non-racial changes
 			if(target.getFemininityValue()<95) {
@@ -1960,10 +1945,10 @@ public class ItemEffectType {
 				sb.append("<br/>" + target.setHipSize(HipSize.FOUR_WOMANLY.getValue()));
 			}
 			if(target.getHairType()!=HairType.HARPY) {
-				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, CoveringPattern.NONE, Colour.FEATHERS_BLEACH_BLONDE, false, Colour.FEATHERS_BLEACH_BLONDE, false), true));
+				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, CoveringPattern.NONE, Colour.COVERING_BLEACH_BLONDE, false, Colour.COVERING_BLEACH_BLONDE, false), true));
 			}
 			if(target.getSkinType()!=SkinType.HARPY) {
-				sb.append("<br/>" + target.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, CoveringPattern.NONE, Colour.FEATHERS_BLEACH_BLONDE, false, Colour.FEATHERS_BLEACH_BLONDE, false), true));
+				sb.append("<br/>" + target.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, CoveringPattern.NONE, Colour.COVERING_BLEACH_BLONDE, false, Colour.COVERING_BLEACH_BLONDE, false), true));
 			}
 			
 			// Harpy TFs:
@@ -2020,7 +2005,7 @@ public class ItemEffectType {
 			StringBuilder sb = new StringBuilder();
 			
 			sb.append("<p>"
-						+ "As the lollipop's transformative effects start to make themselves known, you start to feel very light-headed..."
+						+ UtilText.parse(target, "As the lollipop's transformative effects start to make themselves known, [npc.name] [npc.verb(start)] to feel very light-headed...")
 					+ "</p>");
 			
 			if(!target.hasTrait(Perk.NYMPHOMANIAC, false)) {
@@ -2034,7 +2019,7 @@ public class ItemEffectType {
 				} else {
 					sb.append(UtilText.parse(target, "<br/>"
 							+ "<p>"
-								+ "A desperate moan escapes from between [npc.name]'s [npc.lips], and [npc.she] suddenly finds [npc.herself] unable to think of anything other than sex, sex, and more sex!"
+								+ "A desperate moan escapes from between [npc.namePos] [npc.lips], and [npc.she] suddenly finds [npc.herself] unable to think of anything other than sex, sex, and more sex!"
 								+ "<br/><b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>[npc.Name] has gained the nymphomaniac perk!</b>"
 							+ "</p>"));
 				}
@@ -2054,10 +2039,10 @@ public class ItemEffectType {
 				sb.append("<br/>" + target.setHipSize(HipSize.THREE_GIRLY.getValue()));
 			}
 			if(target.getHairType()!=HairType.HARPY) {
-				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, CoveringPattern.NONE, Colour.FEATHERS_PINK, false, Colour.FEATHERS_PINK, false), true));
+				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, CoveringPattern.NONE, Colour.COVERING_PINK, false, Colour.COVERING_PINK, false), true));
 			}
 			if(target.getSkinType()!=SkinType.HARPY) {
-				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.FEATHERS, CoveringPattern.NONE, Colour.FEATHERS_PINK, false, Colour.FEATHERS_PINK, false), true));
+				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.FEATHERS, CoveringPattern.NONE, Colour.COVERING_PINK, false, Colour.COVERING_PINK, false), true));
 			}
 			
 			// Harpy TFs:
@@ -2118,8 +2103,10 @@ public class ItemEffectType {
 		@Override
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 			StringBuilder sb = new StringBuilder();
-			
-			sb.append("As the perfume's transformative effects start to make themselves known, you start to feel very light-headed...");
+
+			sb.append("<p>"
+						+ UtilText.parse(target, "As the perfume's transformative effects start to make themselves known, [npc.name] [npc.verb(start)] to feel very light-headed...")
+					+ "</p>");
 			
 			if(!target.hasFetish(Fetish.FETISH_DOMINANT)) {
 				target.addFetish(Fetish.FETISH_DOMINANT);
@@ -2132,7 +2119,7 @@ public class ItemEffectType {
 				} else {
 					sb.append(UtilText.parse(target, "<br/>"
 							+ "<p>"
-								+ "A deep groan escapes from between [npc.name]'s [npc.lips], and [npc.she] suddenly finds [npc.herself] thinking of how much [npc.she] wants to dominate the next person [npc.she] meets!"
+								+ "A deep groan escapes from between [npc.namePos] [npc.lips], and [npc.she] suddenly finds [npc.herself] thinking of how much [npc.she] wants to dominate the next person [npc.she] meets!"
 								+ "<br/><b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>[npc.Name] has gained the dominant fetish!</b>"
 							+ "</p>"));
 				}
@@ -2152,10 +2139,10 @@ public class ItemEffectType {
 				sb.append("<br/>" + target.setHipSize(HipSize.THREE_GIRLY.getValue()));
 			}
 			if(target.getHairType()!=HairType.HARPY) {
-				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, CoveringPattern.NONE, Colour.FEATHERS_BLACK, false, Colour.FEATHERS_BLACK, false), true));
+				sb.append("<br/>" + target.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, CoveringPattern.NONE, Colour.COVERING_BLACK, false, Colour.COVERING_BLACK, false), true));
 			}
 			if(target.getSkinType()!=SkinType.HARPY) {
-				sb.append("<br/>" + target.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, CoveringPattern.NONE, Colour.FEATHERS_RED, false, Colour.FEATHERS_RED, false), true));
+				sb.append("<br/>" + target.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, CoveringPattern.NONE, Colour.COVERING_RED, false, Colour.COVERING_RED, false), true));
 			}
 			
 			// Harpy TFs:
@@ -2462,7 +2449,7 @@ public class ItemEffectType {
 										?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
 											+ " As you stagger back from the brink of unconsciousness, you realise that you've [style.boldGood(gained)] the [style.boldFetish("+f.getName(target)+" fetish)]!"
 										:UtilText.parse(target, "A staggering wave of arcane energy crashes over [npc.name], the sheer strength of which almost causes [npc.herHim] to black out."
-											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.she]'s [style.boldGood(gained)] the [style.boldFetish("+f.getName(target)+" fetish)]!"))
+											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.sheIs] [style.boldGood(gained)] the [style.boldFetish("+f.getName(target)+" fetish)]!"))
 								+"</p>";
 						
 					} else {
@@ -2483,7 +2470,7 @@ public class ItemEffectType {
 										?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
 											+ " As you stagger back from the brink of unconsciousness, you realise that you've [style.boldGood(gained)] the [style.boldFetish("+fetish.getName(target)+" fetish)]!"
 										:UtilText.parse(target, "A staggering wave of arcane energy crashes over [npc.name], the sheer strength of which almost causes [npc.herHim] to black out."
-											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.she]'s [style.boldGood(gained)] the [style.boldFetish("+fetish.getName(target)+" fetish)]!"))
+											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.sheIs] [style.boldGood(gained)] the [style.boldFetish("+fetish.getName(target)+" fetish)]!"))
 								+"</p>";	
 					} else {
 						return "<p>"
@@ -2628,7 +2615,7 @@ public class ItemEffectType {
 										?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
 											+ " As you stagger back from the brink of unconsciousness, you realise that you've [style.boldBad(lost)] your [style.boldFetish("+f.getName(target)+" fetish)]!"
 										:UtilText.parse(target, "A staggering wave of arcane energy crashes over [npc.name], the sheer strength of which almost causes [npc.herHim] to black out."
-											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.she]'s [style.boldBad(lost)] [npc.her] [style.boldFetish("+f.getName(target)+" fetish)]!"))
+											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.sheIs] [style.boldBad(lost)] [npc.her] [style.boldFetish("+f.getName(target)+" fetish)]!"))
 								+"</p>";
 					} else {
 						return "<p>"
@@ -2648,7 +2635,7 @@ public class ItemEffectType {
 										?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
 											+ " As you stagger back from the brink of unconsciousness, you realise that you've [style.boldBad(lost)] your [style.boldFetish("+fetish.getName(target)+" fetish)]!"
 										:UtilText.parse(target, "A staggering wave of arcane energy crashes over [npc.name], the sheer strength of which almost causes [npc.herHim] to black out."
-											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.she]'s [style.boldBad(lost)] [npc.her] [style.boldFetish("+fetish.getName(target)+" fetish)]!"))
+											+ " As [npc.she] staggers back from the brink of unconsciousness, [npc.she] discovers that [npc.sheIs] [style.boldBad(lost)] [npc.her] [style.boldFetish("+fetish.getName(target)+" fetish)]!"))
 								+"</p>";
 					} else {
 						return "<p>"
