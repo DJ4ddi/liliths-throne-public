@@ -57,6 +57,7 @@ public enum Colour {
 	BASE_PERIWINKLE(false, BaseColour.PERIWINKLE, "periwinkle", Util.newArrayListOfValues("periwinkle")),
 	BASE_BLUE_LIGHT(false, BaseColour.BLUE_LIGHT, "light blue", Util.newArrayListOfValues("lightBlue")),
 	BASE_BLUE(false, BaseColour.BLUE, "blue", Util.newArrayListOfValues("blue")),
+	BASE_BLUE_DARK(false, BaseColour.BLUE_DARK, "dark blue", Util.newArrayListOfValues("darkBlue")),
 	BASE_BLUE_STEEL(false, BaseColour.BLUE_STEEL, "steely blue", Util.newArrayListOfValues("steelyBlue")),
 	
 	BASE_BLACK(false, BaseColour.BLACK, "black", Util.newArrayListOfValues("black")),

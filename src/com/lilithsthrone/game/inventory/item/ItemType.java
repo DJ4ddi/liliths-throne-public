@@ -4877,7 +4877,7 @@ public class ItemType {
 				public String getSVGString() {
 					return super.getSVGString()
 							+"<div style='width:60%;height:60%;position:absolute;left:0;top:0;'>"
-								+ s.getSVGString()
+								+ s.getIcon("spellbook")
 							+ "</div>";
 				}
 				

@@ -1,76 +1,13 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.body.Breast;
 import com.lilithsthrone.game.character.body.Covering;
 import com.lilithsthrone.game.character.body.Testicle;
-import com.lilithsthrone.game.character.body.types.AntennaType;
-import com.lilithsthrone.game.character.body.types.ArmType;
-import com.lilithsthrone.game.character.body.types.AssType;
-import com.lilithsthrone.game.character.body.types.BodyCoveringType;
-import com.lilithsthrone.game.character.body.types.BreastType;
-import com.lilithsthrone.game.character.body.types.EarType;
-import com.lilithsthrone.game.character.body.types.EyeType;
-import com.lilithsthrone.game.character.body.types.FaceType;
-import com.lilithsthrone.game.character.body.types.HairType;
-import com.lilithsthrone.game.character.body.types.HornType;
-import com.lilithsthrone.game.character.body.types.LegType;
-import com.lilithsthrone.game.character.body.types.PenisType;
-import com.lilithsthrone.game.character.body.types.SkinType;
-import com.lilithsthrone.game.character.body.types.TailType;
-import com.lilithsthrone.game.character.body.types.VaginaType;
-import com.lilithsthrone.game.character.body.types.WingType;
-import com.lilithsthrone.game.character.body.valueEnums.AreolaeSize;
-import com.lilithsthrone.game.character.body.valueEnums.AssSize;
-import com.lilithsthrone.game.character.body.valueEnums.BodyHair;
-import com.lilithsthrone.game.character.body.valueEnums.BodySize;
-import com.lilithsthrone.game.character.body.valueEnums.BreastShape;
-import com.lilithsthrone.game.character.body.valueEnums.Capacity;
-import com.lilithsthrone.game.character.body.valueEnums.ClitorisSize;
-import com.lilithsthrone.game.character.body.valueEnums.CoveringModifier;
-import com.lilithsthrone.game.character.body.valueEnums.CoveringPattern;
-import com.lilithsthrone.game.character.body.valueEnums.CumProduction;
-import com.lilithsthrone.game.character.body.valueEnums.CupSize;
-import com.lilithsthrone.game.character.body.valueEnums.EyeShape;
-import com.lilithsthrone.game.character.body.valueEnums.Femininity;
-import com.lilithsthrone.game.character.body.valueEnums.HairLength;
-import com.lilithsthrone.game.character.body.valueEnums.HairStyle;
-import com.lilithsthrone.game.character.body.valueEnums.HipSize;
-import com.lilithsthrone.game.character.body.valueEnums.HornLength;
-import com.lilithsthrone.game.character.body.valueEnums.LabiaSize;
-import com.lilithsthrone.game.character.body.valueEnums.LipSize;
-import com.lilithsthrone.game.character.body.valueEnums.Muscle;
-import com.lilithsthrone.game.character.body.valueEnums.NippleSize;
-import com.lilithsthrone.game.character.body.valueEnums.OrificeElasticity;
-import com.lilithsthrone.game.character.body.valueEnums.OrificeModifier;
-import com.lilithsthrone.game.character.body.valueEnums.OrificePlasticity;
-import com.lilithsthrone.game.character.body.valueEnums.PenisGirth;
-import com.lilithsthrone.game.character.body.valueEnums.PenetrationModifier;
-import com.lilithsthrone.game.character.body.valueEnums.PenisSize;
-import com.lilithsthrone.game.character.body.valueEnums.PiercingType;
-import com.lilithsthrone.game.character.body.valueEnums.TesticleSize;
-import com.lilithsthrone.game.character.body.valueEnums.TongueLength;
-import com.lilithsthrone.game.character.body.valueEnums.TongueModifier;
-import com.lilithsthrone.game.character.body.valueEnums.Wetness;
-import com.lilithsthrone.game.character.body.valueEnums.WingSize;
-import com.lilithsthrone.game.character.markings.AbstractTattooType;
-import com.lilithsthrone.game.character.markings.Tattoo;
-import com.lilithsthrone.game.character.markings.TattooCountType;
-import com.lilithsthrone.game.character.markings.TattooCounter;
-import com.lilithsthrone.game.character.markings.TattooCounterType;
-import com.lilithsthrone.game.character.markings.TattooType;
-import com.lilithsthrone.game.character.markings.TattooWriting;
-import com.lilithsthrone.game.character.markings.TattooWritingStyle;
+import com.lilithsthrone.game.character.body.types.*;
+import com.lilithsthrone.game.character.body.valueEnums.*;
+import com.lilithsthrone.game.character.markings.*;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
 import com.lilithsthrone.game.character.persona.PersonalityWeight;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
@@ -82,10 +19,14 @@ import com.lilithsthrone.game.sex.SexAreaPenetration;
 import com.lilithsthrone.game.sex.SexParticipantType;
 import com.lilithsthrone.game.sex.SexType;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.rendering.RenderingEngine;
-import com.lilithsthrone.rendering.SVGImages;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
+
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.*;
 
 /**
  * @since 0.1.7?
@@ -269,7 +210,8 @@ public class CharacterModificationUtils {
 		int i=0;
 		for(PersonalityTrait trait : PersonalityTrait.values()) {
 			contentSB.append("<div class='container-full-width' style='"+(i==4?"width:50%; margin:0 25%;":"width:calc(50% - 16px);")+" text-align:center; padding:0;'>"
-					+ "<div class='title-button no-select' id='PERSONALITY_INFO_"+trait+"' style='position:absolute; left:auto; right:5%; top:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
+					+ "<div class='title-button no-select' id='PERSONALITY_INFO_"+trait+"' style='position:absolute; left:auto; right:5%; top:0;'>"
+					+ IconCache.INSTANCE.getIcon("personality", "UIElements/information.svg", Colour.BASE_BLACK)+"</div>"
 					+ "<p style='text-align:center; margin-bottom:0; padding-bottom:0;'>"
 						+ "<b style='color:"+trait.getColour().toWebHexString()+";'>"+Util.capitaliseSentence(trait.getName())+"</b><br/>"
 						+ "<i>"+trait.getNameFromWeight(BodyChanging.getTarget(), BodyChanging.getTarget().getPersonality().get(trait))+"</i>"

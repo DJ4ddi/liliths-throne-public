@@ -1,14 +1,11 @@
 package com.lilithsthrone.game.character.race;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.lilithsthrone.game.character.CharacterUtils;
-import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.Body;
 import com.lilithsthrone.game.character.body.Covering;
 import com.lilithsthrone.game.character.body.types.BodyCoveringType;
@@ -25,6 +22,7 @@ import com.lilithsthrone.game.character.body.valueEnums.CoveringPattern;
 import com.lilithsthrone.game.character.body.valueEnums.CupSize;
 import com.lilithsthrone.game.character.body.valueEnums.Height;
 import com.lilithsthrone.game.character.body.valueEnums.Muscle;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.world.WorldType;
@@ -1648,11 +1646,10 @@ public enum Subspecies {
 	
 	private String name, namePlural, singularMaleName, singularFemaleName, pluralMaleName, pluralFemaleName;
 	private Race race;
-	private Colour colour;
+	private Colour iconColour;
 	private SubspeciesPreference subspeciesPreferenceDefault;
 	private String description;
-	protected String SVGString;
-	private String SVGStringDesaturated;
+	protected String iconPath;
 	private List<WorldType> worldLocations;
 	
 	private static Map<WorldType, List<Subspecies>> worldSpecies;
@@ -1674,7 +1671,7 @@ public enum Subspecies {
 	}
 
 	private Subspecies(
-			String iconPathName,
+			String pathName,
 			String name,
 			String namePlural,
 			String singularMaleName,
@@ -1697,54 +1694,13 @@ public enum Subspecies {
 		this.pluralFemaleName = pluralFemaleName;
 		
 		this.race = race;
-		this.colour = colour;
 		this.subspeciesPreferenceDefault = subspeciesPreferenceDefault;
 		this.description = description;
 		
 		this.worldLocations = worldLocations;
-		
-		if(iconPathName!=null) {
-			try {
-				InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/" + iconPathName + ".svg");
-				if(is==null) {
-					System.err.println("Error! Subspecies icon file does not exist (Trying to read from '"+iconPathName+"')! (Code 1)");
-				}
-				SVGString = Util.inputStreamToString(is);
-	
-				SVGString = SVGString.replaceAll("#ff2a2a", colour.getShades()[0]);
-				SVGString = SVGString.replaceAll("#ff5555", colour.getShades()[1]);
-				SVGString = SVGString.replaceAll("#ff8080", colour.getShades()[2]);
-				SVGString = SVGString.replaceAll("#ffaaaa", colour.getShades()[3]);
-				SVGString = SVGString.replaceAll("#ffd5d5", colour.getShades()[4]);
-	
-				is.close();
-	
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/" + iconPathName + ".svg");
-				if(is==null) {
-					System.err.println("Error! Subspecies icon file does not exist (Trying to read from '"+iconPathName+"')! (Code 2)");
-				}
-				SVGStringDesaturated = Util.inputStreamToString(is);
-	
-				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ff2a2a", Colour.BASE_GREY.getShades()[0]);
-				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ff5555", Colour.BASE_GREY.getShades()[1]);
-				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ff8080", Colour.BASE_GREY.getShades()[2]);
-				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ffaaaa", Colour.BASE_GREY.getShades()[3]);
-				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ffd5d5", Colour.BASE_GREY.getShades()[4]);
-	
-				is.close();
-	
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		} else {
-			SVGString = "";
-		}
+
+		iconColour = colour;
+		iconPath = pathName == null ? "" : pathName + ".svg";
 	}
 
 	public void applySpeciesChanges(Body body) {	
@@ -2220,7 +2176,7 @@ public enum Subspecies {
 	}
 	
 	public Colour getColour() {
-		return colour;
+		return iconColour;
 	}
 	
 	public SubspeciesPreference getSubspeciesPreferenceDefault() {
@@ -2230,13 +2186,13 @@ public enum Subspecies {
 	public String getDescription() {
 		return description;
 	}
-	
-	public String getSVGString(GameCharacter character) {
-		return SVGString;
+
+	public String getIcon(String context) {
+		return getIcon(context, false);
 	}
 	
-	public String getSVGStringDesaturated(GameCharacter character) {
-		return SVGStringDesaturated;
+	public String getIcon(String context, boolean disabled) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, disabled ? Colour.BASE_GREY : iconColour);
 	}
 
 	public List<WorldType> getWorldLocations() {

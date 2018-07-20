@@ -3,6 +3,7 @@ package com.lilithsthrone.game.character.fetishes;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 
@@ -26,11 +27,11 @@ public enum FetishLevel {
 	private String name;
 	private String numeral;
 	private String description;
-	private String SVGImageOverlay;
 	private float bonusArousalIncrease;
 	private int minimumExperience;
 	private int maximumExperience;
 	private Colour colour;
+	private String iconPath;
 	
 	private FetishLevel(String name, String numeral, String description, String pathName, float bonusArousalIncrease, int minimumExperience, int maximumExperience, Colour colour) {
 		this.name = name;
@@ -40,25 +41,8 @@ public enum FetishLevel {
 		this.minimumExperience = minimumExperience;
 		this.maximumExperience = maximumExperience;
 		this.colour = colour;
-		
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/fetishes/" + pathName + ".svg");
-			if(is==null) {
-				System.err.println("Error! FetishLevel icon file does not exist (Trying to read from '"+pathName+"')!");
-			}
-			SVGImageOverlay = Util.inputStreamToString(is);
 
-			SVGImageOverlay = SVGImageOverlay.replaceAll("#ff2a2a", Colour.BASE_PINK.getShades()[0]);
-			SVGImageOverlay = SVGImageOverlay.replaceAll("#ff5555", Colour.BASE_PINK.getShades()[1]);
-			SVGImageOverlay = SVGImageOverlay.replaceAll("#ff8080", Colour.BASE_PINK.getShades()[2]);
-			SVGImageOverlay = SVGImageOverlay.replaceAll("#ffaaaa", Colour.BASE_PINK.getShades()[3]);
-			SVGImageOverlay = SVGImageOverlay.replaceAll("#ffd5d5", Colour.BASE_PINK.getShades()[4]);
-
-			is.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		iconPath = "fetishes/" + pathName + ".svg";
 	}
 
 	public String getName() {
@@ -73,8 +57,8 @@ public enum FetishLevel {
 		return description;
 	}
 
-	public String getSVGImageOverlay() {
-		return SVGImageOverlay;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, Colour.BASE_PINK);
 	}
 
 	public float getBonusArousalIncrease() {

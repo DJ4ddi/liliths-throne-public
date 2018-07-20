@@ -1,6 +1,7 @@
 package com.lilithsthrone.game.character.race;
 
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
+import com.lilithsthrone.utils.Colour;
 
 /**
  * @since 0.1.78
@@ -20,8 +21,9 @@ public enum FurryPreference {
 			return "Masculine "+r.getNamePlural()+" will be completely disabled in random encounters. If all masculine preferences are set to 'Disabled', random encounters will default to masculine humans.";
 		}
 		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleZeroDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleZero();
+		public String getIcon(String context, boolean disabled) {
+			return IconCache.INSTANCE.getIcon(context, "UIElements/scale_zero.svg",
+					disabled ? Colour.BASE_GREY : Colour.BASE_MAGENTA);
 		}
 	},
 	
@@ -38,8 +40,9 @@ public enum FurryPreference {
 		}
 
 		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleOneDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleOne();
+		public String getIcon(String context, boolean disabled) {
+			return IconCache.INSTANCE.getIcon(context, "UIElements/scale_one.svg",
+					disabled ? Colour.BASE_GREY : Colour.BASE_GREEN);
 		}
 	},
 	
@@ -58,8 +61,9 @@ public enum FurryPreference {
 		}
 
 		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleTwoDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleTwo();
+		public String getIcon(String context, boolean disabled) {
+			return IconCache.INSTANCE.getIcon(context, "UIElements/scale_two.svg",
+					disabled ? Colour.BASE_GREY : Colour.BASE_GREEN);
 		}
 	},
 	
@@ -78,8 +82,9 @@ public enum FurryPreference {
 		}
 
 		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleThreeDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleThree();
+		public String getIcon(String context, boolean disabled) {
+			return IconCache.INSTANCE.getIcon(context, "UIElements/scale_three.svg",
+					disabled ? Colour.BASE_GREY : Colour.BASE_GREEN);
 		}
 	},
 	
@@ -96,8 +101,9 @@ public enum FurryPreference {
 		}
 
 		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleFourDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleFour();
+		public String getIcon(String context, boolean disabled) {
+			return IconCache.INSTANCE.getIcon(context, "UIElements/scale_four.svg",
+					disabled ? Colour.BASE_GREY : Colour.BASE_GREEN);
 		}
 	};
 	
@@ -106,7 +112,7 @@ public enum FurryPreference {
 		this.name=name;
 	}
 
-	public abstract String getSVGImage(boolean disabled);
+	public abstract String getIcon(String context, boolean disabled);
 	
 	public String getName() {
 		return name;

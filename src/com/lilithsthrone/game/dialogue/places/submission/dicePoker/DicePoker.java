@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.dialogue.places.submission.dicePoker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.submission.GamblingDenPatron;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
@@ -14,10 +11,13 @@ import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.sex.SexPositionSlot;
 import com.lilithsthrone.game.sex.managers.universal.SMStanding;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.2.6
@@ -103,10 +103,10 @@ public class DicePoker {
 				UtilText.nodeContentSB.append("<div class='modifier-icon' style='width:18%; margin:0 1%; border:3px solid "+(diceToReroll.contains(playerDice.get(i))?Colour.GENERIC_MINOR_GOOD.toWebHexString():"")+";'>"
 													+(Hand.getDiceInHand(playerDice).contains(playerDice.get(i))
 															?"<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;padding:0;margin:0'>"
-																	+SVGImages.SVG_IMAGE_PROVIDER.getDiceGlow()
+																	+ IconCache.INSTANCE.getIcon("gambling", "UIElements/glow.svg", Colour.BASE_GOLD)
 																+ "</div>"
 															:"")
-													+"<div class='modifier-icon-content'>"+playerDice.get(i).getFace().getSVGString()+"</div>"
+													+"<div class='modifier-icon-content'>"+playerDice.get(i).getFace().getIcon("gambling")+"</div>"
 													+ "<div class='overlay' id='DICE_PLAYER_"+i+"'></div>"
 											+ "</div>");
 			}
@@ -126,10 +126,10 @@ public class DicePoker {
 				UtilText.nodeContentSB.append("<div class='modifier-icon' style='width:18%; margin:0 1%; border:3px solid "+(diceToReroll.contains(gamblerDice.get(i))?Colour.GENERIC_MINOR_GOOD.toWebHexString():"")+";'>"
 													+(Hand.getDiceInHand(gamblerDice).contains(gamblerDice.get(i))
 															?"<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;padding:0;margin:0'>"
-																	+SVGImages.SVG_IMAGE_PROVIDER.getDiceGlow()
+																	+ IconCache.INSTANCE.getIcon("gambling", "UIElements/glow.svg", Colour.BASE_GOLD)
 																+ "</div>"
 															:"")
-													+"<div class='modifier-icon-content'>"+gamblerDice.get(i).getFace().getSVGString()+"</div>"
+													+"<div class='modifier-icon-content'>"+gamblerDice.get(i).getFace().getIcon("gambling")+"</div>"
 											+ "</div>");
 			}
 			Hand gamblerHand = Hand.getHand(gamblerDice);

@@ -1,13 +1,12 @@
 package com.lilithsthrone.game.character.fetishes;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.character.attributes.Attribute;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.1.99
@@ -30,9 +29,9 @@ public enum FetishDesire {
 	private String name;
 	private String nameAsPlayerVerb;
 	private String nameAsVerb;
-	private String SVGImage, SVGImageDesaturated;
+	private String iconPath;
+	private Colour iconColour;
 	private float lustIncrement;
-	private Colour colour;
 	private List<String> modifiersList;
 	
 	private FetishDesire(int value, String name, String nameAsPlayerVerb, String nameAsVerb, String pathName, float lustIncrement, Colour colour) {
@@ -41,38 +40,12 @@ public enum FetishDesire {
 		this.nameAsPlayerVerb = nameAsPlayerVerb;
 		this.nameAsVerb = nameAsVerb;
 		this.lustIncrement = lustIncrement;
-		this.colour = colour;
 		
 		modifiersList = new ArrayList<>();
 		modifiersList.add((lustIncrement >= 0 ? "[style.boldSex(+" + lustIncrement : "[style.boldBad(" + lustIncrement) + ")] [style.boldLust("+ Util.capitaliseSentence(Attribute.LUST.getAbbreviatedName())+ ")] from related sex actions");
 
-		
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/fetishes/" + pathName + ".svg");
-			if(is==null) {
-				System.err.println("Error! FetishDesire icon file does not exist (Trying to read from '"+pathName+"')!");
-			}
-			String base = Util.inputStreamToString(is);
-
-			SVGImage = base;
-			SVGImage = SVGImage.replaceAll("#ff2a2a", colour.getShades()[0]);
-			SVGImage = SVGImage.replaceAll("#ff5555", colour.getShades()[1]);
-			SVGImage = SVGImage.replaceAll("#ff8080", colour.getShades()[2]);
-			SVGImage = SVGImage.replaceAll("#ffaaaa", colour.getShades()[3]);
-			SVGImage = SVGImage.replaceAll("#ffd5d5", colour.getShades()[4]);
-			
-			SVGImageDesaturated = base;
-			SVGImageDesaturated = SVGImageDesaturated.replaceAll("#ff2a2a", Colour.BASE_GREY.getShades()[0]);
-			SVGImageDesaturated = SVGImageDesaturated.replaceAll("#ff5555", Colour.BASE_GREY.getShades()[1]);
-			SVGImageDesaturated = SVGImageDesaturated.replaceAll("#ff8080", Colour.BASE_GREY.getShades()[2]);
-			SVGImageDesaturated = SVGImageDesaturated.replaceAll("#ffaaaa", Colour.BASE_GREY.getShades()[3]);
-			SVGImageDesaturated = SVGImageDesaturated.replaceAll("#ffd5d5", Colour.BASE_GREY.getShades()[4]);
-
-			is.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		iconPath = "fetishes/" + pathName + ".svg";
+		iconColour = colour;
 	}
 	
 	public static int getCostToChange() {
@@ -145,16 +118,16 @@ public enum FetishDesire {
 		return lustIncrement;
 	}
 
-	public String getSVGImage() {
-		return SVGImage;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, iconColour);
 	}
 	
-	public String getSVGImageDesaturated() {
-		return SVGImageDesaturated;
+	public String getIconDesaturated(String context) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, Colour.BASE_GREY);
 	}
 
 	public Colour getColour() {
-		return colour;
+		return iconColour;
 	}
 	
 	public List<String> getModifiersAsStringList() {

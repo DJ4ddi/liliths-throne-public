@@ -1,9 +1,5 @@
 package com.lilithsthrone.world.places;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.lilithsthrone.game.character.body.FluidCum;
 import com.lilithsthrone.game.character.body.FluidGirlCum;
 import com.lilithsthrone.game.character.body.FluidMilk;
@@ -15,10 +11,14 @@ import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.slavery.MilkingRoom;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.world.Cell;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * @since 0.1.85
@@ -240,10 +240,10 @@ public enum PlaceUpgrade {
 							
 							milkyMilknessSB.append("<div style='float:left; width:15%; margin:0 auto; padding:0; display:inline-block; text-align:center; background:transparent;'>"
 									+ "<div id='MILK_DRINK_SMALL_"+entry.hashCode()+"' "+(entry.getValue()>0?"class='square-button big'":"class='square-button big disabled'")+">"
-											+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrinkSmall()+"</div></div>"
+											+ "<div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/drink_small.svg", Colour.BASE_WHITE)+"</div></div>"
 									+ "<div id='MILK_DRINK_"+entry.hashCode()+"' "+(entry.getValue()>=500?"class='square-button big'":"class='square-button big disabled'")+">"
-											+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrink()+"</div></div>"
-									+ "<div id='MILK_SELL_"+entry.hashCode()+"' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionSell()+"</div></div>");
+											+ "<div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/drink.svg", Colour.BASE_WHITE)+"</div></div>"
+									+ "<div id='MILK_SELL_"+entry.hashCode()+"' class='square-button big'><div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/transactionSell.svg")+"</div></div>");
 							milkyMilknessSB.append("</div>");
 	
 						milkyMilknessSB.append("</div>");
@@ -295,10 +295,10 @@ public enum PlaceUpgrade {
 	
 							milkyMilknessSB.append("<div style='float:left; width:15%; margin:0 auto; padding:0; display:inline-block; text-align:center; background:transparent;'>"
 									+ "<div id='CUM_DRINK_SMALL_"+entry.hashCode()+"' "+(entry.getValue()>0?"class='square-button big'":"class='square-button big disabled'")+">"
-											+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrinkSmall()+"</div></div>"
+									+ "<div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/drink_small.svg", Colour.BASE_WHITE)+"</div></div>"
 									+ "<div id='CUM_DRINK_"+entry.hashCode()+"' "+(entry.getValue()>=500?"class='square-button big'":"class='square-button big disabled'")+">"
-											+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrink()+"</div></div>"
-									+ "<div id='CUM_SELL_"+entry.hashCode()+"' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionSell()+"</div></div>");
+									+ "<div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/drink.svg", Colour.BASE_WHITE)+"</div></div>"
+									+ "<div id='CUM_SELL_"+entry.hashCode()+"' class='square-button big'><div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/transactionSell.svg")+"</div></div>");
 							milkyMilknessSB.append("</div>");
 	
 						milkyMilknessSB.append("</div>");
@@ -349,10 +349,10 @@ public enum PlaceUpgrade {
 	
 							milkyMilknessSB.append("<div style='float:left; width:15%; margin:0 auto; padding:0; display:inline-block; text-align:center; background:transparent;'>"
 									+ "<div id='GIRLCUM_DRINK_SMALL_"+entry.hashCode()+"' "+(entry.getValue()>0?"class='square-button big'":"class='square-button big disabled'")+">"
-											+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrinkSmall()+"</div></div>"
+									+ "<div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/drink_small.svg", Colour.BASE_WHITE)+"</div></div>"
 									+ "<div id='GIRLCUM_DRINK_"+entry.hashCode()+"' "+(entry.getValue()>=500?"class='square-button big'":"class='square-button big disabled'")+">"
-											+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrink()+"</div></div>"
-									+ "<div id='GIRLCUM_SELL_"+entry.hashCode()+"' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionSell()+"</div></div>");
+									+ "<div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/drink.svg", Colour.BASE_WHITE)+"</div></div>"
+									+ "<div id='GIRLCUM_SELL_"+entry.hashCode()+"' class='square-button big'><div class='square-button-content'>"+IconCache.INSTANCE.getIcon("milkingroom", "UIElements/transactionSell.svg")+"</div></div>");
 							milkyMilknessSB.append("</div>");
 	
 						milkyMilknessSB.append("</div>");

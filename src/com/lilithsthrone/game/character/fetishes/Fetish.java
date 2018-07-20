@@ -13,6 +13,7 @@ import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.body.types.VaginaType;
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
@@ -1472,7 +1473,8 @@ public enum Fetish {
 	private int experienceGainFromSexAction;
 	private HashMap<Attribute, Integer> attributeModifiers;
 
-	private String SVGString;
+	private String path;
+	private Colour colour;
 
 	private List<String> extraEffects;
 
@@ -1509,25 +1511,9 @@ public enum Fetish {
 		} else {
 			this.fetishesForAutomaticUnlock = fetishesForAutomaticUnlock;
 		}
-		
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/fetishes/" + pathName + ".svg");
-			if(is==null) {
-				System.err.println("Error! Fetish icon file does not exist (Trying to read from '"+pathName+"')!");
-			}
-			SVGString = Util.inputStreamToString(is);
 
-			SVGString = SVGString.replaceAll("#ff2a2a", colourShade.getShades()[0]);
-			SVGString = SVGString.replaceAll("#ff5555", colourShade.getShades()[1]);
-			SVGString = SVGString.replaceAll("#ff8080", colourShade.getShades()[2]);
-			SVGString = SVGString.replaceAll("#ffaaaa", colourShade.getShades()[3]);
-			SVGString = SVGString.replaceAll("#ffd5d5", colourShade.getShades()[4]);
-
-			is.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.colour = colourShade;
+		path = "fetishes/" + pathName + ".svg";
 
 		modifiersList = new ArrayList<>();
 
@@ -1637,8 +1623,8 @@ public enum Fetish {
 		return extraEffects;
 	}
 
-	public String getSVGString() {
-		return SVGString;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, path, colour);
 	}
 	
 	public static int getExperienceGainFromTakingVaginalVirginity(GameCharacter owner) {

@@ -1,23 +1,9 @@
 package com.lilithsthrone.game.character.effects;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.Weather;
 import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.attributes.AlcoholLevel;
-import com.lilithsthrone.game.character.attributes.ArousalLevel;
-import com.lilithsthrone.game.character.attributes.Attribute;
-import com.lilithsthrone.game.character.attributes.CorruptionLevel;
-import com.lilithsthrone.game.character.attributes.IntelligenceLevel;
-import com.lilithsthrone.game.character.attributes.LustLevel;
-import com.lilithsthrone.game.character.attributes.PhysiqueLevel;
+import com.lilithsthrone.game.character.attributes.*;
 import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.body.types.FluidType;
 import com.lilithsthrone.game.character.body.types.PenisType;
@@ -47,21 +33,22 @@ import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.clothing.ClothingSet;
 import com.lilithsthrone.game.inventory.item.ItemType;
-import com.lilithsthrone.game.sex.LubricationType;
-import com.lilithsthrone.game.sex.SexAreaOrifice;
-import com.lilithsthrone.game.sex.SexAreaPenetration;
-import com.lilithsthrone.game.sex.SexType;
-import com.lilithsthrone.game.sex.Sex;
-import com.lilithsthrone.game.sex.SexAreaInterface;
+import com.lilithsthrone.game.sex.*;
 import com.lilithsthrone.game.slavery.SlaveJob;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.rendering.RenderingEngine;
-import com.lilithsthrone.rendering.SVGImages;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * @since 0.1.0
@@ -1255,11 +1242,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime())
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDayClear();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDayClear.svg");
 			else
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightClear();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightClear.svg");
 		}
 		
 		@Override
@@ -1297,11 +1284,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime())
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDayCloud();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDayCloudy.svg");
 			else
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightCloud();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightCloudy.svg");
 		}
 		
 		@Override
@@ -1339,11 +1326,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime())
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDayRain();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDayRain.svg");
 			else
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightRain();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightRain.svg");
 		}
 		
 		@Override
@@ -1428,11 +1415,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime())
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDaySnow();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDaySnow.svg");
 			else
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightSnow();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightSnow.svg");
 		}
 		
 		@Override
@@ -1470,11 +1457,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime())
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDayStormIncoming();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDayStormIncoming.svg");
 			else
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightStormIncoming();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightStormIncoming.svg");
 		}
 		
 		@Override
@@ -1540,11 +1527,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime()) {
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDayStorm();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDayStorm.svg");
 			} else {
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightStorm();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightStorm.svg");
 			}
 		}
 	},
@@ -1575,11 +1562,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime())
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDayStorm();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDayStorm.svg");
 			else
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightStorm();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightStorm.svg");
 		}
 	},
 	
@@ -1631,11 +1618,11 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			if(Main.game.isDayTime())
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherDayStormProtected();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherDayStormProtected.svg", Colour.CLOTHING_BLUE_LIGHT);
 			else
-				return SVGImages.SVG_IMAGE_PROVIDER.getWeatherNightStormProtected();
+				return IconCache.INSTANCE.getIcon(context, "statusEffects/weatherNightStormProtected.svg", Colour.CLOTHING_BLUE_LIGHT);
 		}
 	},
 	
@@ -1689,8 +1676,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -1716,8 +1703,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -1753,8 +1740,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -1786,8 +1773,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -1817,8 +1804,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -1847,8 +1834,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -1880,8 +1867,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -2181,8 +2168,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -2211,8 +2198,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -2243,8 +2230,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -2275,8 +2262,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -2306,8 +2293,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -2337,8 +2324,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 	
@@ -2369,8 +2356,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -2400,8 +2387,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -2432,8 +2419,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -2462,8 +2449,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -2489,8 +2476,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return owner.getSubspecies().getSVGString(owner);
+		public String getIcon(String context, GameCharacter owner) {
+			return owner.getSubspecies().getIcon(context);
 		}
 	},
 
@@ -2516,8 +2503,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.ELEMENTAL_EARTH.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.ELEMENTAL_EARTH.getIcon(context);
 		}
 	},
 	
@@ -2542,8 +2529,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.ELEMENTAL_WATER.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.ELEMENTAL_WATER.getIcon(context);
 		}
 	},
 	
@@ -2568,8 +2555,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.ELEMENTAL_AIR.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.ELEMENTAL_AIR.getIcon(context);
 		}
 	},
 	
@@ -2594,8 +2581,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.ELEMENTAL_FIRE.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.ELEMENTAL_FIRE.getIcon(context);
 		}
 	},
 	
@@ -2620,8 +2607,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.ELEMENTAL_ARCANE.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.ELEMENTAL_ARCANE.getIcon(context);
 		}
 	},
 	
@@ -4900,8 +4887,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getCreampieSVGString(owner, SexAreaOrifice.VAGINA);
+		public String getIcon(String context, GameCharacter owner) {
+			return getCreampieIcon(context, owner, SexAreaOrifice.VAGINA);
 		}
 	},
 	
@@ -4993,8 +4980,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getCreampieSVGString(owner, SexAreaOrifice.URETHRA_VAGINA);
+		public String getIcon(String context, GameCharacter owner) {
+			return getCreampieIcon(context, owner, SexAreaOrifice.URETHRA_VAGINA);
 		}
 	},
 	
@@ -5086,8 +5073,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getCreampieSVGString(owner, SexAreaOrifice.URETHRA_PENIS);
+		public String getIcon(String context, GameCharacter owner) {
+			return getCreampieIcon(context, owner, SexAreaOrifice.URETHRA_PENIS);
 		}
 	},
 	
@@ -5193,8 +5180,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getCreampieSVGString(owner, SexAreaOrifice.ANUS);
+		public String getIcon(String context, GameCharacter owner) {
+			return getCreampieIcon(context, owner, SexAreaOrifice.ANUS);
 		}
 	},
 	
@@ -5300,8 +5287,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getCreampieSVGString(owner, SexAreaOrifice.NIPPLE);
+		public String getIcon(String context, GameCharacter owner) {
+			return getCreampieIcon(context, owner, SexAreaOrifice.NIPPLE);
 		}
 	},
 	
@@ -5382,8 +5369,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getCreampieSVGString(owner, SexAreaOrifice.MOUTH);
+		public String getIcon(String context, GameCharacter owner) {
+			return getCreampieIcon(context, owner, SexAreaOrifice.MOUTH);
 		}
 	},
 	
@@ -7361,8 +7348,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.FIREBALL_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.FIREBALL_1.getIcon(context);
 		}
 
 		@Override
@@ -7400,8 +7387,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.FLASH.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.FLASH.getIcon(context);
 		}
 
 		@Override
@@ -7436,8 +7423,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.CLOAK_OF_FLAMES.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.CLOAK_OF_FLAMES.getIcon(context);
 		}
 		
 		@Override
@@ -7467,8 +7454,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.CLOAK_OF_FLAMES_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.CLOAK_OF_FLAMES_1.getIcon(context);
 		}
 		
 		@Override
@@ -7501,8 +7488,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.CLOAK_OF_FLAMES_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.CLOAK_OF_FLAMES_2.getIcon(context);
 		}
 		
 		@Override
@@ -7537,8 +7524,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.CLOAK_OF_FLAMES_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.CLOAK_OF_FLAMES_3.getIcon(context);
 		}
 		
 		@Override
@@ -7567,8 +7554,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_FIRE_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_FIRE_1.getIcon(context);
 		}
 		
 		@Override
@@ -7622,8 +7609,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_FIRE_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_FIRE_2.getIcon(context);
 		}
 		
 		@Override
@@ -7668,8 +7655,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_FIRE_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_FIRE_3A.getIcon(context);
 		}
 		
 		@Override
@@ -7700,8 +7687,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_FIRE_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_FIRE_3A.getIcon(context);
 		}
 		
 		@Override
@@ -7734,8 +7721,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_FIRE_3B.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_FIRE_3B.getIcon(context);
 		}
 		
 		@Override
@@ -7768,8 +7755,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ICE_SHARD_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ICE_SHARD_1.getIcon(context);
 		}
 		
 		@Override
@@ -7807,8 +7794,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ICE_SHARD_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ICE_SHARD_3.getIcon(context);
 		}
 
 		@Override
@@ -7843,8 +7830,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.RAIN_CLOUD.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.RAIN_CLOUD.getIcon(context);
 		}
 		
 		@Override
@@ -7875,8 +7862,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.RAIN_CLOUD_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.RAIN_CLOUD_1.getIcon(context);
 		}
 		
 		@Override
@@ -7910,8 +7897,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.RAIN_CLOUD_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.RAIN_CLOUD_2.getIcon(context);
 		}
 		
 		@Override
@@ -7945,8 +7932,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.RAIN_CLOUD_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.RAIN_CLOUD_2.getIcon(context);
 		}
 		
 		@Override
@@ -7980,8 +7967,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.RAIN_CLOUD_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.RAIN_CLOUD_3.getIcon(context);
 		}
 		
 		@Override
@@ -8010,8 +7997,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_WATER_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_WATER_1.getIcon(context);
 		}
 		
 		@Override
@@ -8066,8 +8053,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_WATER_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_WATER_2.getIcon(context);
 		}
 		
 		@Override
@@ -8126,8 +8113,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_WATER_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_WATER_3A.getIcon(context);
 		}
 		
 		@Override
@@ -8158,8 +8145,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_WATER_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_WATER_3A.getIcon(context);
 		}
 		
 		@Override
@@ -8192,8 +8179,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_WATER_3B.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_WATER_3B.getIcon(context);
 		}
 		
 		@Override
@@ -8243,8 +8230,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.POISON_VAPOURS.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.POISON_VAPOURS.getIcon(context);
 		}
 		
 		@Override
@@ -8290,8 +8277,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.POISON_VAPOURS_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.POISON_VAPOURS_1.getIcon(context);
 		}
 		
 		@Override
@@ -8342,8 +8329,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.POISON_VAPOURS_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.POISON_VAPOURS_2.getIcon(context);
 		}
 		
 		@Override
@@ -8396,8 +8383,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.POISON_VAPOURS_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.POISON_VAPOURS_3.getIcon(context);
 		}
 		
 		@Override
@@ -8427,8 +8414,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.VACUUM.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.VACUUM.getIcon(context);
 		}
 		
 		@Override
@@ -8461,8 +8448,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.VACUUM_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.VACUUM_1.getIcon(context);
 		}
 		
 		@Override
@@ -8519,8 +8506,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.VACUUM_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.VACUUM_2.getIcon(context);
 		}
 		
 		@Override
@@ -8577,8 +8564,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.VACUUM_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.VACUUM_3.getIcon(context);
 		}
 		
 		@Override
@@ -8609,8 +8596,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.PROTECTIVE_GUSTS.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.PROTECTIVE_GUSTS.getIcon(context);
 		}
 		
 		@Override
@@ -8644,8 +8631,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.PROTECTIVE_GUSTS_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.PROTECTIVE_GUSTS_1.getIcon(context);
 		}
 		
 		@Override
@@ -8680,8 +8667,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.PROTECTIVE_GUSTS_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.PROTECTIVE_GUSTS_2.getIcon(context);
 		}
 		
 		@Override
@@ -8712,8 +8699,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_AIR_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_AIR_1.getIcon(context);
 		}
 		
 		@Override
@@ -8759,8 +8746,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_AIR_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_AIR_2.getIcon(context);
 		}
 		
 		@Override
@@ -8815,8 +8802,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_AIR_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_AIR_3A.getIcon(context);
 		}
 		
 		@Override
@@ -8847,8 +8834,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_AIR_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_AIR_3A.getIcon(context);
 		}
 		
 		@Override
@@ -8881,8 +8868,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_AIR_3B.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_AIR_3B.getIcon(context);
 		}
 		
 		@Override
@@ -8915,8 +8902,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.SLAM_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.SLAM_1.getIcon(context);
 		}
 		
 		@Override
@@ -8962,8 +8949,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.SLAM_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.SLAM_2.getIcon(context);
 		}
 		
 		@Override
@@ -9008,8 +8995,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.TELEKENETIC_SHOWER.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.TELEKENETIC_SHOWER.getIcon(context);
 		}
 		
 		@Override
@@ -9055,8 +9042,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.TELEKENETIC_SHOWER_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.TELEKENETIC_SHOWER_2.getIcon(context);
 		}
 		
 		@Override
@@ -9102,8 +9089,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.TELEKENETIC_SHOWER_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.TELEKENETIC_SHOWER_3.getIcon(context);
 		}
 		
 		@Override
@@ -9133,8 +9120,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.STONE_SHELL.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.STONE_SHELL.getIcon(context);
 		}
 		
 		@Override
@@ -9167,8 +9154,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.STONE_SHELL_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.STONE_SHELL_1.getIcon(context);
 		}
 		
 		@Override
@@ -9201,8 +9188,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.STONE_SHELL_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.STONE_SHELL_2.getIcon(context);
 		}
 		
 		@Override
@@ -9271,8 +9258,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.STONE_SHELL_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.STONE_SHELL_3.getIcon(context);
 		}
 		
 		@Override
@@ -9302,8 +9289,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_EARTH_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_EARTH_1.getIcon(context);
 		}
 		
 		@Override
@@ -9358,8 +9345,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_EARTH_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_EARTH_2.getIcon(context);
 		}
 		
 		@Override
@@ -9414,8 +9401,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_EARTH_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_EARTH_3A.getIcon(context);
 		}
 		
 		@Override
@@ -9446,8 +9433,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_EARTH_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_EARTH_3A.getIcon(context);
 		}
 		
 		@Override
@@ -9480,8 +9467,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_EARTH_3B.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_EARTH_3B.getIcon(context);
 		}
 		
 		@Override
@@ -9515,8 +9502,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ARCANE_AROUSAL_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ARCANE_AROUSAL_2.getIcon(context);
 		}
 		
 		@Override
@@ -9549,8 +9536,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ARCANE_AROUSAL_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ARCANE_AROUSAL_3.getIcon(context);
 		}
 		
 		@Override
@@ -9580,8 +9567,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.TELEPATHIC_COMMUNICATION.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.TELEPATHIC_COMMUNICATION.getIcon(context);
 		}
 		
 		@Override
@@ -9613,8 +9600,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.TELEPATHIC_COMMUNICATION_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.TELEPATHIC_COMMUNICATION_2.getIcon(context);
 		}
 		
 		@Override
@@ -9647,8 +9634,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.TELEPATHIC_COMMUNICATION_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.TELEPATHIC_COMMUNICATION_3.getIcon(context);
 		}
 		
 		@Override
@@ -9705,8 +9692,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.ARCANE_CLOUD.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.ARCANE_CLOUD.getIcon(context);
 		}
 		
 		@Override
@@ -9752,8 +9739,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ARCANE_CLOUD_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ARCANE_CLOUD_1.getIcon(context);
 		}
 		
 		@Override
@@ -9799,8 +9786,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ARCANE_CLOUD_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ARCANE_CLOUD_2.getIcon(context);
 		}
 		
 		@Override
@@ -9864,8 +9851,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ARCANE_CLOUD_3.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ARCANE_CLOUD_3.getIcon(context);
 		}
 		
 		@Override
@@ -9900,8 +9887,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_ARCANE_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_ARCANE_1.getIcon(context);
 		}
 		
 		@Override
@@ -9956,8 +9943,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_ARCANE_2.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_ARCANE_2.getIcon(context);
 		}
 		
 		@Override
@@ -10002,8 +9989,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_ARCANE_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_ARCANE_3A.getIcon(context);
 		}
 		
 		@Override
@@ -10034,8 +10021,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_ARCANE_3A.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_ARCANE_3A.getIcon(context);
 		}
 		
 		@Override
@@ -10068,8 +10055,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.ELEMENTAL_ARCANE_3B.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.ELEMENTAL_ARCANE_3B.getIcon(context);
 		}
 		
 		@Override
@@ -10165,8 +10152,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return Spell.TELEPORT.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return Spell.TELEPORT.getIcon(context);
 		}
 		
 		@Override
@@ -10223,8 +10210,8 @@ public enum StatusEffect {
 		}
 
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return SpellUpgrade.TELEPORT_1.getSVGString();
+		public String getIcon(String context, GameCharacter owner) {
+			return SpellUpgrade.TELEPORT_1.getIcon(context);
 		}
 		
 		@Override
@@ -10386,31 +10373,19 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
+		public String getIcon(String context, GameCharacter owner) {
 			SVGImageSB = new StringBuilder();
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>" + IconCache.INSTANCE.getIcon(context, iconPath, iconColours) + "</div>");
 
-			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGString+"</div>");
-			
-			int orgasms = Sex.getNumberOfOrgasms(owner);
-			
 			SVGImageSB.append("<div style='width:40%;height:40%;position:absolute; top:0; right:4px;'>");
-				if(orgasms == 0) {
-					SVGImageSB.append(SVGImages.SVG_IMAGE_PROVIDER.getCounterZero());
-				} else if(orgasms == 1) {
-					SVGImageSB.append(SVGImages.SVG_IMAGE_PROVIDER.getCounterOne());
-				} else if(orgasms == 2) {
-					SVGImageSB.append(SVGImages.SVG_IMAGE_PROVIDER.getCounterTwo());
-				} else if(orgasms == 3) {
-					SVGImageSB.append(SVGImages.SVG_IMAGE_PROVIDER.getCounterThree());
-				} else if(orgasms == 4) {
-					SVGImageSB.append(SVGImages.SVG_IMAGE_PROVIDER.getCounterFour());
-				} else if(orgasms == 5) {
-					SVGImageSB.append(SVGImages.SVG_IMAGE_PROVIDER.getCounterFive());
-				} else {
-					SVGImageSB.append(SVGImages.SVG_IMAGE_PROVIDER.getCounterFivePlus());
-				}
+
+			int orgasms = Sex.getNumberOfOrgasms(owner);
+			if (orgasms > 5)
+				SVGImageSB.append(IconCache.INSTANCE.getIcon(context, "fetishes/overlay5Plus.svg", Colour.BASE_PINK));
+			else
+				SVGImageSB.append(IconCache.INSTANCE.getIcon(context, "fetishes/overlay" + orgasms + ".svg", Colour.BASE_PINK));
+
 			SVGImageSB.append("</div>");
-			
 			return SVGImageSB.toString();
 		}
 		
@@ -10535,8 +10510,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.ANUS, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaAnus());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.ANUS, IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaAnus.svg"));
 		}
 	},
 
@@ -10646,8 +10621,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.ASS, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaAss());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.ASS, IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaAss.svg"));
 		}
 	},
 	
@@ -10763,8 +10738,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.MOUTH, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaMouth());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.MOUTH, IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaMouth.svg"));
 		}
 	},
 	
@@ -10887,8 +10862,10 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.BREAST, owner.hasBreasts()?SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaBreasts():SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaBreastsFlat());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.BREAST, owner.hasBreasts()
+					? IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaBreasts.svg")
+					: IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaBreastsFlat.svg"));
 		}
 	},
 	
@@ -10998,8 +10975,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.NIPPLE, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaNipple());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.NIPPLE, IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaNipple.svg"));
 		}
 	},
 	
@@ -11108,8 +11085,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.URETHRA_PENIS, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaUrethraPenis());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.URETHRA_PENIS, IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaUrethraPenis.svg"));
 		}
 	},
 	
@@ -11218,8 +11195,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.URETHRA_VAGINA, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaUrethraVagina());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.URETHRA_VAGINA, IconCache.INSTANCE.getIcon(context, "sexEffects/coverableAreaUrethraVagina.svg"));
 		}
 	},
 	
@@ -11333,8 +11310,8 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.VAGINA, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaVagina());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.VAGINA, IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaVagina.svg"));
 		}
 	},
 	
@@ -11443,18 +11420,18 @@ public enum StatusEffect {
 		}
 		
 		@Override
-		public String getSVGString(GameCharacter owner) {
-			return getOrificeSVGString(owner, SexAreaOrifice.THIGHS, SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaThighs());
+		public String getIcon(String context, GameCharacter owner) {
+			return getOrificeIcon(context, owner, SexAreaOrifice.THIGHS, IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableAreaThighs.svg"));
 		}
 	};
 
 	private int renderingPriority;
 	private String name;
-	private Colour colourShade;
 	private boolean beneficial;
 	private Map<Attribute, Float> attributeModifiers;
 
-	protected String SVGString;
+	protected Colour[] iconColours;
+	protected String iconPath;
 
 	protected List<String> extraEffects;
 
@@ -11497,29 +11474,15 @@ public enum StatusEffect {
 		this.name = name;
 		this.beneficial = beneficial;
 		this.attributeModifiers = attributeModifiers;
-		this.colourShade = colourShade;
 
 		if(extraEffects == null) {
 			this.extraEffects = new ArrayList<>();
 		} else {
 			this.extraEffects = extraEffects;
 		}
-		
-		if(pathName!=null && !pathName.isEmpty()) {
-			try {
-				InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/statusEffects/" + pathName + ".svg");
-				if(is==null) {
-					System.err.println("Error! StatusEffect icon file does not exist (Trying to read from '"+pathName+"')!");
-				}
-				SVGString = Util.colourReplacement(this.toString(), colourShade, colourShadeSecondary, colourShadeTertiary, Util.inputStreamToString(is));
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		} else {
-			SVGString = "";
-		}
+
+		iconColours = new Colour[] { colourShade, colourShadeSecondary, colourShadeTertiary };
+		iconPath = "statusEffects/" + pathName + ".svg";
 
 		modifiersList = attributeModifiersToStringList(attributeModifiers);
 	}
@@ -11617,15 +11580,15 @@ public enum StatusEffect {
 	}
 
 	public Colour getColour() {
-		return colourShade;
+		return iconColours[0];
 	}
 
 	public List<String> getExtraEffects(GameCharacter target) {
 		return extraEffects;
 	}
 
-	public String getSVGString(GameCharacter owner) {
-		return SVGString;
+	public String getIcon(String context, GameCharacter owner) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, iconColours);
 	}
 	
 	// Helper methods for sex effects:
@@ -11773,7 +11736,7 @@ public enum StatusEffect {
 		stringBuilderToAppendTo.append("</p>");
 	}
 	
-	public String getOrificeSVGString(GameCharacter owner, SexAreaOrifice orifice, String baseSVG) {
+	public String getOrificeIcon(String context, GameCharacter owner, SexAreaOrifice orifice, String baseSVG) {
 		SVGImageSB = new StringBuilder();
 		
 		SVGImageSB.append(baseSVG);
@@ -11789,42 +11752,39 @@ public enum StatusEffect {
 					}
 				}
 			}
-			switch(firstPenetration){
-				case FINGER:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeFinger()+"</div>");
-					break;
-				case PENIS:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypePenis()+"</div>");
-					break;
-				case TAIL:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTail()+"</div>");
-					break;
-				case TONGUE:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTongue()+"</div>");
-					break;
-				default:
-					break;
-			}
+
+			String type = firstPenetration.name().charAt(0) + firstPenetration.name().toLowerCase().substring(1);
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+							+ IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/penetrationType" + type + ".svg")
+							+ "</div>");
 		}
-		
+
 		if(Sex.getAreasCurrentlyStretching(owner).contains(orifice)) {
-			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCombinationStretching()+"</div>");
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+					+ IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/combinationStretching.svg")
+					+ "</div>");
 		}
 		
 		if(Sex.getAreasTooLoose(owner).contains(orifice)) {
-			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCombinationTooLoose()+"</div>");
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+					+ IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/combinationTooLoose.svg")
+					+ "</div>");
 		}
 		
 		if(Sex.getWetAreas(owner).get(orifice).isEmpty()) {
-			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCombinationDry()+"</div>");
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+					+ IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/combinationDry.svg")
+					+ "</div>");
 		} else {
-			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCombinationWet()+"</div>");
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+					+ IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/combinationWet.svg")
+					+ "</div>");
 		}
 		
 		return SVGImageSB.toString();
 	}
 	
-	public String getCreampieSVGString(GameCharacter owner, SexAreaOrifice orifice) {
+	public String getCreampieIcon(String context, GameCharacter owner, SexAreaOrifice orifice) {
 		SVGImageSB = new StringBuilder();
 		
 		boolean justCum = owner.isOnlyCumInArea(orifice);
@@ -11832,49 +11792,30 @@ public enum StatusEffect {
 		if(isCumEffectPositive(owner)) {
 			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
 									+ (justCum
-											?SVGImages.SVG_IMAGE_PROVIDER.getCreampieMasochist()
-											:SVGImages.SVG_IMAGE_PROVIDER.getFluidIngestedMasochist())
+											? IconCache.INSTANCE.getIcon(context, "statusEffects/creampieMasochist.svg")
+											: IconCache.INSTANCE.getIcon(context, "statusEffects/fluidIngestedMasochist.svg"))
 								+"</div>");
 		} else {
 			SVGImageSB.append((justCum
-					?SVGImages.SVG_IMAGE_PROVIDER.getCreampie()
-					:SVGImages.SVG_IMAGE_PROVIDER.getFluidIngested()));
+					? IconCache.INSTANCE.getIcon(context, "statusEffects/creampie.svg")
+					: IconCache.INSTANCE.getIcon(context, "statusEffects/fluidIngested.svg")));
 		}
-		
-		switch(orifice) {
-			case ANUS:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaAnus()+"</div>");
-				break;
-			case ASS:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaAnus()+"</div>");
-				break;
-			case BREAST:
-				if(owner.hasBreasts()) {
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaBreasts()+"</div>");
-				} else {
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaBreastsFlat()+"</div>");
-				}
-				break;
-			case MOUTH:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaMouth()+"</div>");
-				break;
-			case NIPPLE:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaNipple()+"</div>");
-				break;
-			case THIGHS:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaThighs()+"</div>");
-				break;
-			case URETHRA_PENIS:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaUrethraPenis()+"</div>");
-				break;
-			case URETHRA_VAGINA:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaUrethraVagina()+"</div>");
-				break;
-			case VAGINA:
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCoverableAreaVagina()+"</div>");
-				break;
+
+
+		StringBuilder type = new StringBuilder();
+		for (String s : orifice.name().split("_"))
+			type.append(s.charAt(0)).append(s.substring(1).toLowerCase());
+
+		if (type.equals("Breast")) {
+			type.append("s");
+			if (!owner.hasBreasts()) {
+				type.append("Flat");
+			}
 		}
-		
+
+		SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+				+ IconCache.INSTANCE.getIcon(context, "statusEffects/sexEffects/coverableArea" + type + ".svg")
+				+ "</div>");
 		return SVGImageSB.toString();
 	}
 	

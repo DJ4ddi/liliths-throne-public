@@ -295,7 +295,7 @@ public class GamblingDenDialogue {
 								for(Subspecies r : results) {
 									Main.game.getTextEndStringBuilder().append(
 											"<div class='modifier-icon' style='width:31.3%; margin:0 1%; border:3px solid "+(winner?Colour.GENERIC_EXCELLENT.toWebHexString():"")+"; display:inline-block;'>"
-													+"<div class='modifier-icon-content'>"+r.getSVGString(null)+"</div>"
+													+"<div class='modifier-icon-content'>"+r.getIcon("gambling")+"</div>"
 											+ "</div>");
 								}
 								if(winner) {

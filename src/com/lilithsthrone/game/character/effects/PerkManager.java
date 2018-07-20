@@ -279,7 +279,7 @@ public enum PerkManager {
 										?"border-color:"+Colour.TRAIT.toWebHexString()+";"
 										:"border-color:"+perkEntry.getCategory().getColour().toWebHexString()+";"
 									:"")+"' id='"+perkEntry.getRow()+"_"+perkEntry.getEntry()+"'>"
-				+ "<div class='square-button-content'>"+perkEntry.getEntry().getSVGString()+"</div>"
+				+ "<div class='square-button-content'>"+perkEntry.getEntry().getIcon("perklist")+"</div>"
 				+ (disabled
 					?"<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.8; "+(perkEntry.getEntry().isEquippableTrait()?"border-radius:5px;":" border-radius:50%;")+"'></div>"
 					:!isPerkOwned(perkEntry)

@@ -1,12 +1,5 @@
 package com.lilithsthrone.game.inventory.enchanting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.markings.AbstractTattooType;
@@ -20,9 +13,12 @@ import com.lilithsthrone.game.inventory.item.AbstractItem;
 import com.lilithsthrone.game.inventory.item.AbstractItemType;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * @since 0.1.75
@@ -32,7 +28,7 @@ import com.lilithsthrone.utils.Util;
 public class EnchantingUtils {
 	
 	public static final int FLAME_COST_MODIFER = 500;
-	
+
 	public static AbstractItem craftItem(AbstractCoreItem ingredient, List<ItemEffect> effects) {
 		AbstractItem craftedItem = null;
 		
@@ -214,23 +210,24 @@ public class EnchantingUtils {
 		
 		if(((AbstractItem)ingredient).getItemType().getId().equals(ItemType.ORIENTATION_HYPNO_WATCH.getId())) {
 			if(effects.isEmpty() || effects.get(0).getPrimaryModifier()==TFModifier.REMOVAL) {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchBase();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockBase.svg", Colour.BASE_GREY);
 			}
 			
 			if(effects.get(0).getPrimaryModifier()==TFModifier.ORIENTATION_GYNEPHILIC) {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchGynephilic();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockGyne.svg", Colour.FEMININE_PLUS);
 				
 			} else if(effects.get(0).getPrimaryModifier()==TFModifier.ORIENTATION_AMBIPHILIC) {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchAmbiphilic();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockAmbi.svg", Colour.ANDROGYNOUS);
 				
 			} else {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchAndrophilic();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockAndro.svg", Colour.MASCULINE_PLUS);
 			}
 		}
 		
 		StringBuilder SVGImageSB = new StringBuilder();
 		
-		SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getRefinedBackgroundMap().get(ingredient.getEnchantmentEffect().getColour())+"</div>");
+		SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+				+ IconCache.INSTANCE.getIcon("enchanting", "items/refined_background.svg", ingredient.getEnchantmentEffect().getColour())+"</div>");
 		
 		String s = ((AbstractItemType) ingredient.getEnchantmentItemType(effects)).getSVGString();
 		
@@ -250,10 +247,11 @@ public class EnchantingUtils {
 		s = s.replaceAll("#ffaaaa", colour.getShades()[3]);
 		s = s.replaceAll("#ffd5d5", colour.getShades()[4]);
 		SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+s+"</div>");
-		
+
 		for(ItemEffect ie : effects) {
 			if(ie.getSecondaryModifier() != null && ie.getSecondaryModifier() != TFModifier.NONE) {
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getRefinedSwirlsMap().get(ie.getSecondaryModifier().getColour())+"</div>");
+				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+						+ IconCache.INSTANCE.getIcon("enchanting", "items/refined_swirls.svg", ie.getSecondaryModifier().getColour())+"</div>");
 				
 				break;
 			}
@@ -266,25 +264,25 @@ public class EnchantingUtils {
 
 		if(((AbstractItem)item).getItemType().getId().equals(ItemType.ORIENTATION_HYPNO_WATCH.getId())) {
 			if(effects.isEmpty() || effects.get(0).getPrimaryModifier()==TFModifier.REMOVAL) {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchBase();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockBase.svg", Colour.BASE_GREY);
 			}
 			
 			if(effects.get(0).getPrimaryModifier()==TFModifier.ORIENTATION_GYNEPHILIC) {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchGynephilic();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockGyne.svg", Colour.FEMININE_PLUS);
 				
 			} else if(effects.get(0).getPrimaryModifier()==TFModifier.ORIENTATION_AMBIPHILIC) {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchAmbiphilic();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockAmbi.svg", Colour.ANDROGYNOUS);
 				
 			} else {
-				return SVGImages.SVG_IMAGE_PROVIDER.getHypnoWatchAndrophilic();
+				return IconCache.INSTANCE.getIcon("enchanting", "items/hypnoClockAndro.svg", Colour.MASCULINE_PLUS);
 			}
 		}
 		
 		StringBuilder SVGImageSB = new StringBuilder();
 		
-		String importedColourString = SVGImages.SVG_IMAGE_PROVIDER.getRefinedBackgroundMap().get(importedColour);
+		String importedColourString = IconCache.INSTANCE.getIcon("enchanting", "items/refined_background.svg", importedColour);
 		if(importedColourString==null || importedColourString.isEmpty() || importedColourString.equals("null")) {
-			importedColourString = SVGImages.SVG_IMAGE_PROVIDER.getRefinedBackgroundMap().get(effects.get(0).getItemEffectType().getColour());
+			importedColourString = IconCache.INSTANCE.getIcon("enchanting", "items/refined_background.svg", effects.get(0).getItemEffectType().getColour());
 		}
 		
 		SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+importedColourString+"</div>");
@@ -310,7 +308,8 @@ public class EnchantingUtils {
 		
 		for(ItemEffect ie : effects) {
 			if(ie.getSecondaryModifier() != null && ie.getSecondaryModifier() != TFModifier.NONE) {
-				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getRefinedSwirlsMap().get(ie.getSecondaryModifier().getColour())+"</div>");
+				SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"
+						+ IconCache.INSTANCE.getIcon("enchanting", "items/refined_swirls.svg", ie.getSecondaryModifier().getColour())+"</div>");
 				
 				break;
 			}

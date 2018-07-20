@@ -1,13 +1,5 @@
 package com.lilithsthrone.game.combat;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.effects.Perk;
@@ -20,9 +12,16 @@ import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.item.AbstractItem;
 import com.lilithsthrone.game.inventory.weapon.AbstractWeapon;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @since 0.1.0
@@ -2277,7 +2276,8 @@ public enum Spell {
 	private List<String> extraEffects;
 	private List<String> modifiersList;
 	
-	private String SVGString;
+	private String iconPath;
+	private Colour iconColour;
 
 	private Spell(boolean forbiddenSpell,
 			SpellSchool spellSchool,
@@ -2332,27 +2332,9 @@ public enum Spell {
 		if (extraEffects != null) {
 			modifiersList.addAll(extraEffects);
 		}
-		
-		
-		// SVG:
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/combat/spell/" + pathName + ".svg");
-			if(is==null) {
-				System.err.println("Error! Spell icon file does not exist (Trying to read from '"+pathName+"')!");
-			}
-			SVGString = Util.inputStreamToString(is);
 
-			SVGString = SVGString.replaceAll("#ff2a2a", damageType.getMultiplierAttribute().getColour().getShades()[0]);
-			SVGString = SVGString.replaceAll("#ff5555", damageType.getMultiplierAttribute().getColour().getShades()[1]);
-			SVGString = SVGString.replaceAll("#ff8080", damageType.getMultiplierAttribute().getColour().getShades()[2]);
-			SVGString = SVGString.replaceAll("#ffaaaa", damageType.getMultiplierAttribute().getColour().getShades()[3]);
-			SVGString = SVGString.replaceAll("#ffd5d5", damageType.getMultiplierAttribute().getColour().getShades()[4]);
-			
-			is.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		iconColour = damageType.getMultiplierAttribute().getColour();
+		iconPath = "combat/spell/" + pathName + ".svg";
 	}
 	
 	private void initialiseBasicSpellUpgradeTree(List<SpellUpgrade> upgradeList) {
@@ -2450,8 +2432,8 @@ public enum Spell {
 		return extraEffects;
 	}
 	
-	public String getSVGString() {
-		return SVGString;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, iconColour);
 	}
 	
 	protected void applyStatusEffects(GameCharacter caster, GameCharacter target, boolean isCritical) {
@@ -2682,7 +2664,7 @@ public enum Spell {
 										+(hasSpell
 												?"border-color:"+spell.getSpellSchool().getColour().toWebHexString()+";"
 												:"")+"' id='SPELL_TREE_"+spell+"'>"
-									+ "<div class='square-button-content' style='cursor: default;'>"+spell.getSVGString()+"</div>"
+									+ "<div class='square-button-content' style='cursor: default;'>"+spell.getIcon("spelltree")+"</div>"
 									+ (!hasSpell
 										?(forbidden
 											?"<div class='overlay disabled-dark'></div>"
@@ -2766,7 +2748,7 @@ public enum Spell {
 												?"cursor: default; border-color:"+Colour.GENERIC_BAD.toWebHexString()+";"
 												:""))
 										+"' id='SPELL_UPGRADE_"+perkEntry.getEntry()+"'>"
-							+ "<div class='square-button-content'>"+perkEntry.getEntry().getSVGString()+"</div>"
+							+ "<div class='square-button-content'>"+perkEntry.getEntry().getIcon("spellupgrade")+"</div>"
 							+ (!hasUpgrade && !isUpgradeAvailable
 								?(forbidden
 										?"<div class='overlay disabled-dark' style='border-radius:50%;'></div>"

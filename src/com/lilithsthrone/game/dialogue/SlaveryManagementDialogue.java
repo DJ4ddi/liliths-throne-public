@@ -1,22 +1,9 @@
 package com.lilithsthrone.game.dialogue;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.attributes.AffectionLevel;
 import com.lilithsthrone.game.character.attributes.ObedienceLevel;
-import com.lilithsthrone.game.character.body.BodyPartInterface;
-import com.lilithsthrone.game.character.body.Eye;
-import com.lilithsthrone.game.character.body.Hair;
-import com.lilithsthrone.game.character.body.Skin;
-import com.lilithsthrone.game.character.body.Vagina;
+import com.lilithsthrone.game.character.body.*;
 import com.lilithsthrone.game.character.body.types.BodyCoveringType;
 import com.lilithsthrone.game.character.body.types.FaceType;
 import com.lilithsthrone.game.character.body.valueEnums.BodyMaterial;
@@ -27,18 +14,10 @@ import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.dialogue.eventLog.SlaveryEventLogEntry;
 import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.responses.ResponseEffectsOnly;
-import com.lilithsthrone.game.dialogue.utils.BodyChanging;
-import com.lilithsthrone.game.dialogue.utils.CharacterModificationUtils;
-import com.lilithsthrone.game.dialogue.utils.CharactersPresentDialogue;
-import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
-import com.lilithsthrone.game.dialogue.utils.UtilText;
-import com.lilithsthrone.game.slavery.SlaveJob;
-import com.lilithsthrone.game.slavery.SlaveJobHours;
-import com.lilithsthrone.game.slavery.SlaveJobSetting;
-import com.lilithsthrone.game.slavery.SlavePermission;
-import com.lilithsthrone.game.slavery.SlavePermissionSetting;
+import com.lilithsthrone.game.dialogue.utils.*;
+import com.lilithsthrone.game.slavery.*;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.world.Cell;
@@ -46,6 +25,11 @@ import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.GenericPlace;
 import com.lilithsthrone.world.places.PlaceType;
 import com.lilithsthrone.world.places.PlaceUpgrade;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * @since 0.1.8?
@@ -465,8 +449,10 @@ public class SlaveryManagementDialogue {
 						+"</div>"
 						+ "<div style='float:left; width:10%; margin:0 auto; padding:0; display:inline-block; text-align:center;'>"
 							+ (disabled
-									?"<div id='"+cell.getId()+(currentLocation?"_PRESENT":"")+"_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveInspectDisabled()+"</div></div>"
-									:"<div id='"+cell.getId()+(currentLocation?"_PRESENT":"")+"' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveInspect()+"</div></div>")
+									?"<div id='"+cell.getId()+(currentLocation?"_PRESENT":"")+"_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveInspect.svg", Colour.BASE_GREY)+"</div></div>"
+									:"<div id='"+cell.getId()+(currentLocation?"_PRESENT":"")+"' class='square-button solo'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveInspect.svg", Colour.BASE_BLUE_STEEL)+"</div></div>")
 						+"</div>"
 					+ "</div>");
 		
@@ -839,7 +825,8 @@ public class SlaveryManagementDialogue {
 		miscDialogueSB.append(
 				"<div class='container-full-width inner' style='margin-bottom:4px; margin-top:4px;"+(owned?"background:"+Colour.BACKGROUND_ALT.toWebHexString()+";'":"'")+"'>"
 						+ "<div style='width:5%; float:left; margin:0; padding:0;'>"
-							+ "<div class='title-button no-select' id='ROOM_MOD_INFO_"+upgrade+"' style='position:relative; top:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
+							+ "<div class='title-button no-select' id='ROOM_MOD_INFO_"+upgrade+"' style='position:relative; top:0;'>"
+							+ IconCache.INSTANCE.getIcon("slavery", "UIElements/information.svg", Colour.BASE_BLACK)+"</div>"
 						+ "</div>"
 						+ "<div style='width:25%; float:left; margin:0; padding:0;'>"
 							+ (owned
@@ -847,7 +834,7 @@ public class SlaveryManagementDialogue {
 									:(!availableForPurchase
 											?"<b style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>"+Util.capitaliseSentence(upgrade.getName())+"</b>"
 											:"<b>"+Util.capitaliseSentence(upgrade.getName())+"</b>"))
-//							+ "<div class='item-inline' id='ROOM_MOD_INFO_"+upgrade+"' style='float:right;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
+//							+ "<div class='item-inline' id='ROOM_MOD_INFO_"+upgrade+"' style='float:right;'>"+IconCache.INSTANCE.getIcon(context, "UIElements/information.svg", Colour.BASE_BLACK)+"</div>"
 //							+"<div class='overlay' id=''></div>"
 						+ "</div>"
 						+ "<div style='width:10%; float:left; margin:0; padding:0;'>"
@@ -893,9 +880,11 @@ public class SlaveryManagementDialogue {
 		
 		if(owned) {
 			if(Main.game.getPlayer().getMoney()<upgrade.getRemovalCost() || upgrade.isCoreRoomUpgrade()) {
-				miscDialogueSB.append("<div id='"+upgrade+"_SELL_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionSellDisabled()+"</div></div>");
+				miscDialogueSB.append("<div id='"+upgrade+"_SELL_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/transactionSellDisabled.svg", Colour.BASE_GREY)+"</div></div>");
 			} else {
-				miscDialogueSB.append("<div id='"+upgrade+"_SELL' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionSell()+"</div></div>");
+				miscDialogueSB.append("<div id='"+upgrade+"_SELL' class='square-button solo'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/transactionSell.svg")+"</div></div>");
 			}
 			
 		} else {
@@ -914,9 +903,11 @@ public class SlaveryManagementDialogue {
 			}
 			
 			if(canBuy) {
-				miscDialogueSB.append("<div id='"+upgrade+"_BUY' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionBuy()+"</div></div>");
+				miscDialogueSB.append("<div id='"+upgrade+"_BUY' class='square-button solo'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/transactionBuy.svg")+"</div></div>");
 			} else {
-				miscDialogueSB.append("<div id='"+upgrade+"_BUY_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionBuyDisabled()+"</div></div>");
+				miscDialogueSB.append("<div id='"+upgrade+"_BUY_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/transactionBuyDisabled.svg", Colour.BASE_GREY)+"</div></div>");
 			}
 		}
 		
@@ -1228,50 +1219,68 @@ public class SlaveryManagementDialogue {
 		
 		if(slaveOwned) {
 			miscDialogueSB.append("<div style='float:left; width:15%; margin:0 auto; padding:0; display:inline-block; text-align:center;'>"
-					+ "<div id='"+slave.getId()+"' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveInspect()+"</div></div>"
+					+ "<div id='"+slave.getId()+"' class='square-button big'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveInspect.svg", Colour.BASE_BLUE_STEEL)+"</div></div>"
 
-					+ "<div id='"+slave.getId()+"_JOB' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveJob()+"</div></div>"
+					+ "<div id='"+slave.getId()+"_JOB' class='square-button big'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveJob.svg", Colour.BASE_BROWN_DARK)+"</div></div>"
 
-					+ "<div id='"+slave.getId()+"_PERMISSIONS' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlavePermissions()+"</div></div>"
+					+ "<div id='"+slave.getId()+"_PERMISSIONS' class='square-button big'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slavePermissions.svg", Colour.BASE_GREY)+"</div></div>"
 					
-					+"<div id='"+slave.getId()+"_INVENTORY' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getInventoryIcon()+"</div></div>"
+					+"<div id='"+slave.getId()+"_INVENTORY' class='square-button big'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/inventory.svg", Colour.BASE_BLACK)+"</div></div>"
 						
 					+ "<div "+((place.getCapacity()<=Main.game.getCharactersTreatingCellAsHome(Main.game.getPlayerCell()).size())
 								|| (slave.getLocation().equals(Main.game.getPlayer().getLocation()) && slave.getWorldLocation().equals(Main.game.getPlayer().getWorldLocation()))
-										?" id='"+slave.getId()+"_TRANSFER_DISABLED' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveTransferDisabled()+"</div></div>"
-										:" id='"+slave.getId()+"_TRANSFER' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveTransfer()+"</div></div>"));
+										?" id='"+slave.getId()+"_TRANSFER_DISABLED' class='square-button big disabled'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveTransfer.svg", Colour.BASE_GREY)+"</div></div>"
+										:" id='"+slave.getId()+"_TRANSFER' class='square-button big'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveTransfer.svg", Colour.GENERIC_GOOD)+"</div></div>"));
 			
 			if(Main.game.getDialogueFlags().getSlaveTrader()==null) {
-				miscDialogueSB.append("<div id='"+slave.getId()+"_SELL_DISABLED' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionSellDisabled()+"</div></div>");
+				miscDialogueSB.append("<div id='"+slave.getId()+"_SELL_DISABLED' class='square-button big disabled'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveSellDisabled.svg", Colour.BASE_GREY)+"</div></div>");
 			} else {
-				miscDialogueSB.append("<div id='"+slave.getId()+"_SELL' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionSell()+"</div></div>");
+				miscDialogueSB.append("<div id='"+slave.getId()+"_SELL' class='square-button big'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveSell.svg", Colour.GENERIC_GOOD)+"</div></div>");
 			}
 			
 			if(Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.kateIntroduced)) {
-				miscDialogueSB.append("<div id='"+slave.getId()+"_COSMETICS' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveCosmetics()+"</div></div>");
+				miscDialogueSB.append("<div id='"+slave.getId()+"_COSMETICS' class='square-button big'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveCosmetics.svg", Colour.BASE_CRIMSON)+"</div></div>");
 			} else {
-				miscDialogueSB.append("<div id='"+slave.getId()+"_COSMETICS_DISABLED' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveCosmeticsDisabled()+"</div></div>");
+				miscDialogueSB.append("<div id='"+slave.getId()+"_COSMETICS_DISABLED' class='square-button big disabled'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveCosmetics.svg", Colour.BASE_GREY)+"</div></div>");
 			}
 			
 		} else { // Slave trader's slave:
 			miscDialogueSB.append("<div style='float:left; width:15%; margin:0 auto; padding:0; display:inline-block; text-align:center;'>"
-					+ "<div id='"+slave.getId()+"_TRADER' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveInspect()+"</div></div>"
+					+ "<div id='"+slave.getId()+"_TRADER' class='square-button big'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveInspect.svg", Colour.BASE_BLUE_STEEL)+"</div></div>"
 
-					+ "<div id='"+slave.getId()+"_TRADER_JOB' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveJobDisabled()+"</div></div>"
+					+ "<div id='"+slave.getId()+"_TRADER_JOB' class='square-button big disabled'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveJob.svg", Colour.BASE_GREY)+"</div></div>"
 
-					+ "<div id='"+slave.getId()+"_TRADER_PERMISSIONS' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlavePermissionsDisabled()+"</div></div>"
+					+ "<div id='"+slave.getId()+"_TRADER_PERMISSIONS' class='square-button big disabled'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slavePermissionsDisabled.svg", Colour.BASE_GREY)+"</div></div>"
 					
-					+"<div id='"+slave.getId()+"_TRADER_INVENTORY' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getInventoryIconDisabled()+"</div></div>"
+					+"<div id='"+slave.getId()+"_TRADER_INVENTORY' class='square-button big disabled'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/inventory.svg", Colour.BASE_PITCH_BLACK)+"</div></div>"
 						
-					+ "<div id='"+slave.getId()+"_TRADER_TRANSFER' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveTransferDisabled()+"</div></div>");
+					+ "<div id='"+slave.getId()+"_TRADER_TRANSFER' class='square-button big disabled'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveTransfer.svg", Colour.BASE_GREY)+"</div></div>");
 			
 			if(Main.game.getPlayer().getMoney() < ((int) (slave.getValueAsSlave()*Main.game.getDialogueFlags().getSlaveTrader().getSellModifier()))) {
-				miscDialogueSB.append("<div id='"+slave.getId()+"_BUY_DISABLED' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionBuyDisabled()+"</div></div>");
+				miscDialogueSB.append("<div id='"+slave.getId()+"_BUY_DISABLED' class='square-button big disabled'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveBuyDisabled.svg", Colour.BASE_GREY)+"</div></div>");
 			} else {
-				miscDialogueSB.append("<div id='"+slave.getId()+"_BUY' class='square-button big'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionBuy()+"</div></div>");
+				miscDialogueSB.append("<div id='"+slave.getId()+"_BUY' class='square-button big'><div class='square-button-content'>"
+						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveBuy.svg", Colour.GENERIC_BAD)+"</div></div>");
 			}
 			
-			miscDialogueSB.append("<div id='"+slave.getId()+"_TRADER_COSMETICS' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveCosmeticsDisabled()+"</div></div>");
+			miscDialogueSB.append("<div id='"+slave.getId()+"_TRADER_COSMETICS' class='square-button big disabled'><div class='square-button-content'>"
+					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/slaveCosmetics.svg", Colour.BASE_GREY)+"</div></div>");
 		}
 		
 		miscDialogueSB.append("</div></div>");
@@ -1475,8 +1484,8 @@ public class SlaveryManagementDialogue {
 		public String getContent() {
 			NPC character = Main.game.getDialogueFlags().getSlaveryManagerSlaveSelected();
 			ObedienceLevel obedience = ObedienceLevel.getObedienceLevelFromValue(character.getObedienceValue());
-			float affectionChange = character.getDailyAffectionChange();
-			float obedienceChange = character.getDailyObedienceChange();
+			float affectionChange;
+			float obedienceChange;
 			
 			UtilText.nodeContentSB.setLength(0);
 			
@@ -1539,7 +1548,8 @@ public class SlaveryManagementDialogue {
 				UtilText.nodeContentSB.append(
 						"<div class='container-full-width inner' "+(isCurrentJob?"style='background:"+Colour.BACKGROUND_ALT.toWebHexString()+";'":"")+">"
 							+ "<div style='width:5%; float:left; margin:0; padding:0;'>"
-								+ "<div class='title-button no-select' id='SLAVE_JOB_INFO_"+job+"' style='position:relative; top:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
+								+ "<div class='title-button no-select' id='SLAVE_JOB_INFO_"+job+"' style='position:relative; top:0;'>"
+								+ IconCache.INSTANCE.getIcon("slavery", "UIElements/information.svg", Colour.BASE_BLACK)+"</div>"
 							+ "</div>"
 							+"<div style='width:15%; float:left; margin:0; padding:0;'>"
 								+ (isCurrentJob
@@ -1576,9 +1586,11 @@ public class SlaveryManagementDialogue {
 							+"</div>"
 							+ "<div style='float:left; width:10%; margin:0; padding:0;'>"
 								+ (!job.isAvailable(character) || isCurrentJob
-										?"<div id='"+job+"_ASSIGN_DISABLED' class='square-button solo"+(!isCurrentJob?" disabled":"")+"'><div class='square-button-content'>"
-											+(isCurrentJob?SVGImages.SVG_IMAGE_PROVIDER.getResponseOption():SVGImages.SVG_IMAGE_PROVIDER.getResponseOptionDisabled())+"</div></div>"
-										:"<div id='"+job+"_ASSIGN' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseOptionDisabled()+"</div></div>")
+										?"<div id='"+job+"_ASSIGN_DISABLED' class='square-button solo"+(!isCurrentJob?" disabled":"")+"'><div class='square-button-content'>"+(isCurrentJob
+												? IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.GENERIC_GOOD)
+												: IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.BASE_BLACK))+"</div></div>"
+										:"<div id='"+job+"_ASSIGN' class='square-button solo'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.BASE_BLACK)+"</div></div>")
 							+"</div>"
 							+ (!isCurrentJob && !job.isAvailable(character)
 								?"<div class='container-full-width' style='background:transparent; margin:0;'>"
@@ -1602,10 +1614,13 @@ public class SlaveryManagementDialogue {
 														+ "</div>"
 														+ "<div style='float:left; width:10%; margin:0; padding:0;'>"
 															+ (!isCurrentJob
-																	?"<div id='"+setting+"_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseUnlockedDisabled()+"</div></div>"
+																	?"<div id='"+setting+"_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"
+																			+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseUnlocked.svg", Colour.BASE_BLACK)+"</div></div>"
 																	: (settingActive
-																			?"<div id='"+setting+"_REMOVE' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseUnlocked()+"</div></div>"
-																			:"<div id='"+setting+"_ADD' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseUnlockedDisabled()+"</div></div>"))
+																			?"<div id='"+setting+"_REMOVE' class='square-button solo'><div class='square-button-content'>"
+																					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseUnlocked.svg", Colour.GENERIC_GOOD)+"</div></div>"
+																			:"<div id='"+setting+"_ADD' class='square-button solo'><div class='square-button-content'>"
+																					+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseUnlocked.svg", Colour.BASE_BLACK)+"</div></div>"))
 														+"</div>"
 													+ "</div>");
 					}
@@ -1627,10 +1642,13 @@ public class SlaveryManagementDialogue {
 															+ "</div>"
 															+ "<div style='float:left; width:10%; margin:0; padding:0;'>"
 																+ (!isCurrentJob
-																		?"<div id='"+setting+"_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseOptionDisabled()+"</div></div>"
+																		?"<div id='"+setting+"_DISABLED' class='square-button solo disabled'><div class='square-button-content'>"
+																				+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.BASE_BLACK)+"</div></div>"
 																		: (settingActive
-																				?"<div class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseOption()+"</div></div>"
-																				:"<div id='"+setting+"_TOGGLE_ADD' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseOptionDisabled()+"</div></div>"))
+																				?"<div class='square-button solo'><div class='square-button-content'>"
+																						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.GENERIC_GOOD)+"</div></div>"
+																				:"<div id='"+setting+"_TOGGLE_ADD' class='square-button solo'><div class='square-button-content'>"
+																						+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.BASE_BLACK)+"</div></div>"))
 															+"</div>");
 						}
 						UtilText.nodeContentSB.append("</div>");
@@ -1711,11 +1729,15 @@ public class SlaveryManagementDialogue {
 													+ "<div style='float:left; width:10%; margin:0; padding:0;'>"
 														+ (permission.isMutuallyExclusiveSettings()
 																? (settingActive
-																	?"<div id='"+setting+"_REMOVE_ME' class='square-button huge'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseOption()+"</div></div>"
-																	:"<div id='"+setting+"_ADD' class='square-button huge'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseOptionDisabled()+"</div></div>")
+																	?"<div id='"+setting+"_REMOVE_ME' class='square-button huge'><div class='square-button-content'>"
+																			+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.GENERIC_GOOD)+"</div></div>"
+																	:"<div id='"+setting+"_ADD' class='square-button huge'><div class='square-button-content'>"
+																			+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseOption.svg", Colour.BASE_BLACK)+"</div></div>")
 																:(settingActive
-																		?"<div id='"+setting+"_REMOVE' class='square-button huge'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseUnlocked()+"</div></div>"
-																		:"<div id='"+setting+"_ADD' class='square-button huge'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getResponseUnlockedDisabled()+"</div></div>"))
+																		?"<div id='"+setting+"_REMOVE' class='square-button huge'><div class='square-button-content'>"
+																				+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseUnlocked.svg", Colour.GENERIC_GOOD)+"</div></div>"
+																		:"<div id='"+setting+"_ADD' class='square-button huge'><div class='square-button-content'>"
+																				+ IconCache.INSTANCE.getIcon("slavery", "UIElements/responseUnlocked.svg", Colour.BASE_BLACK)+"</div></div>"))
 													+"</div>"
 												+ "</div>");
 				}

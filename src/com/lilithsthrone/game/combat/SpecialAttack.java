@@ -15,6 +15,7 @@ import com.lilithsthrone.game.character.effects.StatusEffect;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
@@ -2225,7 +2226,8 @@ public enum SpecialAttack {
 	protected int cooldown;
 	protected int renderingPriority;
 	private Map<StatusEffect, Integer> statusEffects;
-	private String SVGString;
+	private String path;
+	private Colour colour;
 
 	private SpecialAttack(int renderingPriority,
 			String name,
@@ -2248,24 +2250,8 @@ public enum SpecialAttack {
 		else
 			this.statusEffects = statusEffects;
 
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/combat/" + pathName + ".svg");
-			if(is==null) {
-				System.err.println("Error! SpecialAttack icon file does not exist (Trying to read from '"+pathName+"')!");
-			}
-			SVGString = Util.inputStreamToString(is);
-
-			SVGString = SVGString.replaceAll("#ff2a2a", colourShade.getShades()[0]);
-			SVGString = SVGString.replaceAll("#ff5555", colourShade.getShades()[1]);
-			SVGString = SVGString.replaceAll("#ff8080", colourShade.getShades()[2]);
-			SVGString = SVGString.replaceAll("#ffaaaa", colourShade.getShades()[3]);
-			SVGString = SVGString.replaceAll("#ffd5d5", colourShade.getShades()[4]);
-
-			is.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.colour = colourShade;
+		path = "combat/" + pathName + ".svg";
 	}
 
 	protected String getDamageAndCostDescription(GameCharacter caster, GameCharacter target, float cost, float damage, boolean isHit, boolean isCritical) {
@@ -2541,7 +2527,7 @@ public enum SpecialAttack {
 		return statusEffects;
 	}
 
-	public String getSVGString() {
-		return SVGString;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, path, colour);
 	}
 }

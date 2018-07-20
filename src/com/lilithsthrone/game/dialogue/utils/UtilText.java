@@ -376,7 +376,7 @@ public class UtilText {
 	public static String formatAsEssencesUncoloured(int amount, String tag, boolean withOverlay) {
 		String essenceString = formatter.format(amount);
 		return "<div class='item-inline'>"
-					+ TFEssence.ARCANE.getSVGStringUncoloured() + (withOverlay?"<div class='overlay no-pointer' id='ESSENCE_"+TFEssence.ARCANE.hashCode()+"'></div>":"")
+					+ TFEssence.ARCANE.getIconDesaturated("essence") + (withOverlay?"<div class='overlay no-pointer' id='ESSENCE_"+TFEssence.ARCANE.hashCode()+"'></div>":"")
 				+"</div>"
 				+ " <"+tag+" style='color:"+Colour.TEXT_GREY.toWebHexString()+";'>"+essenceString+"</"+tag+">";
 	}
@@ -386,7 +386,7 @@ public class UtilText {
 		String essenceString = formatter.format(amount);
 		
 		return "<div class='item-inline'>"
-					+ TFEssence.ARCANE.getSVGString() + (withOverlay?"<div class='overlay no-pointer' id='ESSENCE_"+TFEssence.ARCANE.hashCode()+"'></div>":"")
+					+ TFEssence.ARCANE.getIcon("essence") + (withOverlay?"<div class='overlay no-pointer' id='ESSENCE_"+TFEssence.ARCANE.hashCode()+"'></div>":"")
 				+"</div>"
 				+ " <"+tag+" style='color:"+Colour.GENERIC_ARCANE.toWebHexString()+";'>"+essenceString+"</"+tag+">";
 	}

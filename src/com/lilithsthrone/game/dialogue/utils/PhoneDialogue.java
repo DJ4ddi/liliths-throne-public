@@ -1,9 +1,5 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.Litter;
@@ -48,14 +44,13 @@ import com.lilithsthrone.game.sex.SexAreaPenetration;
 import com.lilithsthrone.game.sex.SexParticipantType;
 import com.lilithsthrone.game.sex.SexType;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.rendering.RenderingEngine;
-import com.lilithsthrone.rendering.SVGImages;
-import com.lilithsthrone.utils.ClothingRarityComparator;
-import com.lilithsthrone.utils.Colour;
-import com.lilithsthrone.utils.ItemRarityComparator;
-import com.lilithsthrone.utils.TreeNode;
-import com.lilithsthrone.utils.Util;
-import com.lilithsthrone.utils.WeaponRarityComparator;
+import com.lilithsthrone.utils.*;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @since 0.1.0
@@ -1755,7 +1750,8 @@ public class PhoneDialogue {
 					journalSB.append(
 							"<div class='container-full-width' style='margin-bottom:0;'>"
 							+ "<div class='container-full-width' style='width:calc(40% - 16px)'>"
-									+ "<div class='title-button' id='"+ItemType.itemToIdMap.get(item)+"' style='background:transparent; position:relative; top:0; left:0; float:left; margin:0 8px 0 0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
+									+ "<div class='title-button' id='"+ItemType.itemToIdMap.get(item)+"' style='background:transparent; position:relative; top:0; left:0; float:left; margin:0 8px 0 0;'>"
+									+ IconCache.INSTANCE.getIcon("phone", "UIElements/information.svg", Colour.BASE_BLACK) + "</div>"
 									+ " <b style='color:" + item.getRarity().getColour().toWebHexString() + ";'>" + Util.capitaliseSentence(item.getName(false)) + "</b>"
 							+ "</div>"
 							+ "<div class='container-full-width' style='width:calc(60% - 16px)'>");
@@ -1953,7 +1949,7 @@ public class PhoneDialogue {
 					+ "<h6 style='text-align:center;'>Active Traits</h6>");
 
 			UtilText.nodeContentSB.append("<div id='HISTORY_" + Main.game.getPlayer().getHistory().getAssociatedPerk() + "' class='square-button small' style='width:8%; display:inline-block; float:none; border:2px solid " + Colour.TRAIT.toWebHexString() + ";'>"
-					+ "<div class='square-button-content'>"+Main.game.getPlayer().getHistory().getAssociatedPerk().getSVGString()+"</div>"
+					+ "<div class='square-button-content'>"+Main.game.getPlayer().getHistory().getAssociatedPerk().getIcon("phone")+"</div>"
 					+ "</div>");
 			
 			for(int i=0;i<GameCharacter.MAX_TRAITS;i++) {
@@ -1963,7 +1959,7 @@ public class PhoneDialogue {
 				}
 				if(p!=null) {
 					UtilText.nodeContentSB.append("<div id='TRAIT_" + p + "' class='square-button small' style='width:8%; display:inline-block; float:none; border:2px solid " + Colour.TRAIT.toWebHexString() + ";'>"
-							+ "<div class='square-button-content'>"+p.getSVGString()+"</div>"
+							+ "<div class='square-button-content'>"+p.getIcon("phone")+"</div>"
 							+ "</div>");
 					
 				} else {
@@ -2583,7 +2579,7 @@ public class PhoneDialogue {
 							: (fetish.isAvailable(Main.game.getPlayer())
 									? " unlocked' style='border:2px solid " +  Colour.TEXT_GREY.toWebHexString() + ";" + "'>"
 									: " locked' style='border:2px solid " + Colour.TEXT_GREY.toWebHexString() + ";'>"))
-							+ "<div class='fetish-icon-content'>"+fetish.getSVGString()+"</div>"
+							+ "<div class='fetish-icon-content'>"+fetish.getIcon("phone")+"</div>"
 							+ (Main.game.getPlayer().hasFetish(fetish) // Overlay to create disabled effect:
 									? ""
 									: (fetish.isAvailable(Main.game.getPlayer())
@@ -2647,8 +2643,8 @@ public class PhoneDialogue {
 							: (fetish.isAvailable(Main.game.getPlayer())
 									? " unlocked' style='border:2px solid " + Colour.TEXT_GREY.toWebHexString() + ";" + "'>"
 									: " locked' style='border:2px solid " + Colour.TEXT_GREY.toWebHexString() + ";'>"))
-										+ "<div class='fetish-icon-content'>"+fetish.getSVGString()+"</div>"
-										+ "<div style='width:40%;height:40%;position:absolute;top:0;right:4px;'>"+level.getSVGImageOverlay()+"</div>"
+										+ "<div class='fetish-icon-content'>"+fetish.getIcon("phone")+"</div>"
+										+ "<div style='width:40%;height:40%;position:absolute;top:0;right:4px;'>"+level.getIcon("phone")+"</div>"
 										+ (Main.game.getPlayer().hasFetish(fetish) // Overlay to create disabled effect:
 											? ""
 											: (fetish.isAvailable(Main.game.getPlayer())
@@ -2677,7 +2673,7 @@ public class PhoneDialogue {
 					+ " style='"+(Main.game.getPlayer().getBaseFetishDesire(fetish)==desire
 								?"border:2px solid "+Colour.FETISH.getShades()[1]+";"
 								:"")+"width:10%; margin:0 5%; float:left; cursor:pointer;'>"
-				+ "<div class='square-button-content'>"+(Main.game.getPlayer().getFetishDesire(fetish)==desire?desire.getSVGImage():desire.getSVGImageDesaturated())+"</div>"
+				+ "<div class='square-button-content'>"+(Main.game.getPlayer().getFetishDesire(fetish)==desire?desire.getIcon("phone"):desire.getIconDesaturated("phone"))+"</div>"
 				+ (Main.game.getPlayer().hasFetish(fetish) && Main.game.getPlayer().getFetishDesire(fetish)!=desire
 					?"<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.8; border-radius:5px;'></div>"
 					:Main.game.getPlayer().getFetishDesire(fetish)!=desire

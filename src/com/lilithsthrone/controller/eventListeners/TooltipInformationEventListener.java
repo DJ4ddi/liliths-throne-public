@@ -1,32 +1,11 @@
 package com.lilithsthrone.controller.eventListeners;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
-import com.lilithsthrone.game.PropertyValue;
-import com.lilithsthrone.rendering.CachedImage;
-import com.lilithsthrone.rendering.ImageCache;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-
 import com.lilithsthrone.controller.TooltipUpdateThread;
+import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.attributes.ArousalLevel;
-import com.lilithsthrone.game.character.attributes.Attribute;
-import com.lilithsthrone.game.character.attributes.CorruptionLevel;
-import com.lilithsthrone.game.character.attributes.IntelligenceLevel;
-import com.lilithsthrone.game.character.attributes.LustLevel;
-import com.lilithsthrone.game.character.attributes.PhysiqueLevel;
+import com.lilithsthrone.game.character.attributes.*;
 import com.lilithsthrone.game.character.body.CoverableArea;
-import com.lilithsthrone.game.character.body.types.AntennaType;
-import com.lilithsthrone.game.character.body.types.BodyCoveringType;
-import com.lilithsthrone.game.character.body.types.HornType;
-import com.lilithsthrone.game.character.body.types.TailType;
-import com.lilithsthrone.game.character.body.types.VaginaType;
-import com.lilithsthrone.game.character.body.types.WingType;
+import com.lilithsthrone.game.character.body.types.*;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.PerkCategory;
@@ -36,20 +15,26 @@ import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.fetishes.FetishLevel;
 import com.lilithsthrone.game.character.race.Race;
-import com.lilithsthrone.game.combat.Attack;
-import com.lilithsthrone.game.combat.Combat;
-import com.lilithsthrone.game.combat.SpecialAttack;
-import com.lilithsthrone.game.combat.Spell;
-import com.lilithsthrone.game.combat.SpellUpgrade;
+import com.lilithsthrone.game.combat.*;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
 import com.lilithsthrone.game.inventory.enchanting.LoadedEnchantment;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.CachedImage;
+import com.lilithsthrone.rendering.ImageCache;
 import com.lilithsthrone.rendering.RenderingEngine;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * @since 0.1.0
@@ -111,7 +96,7 @@ public class TooltipInformationEventListener implements EventListener {
 
 			// Picture:
 			tooltipSB.append("<div class='picture'>"
-								+ statusEffect.getSVGString(owner)
+								+ statusEffect.getIcon("tooltip", owner)
 							+ "</div>"
 							+ "<div class='description'>"
 								+ statusEffect.getDescription(owner)
@@ -175,7 +160,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("</div>");
 
 			// Picture:
-			tooltipSB.append("<div class='picture'>" + perk.getSVGString() + "</div>");
+			tooltipSB.append("<div class='picture'>" + perk.getIcon("tooltip") + "</div>");
 
 			// Description:
 			tooltipSB.append("<div class='description'>" + perk.getDescription(owner) + "</div>");
@@ -213,7 +198,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("</div>");
 
 			// Picture:
-			tooltipSB.append("<div class='picture'>" + levelUpPerk.getSVGString() + "</div>");
+			tooltipSB.append("<div class='picture'>" + levelUpPerk.getIcon("tooltip") + "</div>");
 
 			// Description:
 			tooltipSB.append("<div class='description'>" + levelUpPerk.getDescription(Main.game.getPlayer()) + "</div>");
@@ -274,7 +259,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("</div>");
 
 			// Picture:
-			tooltipSB.append("<div class='picture'>" + desire.getSVGImage() + "</div>");
+			tooltipSB.append("<div class='picture'>" + desire.getIcon("tooltip") + "</div>");
 
 			// Description:
 			if(owner.hasFetish(fetish) && desire!=FetishDesire.FOUR_LOVE) {
@@ -346,7 +331,7 @@ public class TooltipInformationEventListener implements EventListener {
 				tooltipSB.append("</div>");
 	
 				// Picture:
-				tooltipSB.append("<div class='picture'>" + fetish.getSVGString() + "</div>");
+				tooltipSB.append("<div class='picture'>" + fetish.getIcon("tooltip") + "</div>");
 	
 				// Description:
 				tooltipSB.append("<div class='description'>" + fetish.getDescription(owner) + "</div>");
@@ -392,7 +377,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("</div>");
 
 			// Picture:
-			tooltipSB.append("<div class='picture'>" + specialAttack.getSVGString() + "</div>");
+			tooltipSB.append("<div class='picture'>" + specialAttack.getIcon("tooltip") + "</div>");
 
 			// Description & turns remaining:
 			tooltipSB.append("<div class='description'>"
@@ -445,7 +430,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("</div>");
 
 			// Picture:
-			tooltipSB.append("<div class='picture'>" + spell.getSVGString() + "</div>");
+			tooltipSB.append("<div class='picture'>" + spell.getIcon("tooltip") + "</div>");
 
 			// Description & turns remaining:
 			tooltipSB.append(
@@ -483,7 +468,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("</div>");
 
 			// Picture:
-			tooltipSB.append("<div class='picture'>" + spellUpgrade.getSVGString() + "</div>");
+			tooltipSB.append("<div class='picture'>" + spellUpgrade.getIcon("tooltip") + "</div>");
 
 			// Description:
 			tooltipSB.append(
@@ -585,7 +570,7 @@ public class TooltipInformationEventListener implements EventListener {
 				tooltipSB.append("</div>");
 			
 				// Picture:
-				tooltipSB.append("<div class='picture'>" + currentAttributeStatusEffect.getSVGString(owner) + "</div>");
+				tooltipSB.append("<div class='picture'>" + currentAttributeStatusEffect.getIcon("tooltip", owner) + "</div>");
 			
 				// Description & turns remaining:
 				tooltipSB.append("<div class='description'>" + currentAttributeStatusEffect.getDescription(owner) + "</div>");

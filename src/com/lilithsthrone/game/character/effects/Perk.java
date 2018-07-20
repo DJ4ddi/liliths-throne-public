@@ -1,19 +1,18 @@
 package com.lilithsthrone.game.character.effects;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * @since 0.1.0
@@ -1114,7 +1113,6 @@ public enum Perk {
 
 	private int renderingPriority;
 	protected String name;
-	private Colour colour;
 	private boolean equippableTrait;
 
 	// Attributes modified by this Virtue:
@@ -1122,7 +1120,8 @@ public enum Perk {
 
 	private PerkCategory perkCategory;
 
-	private String SVGString;
+	private String iconPath;
+	private Colour iconColour;
 
 	private List<String> extraEffects;
 
@@ -1132,7 +1131,6 @@ public enum Perk {
 
 		this.renderingPriority = renderingPriority;
 		this.name = name;
-		this.colour = colour;
 		
 		this.equippableTrait = major;
 		
@@ -1142,24 +1140,8 @@ public enum Perk {
 
 		this.extraEffects = extraEffects;
 
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/" + pathName + ".svg");
-			if(is==null) {
-				System.err.println("Error! Perk icon file does not exist (Trying to read from '"+pathName+"')!");
-			}
-			SVGString = Util.inputStreamToString(is);
-
-			SVGString = SVGString.replaceAll("#ff2a2a", colour.getShades()[0]);
-			SVGString = SVGString.replaceAll("#ff5555", colour.getShades()[1]);
-			SVGString = SVGString.replaceAll("#ff8080", colour.getShades()[2]);
-			SVGString = SVGString.replaceAll("#ffaaaa", colour.getShades()[3]);
-			SVGString = SVGString.replaceAll("#ffd5d5", colour.getShades()[4]);
-
-			is.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		iconPath = pathName + ".svg";
+		iconColour = colour;
 
 		modifiersList = new ArrayList<>();
 
@@ -1188,7 +1170,7 @@ public enum Perk {
 	}
 
 	public Colour getColour() {
-		return colour;
+		return iconColour;
 	}
 
 	public boolean isEquippableTrait() {
@@ -1225,8 +1207,8 @@ public enum Perk {
 		return extraEffects;
 	}
 
-	public String getSVGString() {
-		return SVGString;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, iconColour);
 	}
 
 	public PerkCategory getPerkCategory() {

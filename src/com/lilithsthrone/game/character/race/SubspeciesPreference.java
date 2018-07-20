@@ -1,6 +1,7 @@
 package com.lilithsthrone.game.character.race;
 
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
+import com.lilithsthrone.utils.Colour;
 
 /**
  * @since 0.1.99
@@ -11,34 +12,15 @@ public enum SubspeciesPreference {
 
 	ZERO_NONE("off", 0) {
 		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleZeroDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleZero();
+		public String getIcon(String context, boolean disabled) {
+			return IconCache.INSTANCE.getIcon(context, "UIElements/scale_zero.svg",
+					disabled ? Colour.BASE_GREY : Colour.BASE_MAGENTA);
 		}
 	},
-	ONE_LOW("low", 25) {
-		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleOneDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleOne();
-		}
-	},
-	TWO_AVERAGE("average", 50) {
-		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleTwoDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleTwo();
-		}
-	},
-	THREE_HIGH("high", 75) {
-		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleThreeDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleThree();
-		}
-	},
-	FOUR_ABUNDANT("abundant", 100) {
-		@Override
-		public String getSVGImage(boolean disabled) {
-			return disabled?SVGImages.SVG_IMAGE_PROVIDER.getScaleFourDisabled():SVGImages.SVG_IMAGE_PROVIDER.getScaleFour();
-		}
-	};
+	ONE_LOW("low", 25),
+	TWO_AVERAGE("average", 50),
+	THREE_HIGH("high", 75),
+	FOUR_ABUNDANT("abundant", 100);
 
 	private String name;
 	private int value;
@@ -48,7 +30,10 @@ public enum SubspeciesPreference {
 		this.value=value;
 	}
 	
-	public abstract String getSVGImage(boolean disabled);
+	public String getIcon(String context, boolean disabled) {
+		return IconCache.INSTANCE.getIcon(context, "UIElements/scale_" + name().split("_")[0].toLowerCase() + ".svg",
+				disabled ? Colour.BASE_GREY : Colour.BASE_GREEN);
+	}
 	
 	public int getValue() {
 		return value;

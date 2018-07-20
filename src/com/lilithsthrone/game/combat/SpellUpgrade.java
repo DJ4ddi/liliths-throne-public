@@ -1,7 +1,5 @@
 package com.lilithsthrone.game.combat;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.Attribute;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Util;
 
 /**
@@ -803,7 +802,7 @@ public enum SpellUpgrade {
 	private List<String> extraEffects;
 	private List<String> modifiersList;
 	
-	private String SVGString;
+	private String iconPath;
 	
 	private SpellUpgrade(int pointCost,
 			SpellSchool spellSchool,
@@ -842,19 +841,8 @@ public enum SpellUpgrade {
 		if (extraEffects != null) {
 			modifiersList.addAll(extraEffects);
 		}
-		
-		try {
-			if(!pathName.isEmpty()) {
-				InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/combat/spell/upgrade/" + pathName + ".svg");
-				if(is==null) {
-					System.err.println("Error! SpellUpgrade icon file does not exist (Trying to read from '"+pathName+"')!");
-				}
-				SVGString = Util.inputStreamToString(is);
-				is.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		iconPath = "combat/spell/upgrade/" + pathName + ".svg";
 	}
 	
 	public boolean isAlwaysAvailable() {
@@ -897,8 +885,8 @@ public enum SpellUpgrade {
 		return extraEffects;
 	}
 
-	public String getSVGString() {
-		return SVGString;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, iconPath);
 	}
 	
 }

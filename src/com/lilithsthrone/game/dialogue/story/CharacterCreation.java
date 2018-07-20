@@ -1511,7 +1511,7 @@ public class CharacterCreation {
 								+ "<div id='HISTORY_" + history + "' class='fetish-icon full" + (Main.game.getPlayer().getHistory()==history
 									? " owned' style='border:2px solid " + Colour.GENERIC_GOOD.toWebHexString() + ";'>"
 									: " unlocked' style='border:2px solid " + Colour.TEXT_GREY.toWebHexString() + ";" + "'>")
-									+ "<div class='fetish-icon-content'>"+history.getAssociatedPerk().getSVGString()+"</div>"
+									+ "<div class='fetish-icon-content'>"+history.getAssociatedPerk().getIcon("newgame")+"</div>"
 								+ "</div>"
 							+ "</div>"
 							+"<div class='container-full-width' style='margin:0 8px; width: calc(90% - 16px);'>"
@@ -1533,7 +1533,7 @@ public class CharacterCreation {
 //									+ "<div id='HISTORY_" + history + "' class='fetish-icon full" + (Main.game.getPlayer().getHistory()==history
 //										? " owned' style='border:2px solid " + Colour.GENERIC_GOOD.toWebHexString() + ";'>"
 //										: " unlocked' style='border:2px solid " + Colour.TEXT_GREY.toWebHexString() + ";" + "'>")
-//										+ "<div class='fetish-icon-content'>"+history.getAssociatedPerk().getSVGString()+"</div>"
+//										+ "<div class='fetish-icon-content'>"+history.getAssociatedPerk().getIcon()+"</div>"
 //									+ "</div>"
 //								+ "</div>"
 //								+"<div class='container-full-width' style='margin:0 8px; width: calc(75% - 16px);'>"

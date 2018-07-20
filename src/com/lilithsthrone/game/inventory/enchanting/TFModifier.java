@@ -1,15 +1,13 @@
 package com.lilithsthrone.game.inventory.enchanting;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.inventory.Rarity;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
-import com.lilithsthrone.utils.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.1.7
@@ -1216,74 +1214,31 @@ public enum TFModifier {
 	
 	private AttributeCategory attributeCategory;
 	private Attribute associatedAttribute;
-	private String name, description, descriptor, SVGString;
-	private Colour colour;
+	private String name, description, descriptor, iconPath;
+	private Colour iconColour;
 	private Rarity rarity;
 	private Fetish fetish;
 	
-	private TFModifier(AttributeCategory attributeCategory, Attribute associatedAttribute, String description, String SVGString, Rarity rarity) {
+	private TFModifier(AttributeCategory attributeCategory, Attribute associatedAttribute, String description, String pathName, Rarity rarity) {
 		this.attributeCategory=attributeCategory;
 		this.associatedAttribute=associatedAttribute;
 		this.name = associatedAttribute.getName();
 		this.description = description;
 		this.descriptor = associatedAttribute.getPositiveEnchantment();
-		this.colour = associatedAttribute.getColour();
 		this.rarity=rarity;
-		
-		// Set this item's file image:
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/crafting/" + SVGString + ".svg");
-			if(is==null) {
-				System.err.println("Error! TFModifier icon file does not exist (Trying to read from '"+SVGString+"')! (Code 1)");
-			}
-			String s = Util.inputStreamToString(is);
 
-			s = s.replaceAll("#ff2a2a", this.colour.getShades()[0]);
-			s = s.replaceAll("#ff5555", this.colour.getShades()[1]);
-			s = s.replaceAll("#ff8080", this.colour.getShades()[2]);
-			s = s.replaceAll("#ffaaaa", this.colour.getShades()[3]);
-			s = s.replaceAll("#ffd5d5", this.colour.getShades()[4]);
-			this.SVGString = s;
-
-			is.close();
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		iconColour = associatedAttribute.getColour();
+		iconPath = "crafting/" + pathName + ".svg";
 	}
 	
-	private TFModifier(String name, String description, String descriptor, String SVGString, Colour colour, Rarity rarity) {
+	private TFModifier(String name, String description, String descriptor, String pathName, Colour colour, Rarity rarity) {
 		this.name = name;
 		this.description = description;
 		this.descriptor = descriptor;
 		this.rarity=rarity;
-		
-		if (colour == null) {
-			this.colour = Colour.CLOTHING_BLACK;
-		} else {
-			this.colour = colour;
-		}
-		
-		// Set this item's file image:
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/crafting/" + SVGString + ".svg");
-			if(is==null) {
-				System.err.println("Error! TFModifier icon file does not exist (Trying to read from '"+SVGString+"')! (Code 2)");
-			}
-			String s = Util.inputStreamToString(is);
 
-			s = s.replaceAll("#ff2a2a", this.colour.getShades()[0]);
-			s = s.replaceAll("#ff5555", this.colour.getShades()[1]);
-			s = s.replaceAll("#ff8080", this.colour.getShades()[2]);
-			s = s.replaceAll("#ffaaaa", this.colour.getShades()[3]);
-			s = s.replaceAll("#ffd5d5", this.colour.getShades()[4]);
-			this.SVGString = s;
-
-			is.close();
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		iconColour = colour == null ? Colour.CLOTHING_BLACK : colour;
+		iconPath = "crafting/" + pathName + ".svg";
 	}
 	
 	private TFModifier(Fetish f) {
@@ -1291,9 +1246,10 @@ public enum TFModifier {
 		this.description = "Applies an effect related to the "+name+" fetish. ("+f.getShortDescriptor()+")";
 		this.descriptor = name;
 		this.rarity = Rarity.EPIC;
-		this.colour = Colour.FETISH;
 		this.fetish = f;
-		this.SVGString = f.getSVGString();
+
+		iconColour = Colour.FETISH;
+		iconPath = null;
 		
 	}
 	
@@ -1335,12 +1291,12 @@ public enum TFModifier {
 		return descriptor;
 	}
 
-	public String getSVGString() {
-		return SVGString;
+	public String getIcon(String context) {
+		return iconPath == null ? fetish.getIcon(context) : IconCache.INSTANCE.getIcon(context, iconPath, iconColour);
 	}
 
 	public Colour getColour() {
-		return colour;
+		return iconColour;
 	}
 	
 	public boolean isSoloDescriptor() {

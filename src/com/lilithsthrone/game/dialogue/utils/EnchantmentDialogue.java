@@ -1,28 +1,5 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.io.File;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.markings.Tattoo;
@@ -38,20 +15,32 @@ import com.lilithsthrone.game.inventory.AbstractCoreItem;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.clothing.ClothingType;
-import com.lilithsthrone.game.inventory.enchanting.EnchantingUtils;
-import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
-import com.lilithsthrone.game.inventory.enchanting.LoadedEnchantment;
-import com.lilithsthrone.game.inventory.enchanting.TFModifier;
-import com.lilithsthrone.game.inventory.enchanting.TFPotency;
+import com.lilithsthrone.game.inventory.enchanting.*;
 import com.lilithsthrone.game.inventory.item.AbstractItem;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.game.inventory.weapon.AbstractWeapon;
 import com.lilithsthrone.game.inventory.weapon.WeaponType;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.rendering.RenderingEngine;
-import com.lilithsthrone.rendering.SVGImages;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.StringWriter;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * @since 0.1.7
@@ -97,7 +86,7 @@ public class EnchantmentDialogue {
 		inventorySB.append("<div class='container-half-width' style='padding-bottom:0;'>");
 		for (TFModifier tfMod : ingredient.getEnchantmentEffect().getPrimaryModifiers()) {
 			inventorySB.append("<div class='modifier-icon " + tfMod.getRarity().getName() + "' style='width:11.5%;'>"
-					+ "<div class='modifier-icon-content'>"+tfMod.getSVGString()+"</div>"
+					+ "<div class='modifier-icon-content'>"+tfMod.getIcon("enchantment")+"</div>"
 					+ "<div class='overlay' id='MOD_PRIMARY_"+tfMod.hashCode()+"'></div>"
 					+ "</div>");
 		}
@@ -112,7 +101,7 @@ public class EnchantmentDialogue {
 				+ "<div class='container-half-width' style='width:18%; margin:0 1%;'>");
 		if(primaryMod != null) {
 			inventorySB.append("<div class='modifier-icon " + primaryMod.getRarity().getName() + "' style='width:100%; margin:0;'>"
-					+ "<div class='modifier-icon-content'>"+primaryMod.getSVGString()+"</div>"
+					+ "<div class='modifier-icon-content'>"+primaryMod.getIcon("enchantment")+"</div>"
 					+ "<div class='overlay' id='MOD_PRIMARY_ENCHANTING'></div>"
 					+ "</div>");
 			
@@ -130,7 +119,7 @@ public class EnchantmentDialogue {
 		inventorySB.append("<div class='container-half-width' style='padding-bottom:0;'>");
 		for (TFModifier tfMod : ingredient.getEnchantmentEffect().getSecondaryModifiers(primaryMod)) {
 			inventorySB.append("<div class='modifier-icon " + tfMod.getRarity().getName() + "' style='width:11.5%;'>"
-					+ "<div class='modifier-icon-content'>"+tfMod.getSVGString()+"</div>"
+					+ "<div class='modifier-icon-content'>"+tfMod.getIcon("enchantment")+"</div>"
 					+ "<div class='overlay' id='MOD_SECONDARY_"+tfMod.hashCode()+"'></div>"
 					+ "</div>");
 		}
@@ -142,7 +131,7 @@ public class EnchantmentDialogue {
 				+ "<div class='container-half-width' style='width:18%; margin:0 1%;'>");
 		if(secondaryMod != null) {
 			inventorySB.append("<div class='modifier-icon " + secondaryMod.getRarity().getName() + "' style='width:100%; margin:0;'>"
-					+ "<div class='modifier-icon-content'>"+secondaryMod.getSVGString()+"</div>"
+					+ "<div class='modifier-icon-content'>"+secondaryMod.getIcon("enchantment")+"</div>"
 					+ "<div class='overlay' id='MOD_SECONDARY_ENCHANTING'></div>"
 					+ "</div>");
 			
@@ -722,20 +711,28 @@ public class EnchantmentDialogue {
 						+ "<div class='container-full-width' style='width:calc(25% - 16px);text-align:center; background:transparent;'>"
 							+ (Main.game.isStarted() && !Main.game.isInCombat() && !Main.game.isInSex() && !EnchantmentDialogue.getEffects().isEmpty()
 									?(fileName.equals(overwriteConfirmationName)
-										?"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveConfirm()+"</div></div>"
-										:"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskOverwrite()+"</div></div>")
-									:"<div class='square-button saveIcon disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveDisabled()+"</div></div>")
+										?"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskSave.svg", Colour.GENERIC_EXCELLENT)+"</div></div>"
+										:"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskSave.svg", Colour.BASE_BLACK)+"</div></div>")
+									:"<div class='square-button saveIcon disabled'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskSave.svg", Colour.BASE_GREY)+"</div></div>")
 							
 							+ (suitableItemAvailable
 									? (fileName.equals(loadConfirmationName)
-										?"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskLoadConfirm()+"</div></div>"
-										:"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskLoad()+"</div></div>")
-									:"<div class='square-button saveIcon disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskLoadDisabled()+"</div></div>")
+										?"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskLoad.svg", Colour.GENERIC_EXCELLENT)+"</div></div>"
+										:"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskLoad.svg", Colour.BASE_BLUE_LIGHT)+"</div></div>")
+									:"<div class='square-button saveIcon disabled'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskLoad.svg", Colour.BASE_GREY)+"</div></div>")
 	
 	
 							+ (fileName.equals(deleteConfirmationName)
-								?"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskDeleteConfirm()+"</div></div>"
-								:"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskDelete()+"</div></div>")
+								?"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"
+										+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskDelete.svg", Colour.GENERIC_EXCELLENT)+"</div></div>"
+								:"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"
+										+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskDelete.svg", Colour.BASE_CRIMSON)+"</div></div>")
 						+ "</div>"
 					+ "</div>";
 			
@@ -748,7 +745,8 @@ public class EnchantmentDialogue {
 							+ "</div>"
 								
 							+ "<div class='container-full-width' style='width:calc(25% - 16px); text-align:center; background:transparent;'>"
-								+ "<div class='square-button saveIcon disabled' style='float:left;'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveDisabled()+"</div></div>"
+								+ "<div class='square-button saveIcon disabled' style='float:left;'><div class='square-button-content'>"
+								+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskSave.svg", Colour.BASE_GREY)+"</div></div>"
 							+ "</div>"
 						+ "</div>";
 				
@@ -787,7 +785,8 @@ public class EnchantmentDialogue {
 							+ "</div>"
 						
 							+ "<div class='container-full-width' style='width:calc(25% - 16px); text-align:center; background:transparent;'>"
-								+ "<div class='square-button saveIcon' id='new_saved' style='float:left;'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSave()+"</div></div>"
+								+ "<div class='square-button saveIcon' id='new_saved' style='float:left;'><div class='square-button-content'>"
+								+ IconCache.INSTANCE.getIcon("enchantment", "UIElements/diskSave.svg", Colour.BASE_BLACK)+"</div></div>"
 							+ "</div>"
 						+ "</div>";
 			}

@@ -1,22 +1,16 @@
 package com.lilithsthrone.world.places;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.lilithsthrone.game.character.CharacterUtils;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
-import com.lilithsthrone.utils.BaseColour;
+import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.XMLSaving;
 import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.EntranceType;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * @since 0.1.?
@@ -173,7 +167,7 @@ public class GenericPlace implements Serializable, XMLSaving {
 		this.name = name;
 	}
 
-	public BaseColour getColour() {
+	public Colour getColour() {
 		return placeType.getColour();
 	}
 
@@ -201,8 +195,8 @@ public class GenericPlace implements Serializable, XMLSaving {
 		return placeType.isItemsDisappear();
 	}
 
-	public String getSVGString() {
-		return placeType.getSVGString(placeUpgrades);
+	public String getIcon(String context) {
+		return placeType.getIcon(context, placeUpgrades);
 	}
 	
 	

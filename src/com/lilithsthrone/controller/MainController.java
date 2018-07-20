@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
+import com.lilithsthrone.rendering.IconCache;
+import javafx.beans.value.ChangeListener;
+import javafx.concurrent.Worker;
 import org.w3c.dom.Document;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -501,7 +504,7 @@ public class MainController implements Initializable {
 //								
 //								for(Colour c : ct.getAvailableColours()) {
 //									try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/clothing/"+ct+"/"+ct.getName().replaceAll(" ", "_")+"_"+c+".svg"), "utf-8"))) {
-//										writer.write(ct.getSVGImage(c));
+//										writer.write(ct.getIcon(c));
 //									} catch (IOException e) {
 //										e.printStackTrace();
 //									}
@@ -513,7 +516,7 @@ public class MainController implements Initializable {
 //								
 //								
 //								try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/items/"+ct.getName(false).replaceAll(" ", "_")+".svg"), "utf-8"))) {
-//									writer.write(ct.getSVGString());
+//									writer.write(ct.getIcon());
 //								} catch (IOException e) {
 //									e.printStackTrace();
 //								}
@@ -534,7 +537,7 @@ public class MainController implements Initializable {
 //							for (StatusEffect se : StatusEffect.values()) {
 //								if(!se.isSexEffect()) {
 //									try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/statusEffects/"+se+"("+se.getName(Main.game.getPlayer()).replaceAll(" ", "_")+").svg"), "utf-8"))) {
-//										writer.write(se.getSVGString(Main.game.getPlayer()));
+//										writer.write(se.getIcon(Main.game.getPlayer()));
 //									} catch (IOException e) {
 //										e.printStackTrace();
 //									}
@@ -545,7 +548,7 @@ public class MainController implements Initializable {
 //							for (Fetish se : Fetish.values()) {
 //								
 //								try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/fetishes/"+se+"("+se.getName(Main.game.getPlayer()).replaceAll(" ", "_")+").svg"), "utf-8"))) {
-//									writer.write(se.getSVGString());
+//									writer.write(se.getIcon());
 //								} catch (IOException e) {
 //									e.printStackTrace();
 //								}
@@ -1022,6 +1025,7 @@ public class MainController implements Initializable {
 		webEngineTooltip = webviewTooltip.getEngine();
 		webEngineTooltip.setJavaScriptEnabled(false);
 		webEngineTooltip.getHistory().setMaxSize(0);
+		webviewTooltip.widthProperty().addListener(((observable, oldValue, newValue) -> IconCache.INSTANCE.resize(webEngineTooltip)));
 		
 		if (Main.getProperties().hasValue(PropertyValue.lightTheme)) {
 			webEngineTooltip.setUserStyleSheetLocation(getClass().getResource("/com/lilithsthrone/res/css/webViewTooltip_stylesheet_light.css").toExternalForm());
@@ -1032,8 +1036,10 @@ public class MainController implements Initializable {
 		// Main WebView:
 		webViewMain.setContextMenuEnabled(false);
 		webEngine = webViewMain.getEngine();
+
 //		webEngine.setJavaScriptEnabled(false);
 		webEngine.getHistory().setMaxSize(0);
+		webViewMain.widthProperty().addListener(((observable, oldValue, newValue) -> IconCache.INSTANCE.resize(webEngine)));
 		
 		if (Main.getProperties().hasValue(PropertyValue.lightTheme)) {
 			webEngine.setUserStyleSheetLocation(getClass().getResource("/com/lilithsthrone/res/css/webView_stylesheet_light.css").toExternalForm());
@@ -1056,6 +1062,7 @@ public class MainController implements Initializable {
 		webEngineButtons = webViewButtons.getEngine();
 		webEngineButtons.setJavaScriptEnabled(false);
 		webEngineButtons.getHistory().setMaxSize(0);
+		webViewButtons.widthProperty().addListener(((observable, oldValue, newValue) -> IconCache.INSTANCE.resize(webEngineButtons)));
 		
 		if (Main.getProperties().hasValue(PropertyValue.lightTheme)) {
 			webEngineButtons.setUserStyleSheetLocation(getClass().getResource("/com/lilithsthrone/res/css/webViewButtons_stylesheet_light.css").toExternalForm());
@@ -1077,6 +1084,7 @@ public class MainController implements Initializable {
 		webEngineAttributes = webViewAttributes.getEngine();
 		webEngineAttributes.setJavaScriptEnabled(false);
 		webEngineAttributes.getHistory().setMaxSize(0);
+		webViewAttributes.widthProperty().addListener(((observable, oldValue, newValue) -> IconCache.INSTANCE.resize(webEngineAttributes)));
 		
 		if (Main.getProperties().hasValue(PropertyValue.lightTheme)) {
 			webEngineAttributes.setUserStyleSheetLocation(getClass().getResource("/com/lilithsthrone/res/css/webViewAttributes_stylesheet_light.css").toExternalForm());
@@ -1098,6 +1106,7 @@ public class MainController implements Initializable {
 		webEngineRight = webViewRight.getEngine();
 		webEngineRight.setJavaScriptEnabled(false);
 		webEngineRight.getHistory().setMaxSize(0);
+		webViewRight.widthProperty().addListener(((observable, oldValue, newValue) -> IconCache.INSTANCE.resize(webEngineRight)));
 		
 		if (Main.getProperties().hasValue(PropertyValue.lightTheme)) {
 			webEngineRight.setUserStyleSheetLocation(getClass().getResource("/com/lilithsthrone/res/css/webViewAttributes_stylesheet_light.css").toExternalForm());
@@ -1758,11 +1767,16 @@ public class MainController implements Initializable {
 		content=content.replaceAll("\r", "");
 		content=content.replaceAll("\n", "");
 		content=content.replaceAll("\"", "'");
-		
+
+//		long startTime = System.currentTimeMillis();
+
 		engine.executeScript(
 			"document.open('text/html');"
 			+ "document.write(\""+content+"\");"
 			+"document.close();");
+
+//		long endTime = System.currentTimeMillis();
+//		System.out.println("Rendering time: " + (endTime - startTime));
 	}
 	
 	public void setMainContent(String content) {

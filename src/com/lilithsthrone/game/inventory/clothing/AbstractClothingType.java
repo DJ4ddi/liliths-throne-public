@@ -1,25 +1,5 @@
 package com.lilithsthrone.game.inventory.clothing;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
@@ -27,20 +7,26 @@ import com.lilithsthrone.game.inventory.AbstractCoreType;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.ItemTag;
 import com.lilithsthrone.game.inventory.Rarity;
-import com.lilithsthrone.game.inventory.enchanting.AbstractItemEffectType;
-import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
-import com.lilithsthrone.game.inventory.enchanting.ItemEffectType;
-import com.lilithsthrone.game.inventory.enchanting.TFEssence;
-import com.lilithsthrone.game.inventory.enchanting.TFModifier;
-import com.lilithsthrone.game.inventory.enchanting.TFPotency;
+import com.lilithsthrone.game.inventory.enchanting.*;
 import com.lilithsthrone.game.inventory.item.AbstractItem;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.rendering.Pattern;
-import com.lilithsthrone.rendering.SVGImages;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.ColourListPresets;
 import com.lilithsthrone.utils.Util;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 /**
  * @since 0.1.84
@@ -669,7 +655,7 @@ public abstract class AbstractClothingType extends AbstractCoreType {
 		SVGStringEquippedMap = new HashMap<>();
 		
 		// Causes crash if done from here for some reason.
-		//this.isPatternAvailable = this.getSVGImage().contains("label=\"patternLayer\"");
+		//this.isPatternAvailable = this.getIcon().contains("label=\"patternLayer\"");
 	}
 	
 	@Override
@@ -1626,15 +1612,15 @@ public abstract class AbstractClothingType extends AbstractCoreType {
 							// Add minute and hour hands to women's and men's watches:
 							s += (this.equals(ClothingType.WRIST_WOMENS_WATCH)
 									? "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + ((Main.game.getMinutesPassed() % (60 * 24)) / 2f) + "deg);'>"
-										+ SVGImages.SVG_IMAGE_PROVIDER.getWomensWatchHourHand() + "</div>"
+										+ IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_womens_watch_hourhand.svg") + "</div>"
 										+ "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + (Main.game.getMinutesPassed() % (60)) * 6 + "deg);'>"
-										+ SVGImages.SVG_IMAGE_PROVIDER.getWomensWatchMinuteHand() + "</div>"
+										+ IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_womens_watch_minutehand.svg") + "</div>"
 									: "")
 									+ (this.equals(ClothingType.WRIST_MENS_WATCH)
 										? "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + ((Main.game.getMinutesPassed() % (60 * 24)) / 2f) + "deg);'>"
-											+ SVGImages.SVG_IMAGE_PROVIDER.getMensWatchHourHand() + "</div>"
+											+ IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_mens_watch_hourhand.svg") + "</div>"
 											+ "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + (Main.game.getMinutesPassed() % (60)) * 6
-											+ "deg);'>" + SVGImages.SVG_IMAGE_PROVIDER.getMensWatchMinuteHand() + "</div>"
+											+ "deg);'>" + IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_mens_watch_minutehand.svg") + "</div>"
 										: "");
 
 							addSVGStringEquippedMapping(colour, colourSecondary, colourTertiary, pattern, patternColour, patternSecondaryColour, patternTertiaryColour, s);
@@ -1677,15 +1663,15 @@ public abstract class AbstractClothingType extends AbstractCoreType {
 							// Add minute and hour hands to women's and men's watches:
 							s += (this.equals(ClothingType.WRIST_WOMENS_WATCH)
 									? "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + ((Main.game.getMinutesPassed() % (60 * 24)) / 2f) + "deg);'>"
-										+ SVGImages.SVG_IMAGE_PROVIDER.getWomensWatchHourHand() + "</div>"
+										+ IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_womens_watch_hourhand.svg") + "</div>"
 										+ "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + (Main.game.getMinutesPassed() % (60)) * 6 + "deg);'>"
-										+ SVGImages.SVG_IMAGE_PROVIDER.getWomensWatchMinuteHand() + "</div>"
+										+ IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_womens_watch_minutehand.svg") + "</div>"
 									: "")
 									+ (this.equals(ClothingType.WRIST_MENS_WATCH)
 										? "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + ((Main.game.getMinutesPassed() % (60 * 24)) / 2f) + "deg);'>"
-											+ SVGImages.SVG_IMAGE_PROVIDER.getMensWatchHourHand() + "</div>"
+											+ IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_mens_watch_hourhand.svg") + "</div>"
 											+ "<div style='width:100%;height:100%;position:absolute;left:0;top:0;-webkit-transform: rotate(" + (Main.game.getMinutesPassed() % (60)) * 6
-											+ "deg);'>" + SVGImages.SVG_IMAGE_PROVIDER.getMensWatchMinuteHand() + "</div>"
+											+ "deg);'>" + IconCache.INSTANCE.getIcon("clothing", "clothing/wrist_mens_watch_minutehand.svg") + "</div>"
 										: "");
 							
 							addSVGStringMapping(colour, colourSecondary, colourTertiary, pattern, patternColour, patternSecondaryColour, patternTertiaryColour, s);

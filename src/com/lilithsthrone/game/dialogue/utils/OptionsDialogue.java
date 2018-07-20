@@ -1,13 +1,5 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.CharacterUtils;
@@ -15,12 +7,7 @@ import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.body.valueEnums.CupSize;
 import com.lilithsthrone.game.character.body.valueEnums.Lactation;
 import com.lilithsthrone.game.character.fetishes.Fetish;
-import com.lilithsthrone.game.character.gender.AndrogynousIdentification;
-import com.lilithsthrone.game.character.gender.Gender;
-import com.lilithsthrone.game.character.gender.GenderNames;
-import com.lilithsthrone.game.character.gender.GenderPreference;
-import com.lilithsthrone.game.character.gender.GenderPronoun;
-import com.lilithsthrone.game.character.gender.PronounType;
+import com.lilithsthrone.game.character.gender.*;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.race.FurryPreference;
 import com.lilithsthrone.game.character.race.Subspecies;
@@ -38,10 +25,18 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.Artist;
 import com.lilithsthrone.rendering.ArtistWebsite;
 import com.lilithsthrone.rendering.Artwork;
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.CreditsSlot;
 import com.lilithsthrone.utils.Util;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @since 0.1.0
@@ -487,18 +482,25 @@ public class OptionsDialogue {
 						+ "<div class='container-full-width' style='width:calc(25% - 16px);text-align:center; background:transparent;'>"
 							+ (Main.game.isStarted() && !Main.game.isInCombat() && !Main.game.isInSex()
 									?(name.equals(overwriteConfirmationName)
-										?"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveConfirm()+"</div></div>"
-										:"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskOverwrite()+"</div></div>")
-											:"<div class='square-button saveIcon disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveDisabled()+"</div></div>")
+										?"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("options", "UIElements/diskSave.svg", Colour.GENERIC_EXCELLENT)+"</div></div>"
+										:"<div class='square-button saveIcon' id='overwrite_saved_" + baseName + "'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("options", "UIElements/diskSave.svg", Colour.BASE_BLACK)+"</div></div>")
+											:"<div class='square-button saveIcon disabled'><div class='square-button-content'>"
+												+ IconCache.INSTANCE.getIcon("options", "UIElements/diskSave.svg", Colour.BASE_GREY)+"</div></div>")
 							
 							+ (name.equals(loadConfirmationName)
-									?"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskLoadConfirm()+"</div></div>"
-									:"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskLoad()+"</div></div>")
+									?"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/diskLoad.svg", Colour.GENERIC_EXCELLENT)+"</div></div>"
+									:"<div class='square-button saveIcon' id='load_saved_" + baseName + "'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/diskLoad.svg", Colour.BASE_BLUE_LIGHT)+"</div></div>")
 	
 	
 							+ (name.equals(deleteConfirmationName)
-								?"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskDeleteConfirm()+"</div></div>"
-								:"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskDelete()+"</div></div>")
+								?"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"
+										+ IconCache.INSTANCE.getIcon("options", "UIElements/diskDelete.svg", Colour.GENERIC_EXCELLENT)+"</div></div>"
+								:"<div class='square-button saveIcon' id='delete_saved_" + baseName + "'><div class='square-button-content'>"
+										+ IconCache.INSTANCE.getIcon("options", "UIElements/diskDelete.svg", Colour.BASE_CRIMSON)+"</div></div>")
 						+ "</div>"
 					+ "</div>";
 			
@@ -512,8 +514,10 @@ public class OptionsDialogue {
 						+ "</div>"
 						+ "<div class='container-full-width' style='width:calc(25% - 16px); text-align:center; background:transparent;'>"
 							+ (Main.isSaveGameAvailable()
-								?"<div class='square-button saveIcon' id='new_saved' style='float:left;'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSave()+"</div></div>"
-								:"<div class='square-button saveIcon disabled' id='new_saved_disabled' style='float:left;'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveDisabled()+"</div></div>")
+								?"<div class='square-button saveIcon' id='new_saved' style='float:left;'><div class='square-button-content'>"
+										+ IconCache.INSTANCE.getIcon("options", "UIElements/diskSave.svg", Colour.BASE_BLACK)+"</div></div>"
+								:"<div class='square-button saveIcon disabled' id='new_saved_disabled' style='float:left;'><div class='square-button-content'>"
+										+ IconCache.INSTANCE.getIcon("options", "UIElements/diskSave.svg", Colour.BASE_GREY)+"</div></div>")
 						+ "</div>"
 					+ "</div>";
 				
@@ -531,8 +535,10 @@ public class OptionsDialogue {
 					+ "</div>"
 					+ "<div class='container-quarter-width' style='padding:auto 0; margin:auto 0; width:20%; text-align:center; background:transparent;'>"
 					+ (name.equals(deleteConfirmationName)
-							?"<div class='square-button big' id='delete_saved_character_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskDeleteConfirm()+"</div></div>"
-							:"<div class='square-button big' id='delete_saved_character_" + baseName + "'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDiskDelete()+"</div></div>")
+							?"<div class='square-button big' id='delete_saved_character_" + baseName + "'><div class='square-button-content'>"
+									+ IconCache.INSTANCE.getIcon("options", "UIElements/diskDelete.svg", Colour.GENERIC_EXCELLENT)+"</div></div>"
+							:"<div class='square-button big' id='delete_saved_character_" + baseName + "'><div class='square-button-content'>"
+									+ IconCache.INSTANCE.getIcon("options", "UIElements/diskDelete.svg", Colour.BASE_CRIMSON)+"</div></div>")
 					+ "</div>"
 				+ "</div>";
 	}
@@ -1246,24 +1252,34 @@ public class OptionsDialogue {
 							+ "<b style='color:"+Colour.RACE_HUMAN.toWebHexString()+"; float:left; width:100%; text-align:center;'>Human encounters</b>"
 							+ "<div style='display:inline-block; padding-left:25%; width:100%;'>"
 								+ "<div id='furry_preference_human_encounter_zero' class='square-button small"+(Main.getProperties().humanEncountersLevel==0
-									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleZero()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleZeroDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_zero.svg", Colour.BASE_MAGENTA)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_zero.svg", Colour.BASE_GREY)+"</div></div>")
 							
 								+ "<div id='furry_preference_human_encounter_one' class='square-button small"+(Main.getProperties().humanEncountersLevel==1
-									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleOne()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleOneDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_one.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_one.svg", Colour.BASE_GREY)+"</div></div>")
 								
 								+ "<div id='furry_preference_human_encounter_two' class='square-button small"+(Main.getProperties().humanEncountersLevel==2
-									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleTwo()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleTwoDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_two.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_two.svg", Colour.BASE_GREY)+"</div></div>")
 								
 								+ "<div id='furry_preference_human_encounter_three' class='square-button small"+(Main.getProperties().humanEncountersLevel==3
-									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleThree()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleThreeDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_three.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_three.svg", Colour.BASE_GREY)+"</div></div>")
 								
 								+ "<div id='furry_preference_human_encounter_four' class='square-button small"+(Main.getProperties().humanEncountersLevel==4
-									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleFour()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleFourDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.RACE_HUMAN.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_four.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_four.svg", Colour.BASE_GREY)+"</div></div>")
 							+"</div>"
 						+ "</div>"
 						
@@ -1271,24 +1287,34 @@ public class OptionsDialogue {
 							+ "<b style='color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+"; float:left; width:100%; text-align:center;'>Forced TF Racial Limits</b>"
 							+ "<div style='display:inline-block; padding-left:25%; width:100%;'>"
 								+ "<div id='forced_tf_limit_human' class='square-button small"+(Main.getProperties().forcedTFPreference==FurryPreference.HUMAN
-									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleZero()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleZeroDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_zero.svg", Colour.BASE_MAGENTA)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_zero.svg", Colour.BASE_GREY)+"</div></div>")
 							
 								+ "<div id='forced_tf_limit_minimum' class='square-button small"+(Main.getProperties().forcedTFPreference==FurryPreference.MINIMUM
-									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleOne()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleOneDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_one.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_one.svg", Colour.BASE_GREY)+"</div></div>")
 								
 								+ "<div id='forced_tf_limit_reduced' class='square-button small"+(Main.getProperties().forcedTFPreference==FurryPreference.REDUCED
-									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleTwo()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleTwoDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_two.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_two.svg", Colour.BASE_GREY)+"</div></div>")
 								
 								+ "<div id='forced_tf_limit_normal' class='square-button small"+(Main.getProperties().forcedTFPreference==FurryPreference.NORMAL
-									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleThree()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleThreeDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_three.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_three.svg", Colour.BASE_GREY)+"</div></div>")
 								
 								+ "<div id='forced_tf_limit_maximum' class='square-button small"+(Main.getProperties().forcedTFPreference==FurryPreference.MAXIMUM
-									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleFour()+"</div></div>"
-									:"'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getScaleFourDisabled()+"</div></div>")
+									?" selected' style='border-color:"+Colour.TRANSFORMATION_GENERIC.toWebHexString()+";'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_four.svg", Colour.BASE_GREEN)+"</div></div>"
+									:"'><div class='square-button-content'>"
+											+ IconCache.INSTANCE.getIcon("options", "UIElements/scale_four.svg", Colour.BASE_GREY)+"</div></div>")
 							+"</div>"
 						+ "</div>"
 					+ "</div>");
@@ -1443,14 +1469,14 @@ public class OptionsDialogue {
 		for(FurryPreference preference : FurryPreference.values()) {
 			sb.append("<div id='FEMININE_"+preference+"_"+s+"' class='square-button small"
 						+(Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().get(s)==preference
-							?" selected' style='border-color:"+Colour.FEMININE_PLUS.toWebHexString()+";'><div class='square-button-content'>"+preference.getSVGImage(false)+"</div></div>"
-							:"'><div class='square-button-content'>"+preference.getSVGImage(true)+"</div></div>"));
+							?" selected' style='border-color:"+Colour.FEMININE_PLUS.toWebHexString()+";'><div class='square-button-content'>"+preference.getIcon("options", false)+"</div></div>"
+							:"'><div class='square-button-content'>"+preference.getIcon("options", true)+"</div></div>"));
 		}
 		for(FurryPreference preference : FurryPreference.values()) {
 			sb.append("<div id='MASCULINE_"+preference+"_"+s+"' class='square-button small"
 						+(Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().get(s)==preference
-							?" selected' style='border-color:"+Colour.MASCULINE_PLUS.toWebHexString()+";'><div class='square-button-content'>"+preference.getSVGImage(false)+"</div></div>"
-							:"'><div class='square-button-content'>"+preference.getSVGImage(true)+"</div></div>"));
+							?" selected' style='border-color:"+Colour.MASCULINE_PLUS.toWebHexString()+";'><div class='square-button-content'>"+preference.getIcon("options", false)+"</div></div>"
+							:"'><div class='square-button-content'>"+preference.getIcon("options", true)+"</div></div>"));
 		}
 		
 		sb.append("</div>");

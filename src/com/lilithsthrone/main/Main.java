@@ -28,6 +28,7 @@ import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.story.CharacterCreation;
 import com.lilithsthrone.game.dialogue.utils.OptionsDialogue;
 import com.lilithsthrone.game.inventory.enchanting.TFEssence;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.CreditsSlot;
 import com.lilithsthrone.world.Generation;
@@ -67,7 +68,7 @@ public class Main extends Application {
 	public static final String VERSION_NUMBER = "0.2.8.2",
 			VERSION_DESCRIPTION = "Alpha";
 	
-	private final static boolean DEBUG = false;
+	private final static boolean DEBUG = true;
 
 	public static final Image WINDOW_IMAGE = new Image("/com/lilithsthrone/res/images/windowIcon32.png");
 
@@ -641,6 +642,8 @@ public class Main extends Application {
 				}
 			}
 		});
+
+		//Main.primaryStage.widthProperty().addListener(((observable, oldValue, newValue) -> IconCache.INSTANCE.reset()));
 
 		Main.primaryStage.getIcons().add(WINDOW_IMAGE);
 

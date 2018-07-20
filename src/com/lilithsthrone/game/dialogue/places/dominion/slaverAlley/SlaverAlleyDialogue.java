@@ -1,10 +1,5 @@
 package com.lilithsthrone.game.dialogue.places.dominion.slaverAlley;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.quests.Quest;
@@ -21,12 +16,17 @@ import com.lilithsthrone.game.sex.SexPositionSlot;
 import com.lilithsthrone.game.sex.managers.dominion.SMStocks;
 import com.lilithsthrone.game.slavery.SlaveJobSetting;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @since 0.1.0
@@ -313,7 +313,8 @@ public class SlaverAlleyDialogue {
 									+ UtilText.formatAsMoney((int)(slave.getValueAsSlave()*0.5f), "span")
 								+"</div>"
 								+ "<div style='float:left; width:9%; font-weight:bold; margin:0; padding:0;'>"
-									+ "<div id='"+slave.getId()+"_BID' class='square-button solo'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getTransactionBid()+"</div></div>"
+									+ "<div id='"+slave.getId()+"_BID' class='square-button solo'><div class='square-button-content'>"
+									+ IconCache.INSTANCE.getIcon("slavery", "UIElements/transactionBid.svg", Colour.BASE_BROWN)+"</div></div>"
 								+ "</div>"
 							+ "</div>"
 							));

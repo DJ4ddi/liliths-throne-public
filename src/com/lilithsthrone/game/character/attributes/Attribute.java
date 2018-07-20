@@ -1,12 +1,11 @@
 package com.lilithsthrone.game.character.attributes;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
+import com.lilithsthrone.rendering.IconCache;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 
@@ -612,10 +611,10 @@ public enum Attribute {
 	private String nameAbbreviation;
 	private String positiveEnchantment;
 	private String negativeEnchantment;
-	private Colour colour;
+	private Colour iconColour;
 	public static final List<Attribute> attributeBonusesForEnchanting = new ArrayList<>(), baseAttributesGood = new ArrayList<>();
 	private List<String> extraEffects;
-	private String SVGString;
+	private String iconPath;
 
 	static {
 		attributeBonusesForEnchanting.add(Attribute.CRITICAL_CHANCE);
@@ -644,7 +643,7 @@ public enum Attribute {
 			String name,
 			String nameAbbreviation,
 			String pathName,
-			Colour colour,
+			Colour iconColour,
 			String positiveEnchantment, String negativeEnchantment, List<String> extraEffects) {
 		
 		this.baseValue = baseValue;
@@ -652,31 +651,12 @@ public enum Attribute {
 		this.upperLimit = upperLimit;
 		this.name = name;
 		this.nameAbbreviation = nameAbbreviation;
-		this.colour = colour;
 		this.positiveEnchantment = positiveEnchantment;
 		this.negativeEnchantment = negativeEnchantment;
 		this.extraEffects = extraEffects;
 
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/UIElements/" + pathName + ".svg");
-			if(is==null) {
-				System.err.println("Error! Attribute icon file does not exist (Trying to read from '"+pathName+"')!");
-			}
-			SVGString = Util.inputStreamToString(is);
-
-			if (colour.getShades() != null) {
-				SVGString = SVGString.replaceAll("#ff2a2a", colour.getShades()[0]);
-				SVGString = SVGString.replaceAll("#ff5555", colour.getShades()[1]);
-				SVGString = SVGString.replaceAll("#ff8080", colour.getShades()[2]);
-				SVGString = SVGString.replaceAll("#ffaaaa", colour.getShades()[3]);
-				SVGString = SVGString.replaceAll("#ffd5d5", colour.getShades()[4]);
-			}
-
-			is.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.iconColour = iconColour;
+		iconPath = "UIElements/" + pathName + ".svg";
 	}
 
 	public static Attribute[] getCoreAttributes() {
@@ -710,7 +690,7 @@ public enum Attribute {
 	public abstract String getDescription(GameCharacter owner);
 
 	public Colour getColour() {
-		return colour;
+		return iconColour;
 	}
 
 	public String getAttributeChangeText(GameCharacter target, float value) {
@@ -777,8 +757,8 @@ public enum Attribute {
 		return negativeEnchantment;
 	}
 
-	public String getSVGString() {
-		return SVGString;
+	public String getIcon(String context) {
+		return IconCache.INSTANCE.getIcon(context, iconPath, iconColour);
 	}
 
 }
