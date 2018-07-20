@@ -6,7 +6,19 @@
 	<artifactId>game</artifactId>
 	<packaging>jar</packaging>
 	<version>1</version>
-	<name>lilithsthrone</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-transcoder</artifactId>
+            <version>1.10</version>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
+    </dependencies>
+    <name>lilithsthrone</name>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
