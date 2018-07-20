@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
+import com.lilithsthrone.rendering.*;
 import com.lilithsthrone.utils.*;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -195,9 +196,6 @@ import com.lilithsthrone.game.slavery.SlaveJobSetting;
 import com.lilithsthrone.game.slavery.SlavePermission;
 import com.lilithsthrone.game.slavery.SlavePermissionSetting;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.rendering.Artist;
-import com.lilithsthrone.rendering.Artwork;
-import com.lilithsthrone.rendering.SVGImages;
 import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.World;
 import com.lilithsthrone.world.WorldType;
