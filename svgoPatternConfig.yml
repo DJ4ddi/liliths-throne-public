@@ -1,0 +1,61 @@
+# Lilith's Throne SVGO configuration for patterns
+#
+# Instructions for installing SVGO can be found in "svgoConfig.yml".
+#
+# Use with "svgo --config=svgoPatternConfig.yml target.svg", where absolute 
+# paths may be required if the config file or the target file are not located 
+# in the current working directory. The target may also be a directory.
+
+# Replace entire default configuration
+full: true
+
+# No plugins disabled by default
+plugins:
+  - removeDoctype
+  - removeXMLProcInst
+  - removeComments
+  - removeMetadata
+  - removeEditorsNSData
+  - cleanupAttrs
+  - inlineStyles
+  - minifyStyles
+  - convertStyleToAttrs
+  # Preserve gradient IDs by disabling minification
+  - cleanupIDs:
+      minify: false
+      preserve: [patternLayer]
+  - removeRasterImages
+  - removeUselessDefs
+  - cleanupNumericValues
+  - cleanupListOfValues
+  # Prevent converting colors to names for color replacement
+  - convertColors:
+      shortname: false
+  # Preserve some default values required for patterns
+  - removeUnknownsAndDefaults: false
+  - removeNonInheritableGroupAttrs
+  - removeUselessStrokeAndFill
+  - removeViewBox
+  - cleanupEnableBackground
+  - removeHiddenElems
+  - removeEmptyText
+  - convertShapeToPath
+  # Prevent moving attributes to avoid breaking patterns
+  - moveElemsAttrsToGroup: false
+  - moveGroupAttrsToElems: false
+  # Prevent pattern layer group collapse (enable for non-pattern items)
+  - collapseGroups: false
+  - convertPathData
+  - convertTransform
+  - removeEmptyAttrs
+  - removeEmptyContainers
+  - mergePaths
+  - removeUnusedNS
+  # Sort attributes for readability
+  - sortAttrs: true
+  - removeTitle
+  - removeDesc
+
+# Use indented markup for readability
+js2svg:
+  pretty: true
