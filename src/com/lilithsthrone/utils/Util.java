@@ -29,6 +29,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import com.lilithsthrone.game.character.body.CoverableArea;
+import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.clothing.DisplacementType;
@@ -139,75 +140,6 @@ public class Util {
 
 	public static Color newColour(int hex) {
 		return newColour((hex & 0xFF0000) >> 16, (hex & 0xFF00) >> 8, (hex & 0xFF));
-	}
-	
-	public static String colourReplacement(String gradientReplacementID, Colour colour, Colour colourSecondary, Colour colourTertiary, String inputString) {
-		String s = inputString;
-
-		s = s.replaceAll("linearGradient\\d|innoGrad\\d",
-				gradientReplacementID + colour.toString() + (colourSecondary!=null?colourSecondary.toString():"") + (colourTertiary!=null?colourTertiary.toString():"") + "$0");
-		
-		// Fixes issue of SVG icons overflowing:
-		s = s.replaceFirst("width=\"100%\"\\R   height=\"100%\"", "");
-		
-		if(colour!=null) {
-			s = s.replaceAll("#ff2a2a", colour.getShades()[0]);
-			s = s.replaceAll("#ff5555|#f55", colour.getShades()[1]);
-			s = s.replaceAll("#ff8080", colour.getShades()[2]);
-			s = s.replaceAll("#ffaaaa|#faa", colour.getShades()[3]);
-			s = s.replaceAll("#ffd5d5", colour.getShades()[4]);
-		}
-		
-		if(colourSecondary!=null) {
-			s = s.replaceAll("#ff7f2a", colourSecondary.getShades()[0]);
-			s = s.replaceAll("#ff9955|#f95", colourSecondary.getShades()[1]);
-			s = s.replaceAll("#ffb380", colourSecondary.getShades()[2]);
-			s = s.replaceAll("#ffccaa|#fca", colourSecondary.getShades()[3]);
-			s = s.replaceAll("#ffe6d5", colourSecondary.getShades()[4]);
-		}
-		
-		if(colourTertiary!=null) {
-			s = s.replaceAll("#ffd42a", colourTertiary.getShades()[0]);
-			s = s.replaceAll("#ffdd55|#fd5", colourTertiary.getShades()[1]);
-			s = s.replaceAll("#ffe680", colourTertiary.getShades()[2]);
-			s = s.replaceAll("#ffeeaa|#fea", colourTertiary.getShades()[3]);
-			s = s.replaceAll("#fff6d5", colourTertiary.getShades()[4]);
-		}
-		
-		return s;
-	}
-	
-	public static String colourReplacementPattern(String gradientReplacementID, Colour colour, Colour colourSecondary, Colour colourTertiary, String inputString) {
-		String s = inputString;
-
-		s = s.replaceAll("linearGradient\\d|innoGrad\\d",
-				gradientReplacementID + colour.toString() + (colourSecondary!=null?colourSecondary.toString():"") + (colourTertiary!=null?colourTertiary.toString():"") + "$0");
-		
-		if(colour!=null) {
-			s = s.replaceAll("#f4d7d7", colour.getShades()[0]);
-			s = s.replaceAll("#e9afaf", colour.getShades()[1]);
-			s = s.replaceAll("#de8787", colour.getShades()[2]);
-			s = s.replaceAll("#d35f5f", colour.getShades()[3]);
-			s = s.replaceAll("#c83737", colour.getShades()[4]);
-		}
-		
-		if(colourSecondary!=null) {
-			s = s.replaceAll("#f4e3d7", colourSecondary.getShades()[0]);
-			s = s.replaceAll("#e9c6af", colourSecondary.getShades()[1]);
-			s = s.replaceAll("#deaa87", colourSecondary.getShades()[2]);
-			s = s.replaceAll("#d38d5f", colourSecondary.getShades()[3]);
-			s = s.replaceAll("#c87137", colourSecondary.getShades()[4]);
-		}
-		
-		if(colourTertiary!=null) {
-			s = s.replaceAll("#f4eed7", colourTertiary.getShades()[0]);
-			s = s.replaceAll("#e9ddaf", colourTertiary.getShades()[1]);
-			s = s.replaceAll("#decd87", colourTertiary.getShades()[2]);
-			s = s.replaceAll("#d3bc5f", colourTertiary.getShades()[3]);
-			s = s.replaceAll("#c8ab37", colourTertiary.getShades()[4]);
-		}
-
-		return s;
 	}
 	
 	/**
@@ -352,6 +284,10 @@ public class Util {
 		int total = 0;
 		for(int i : map.values()) {
 			total+=i;
+		}
+		
+		if(total==0) {
+			return null;
 		}
 		
 		int choice = Util.random.nextInt(total) + 1;
@@ -909,6 +845,17 @@ public class Util {
 			System.err.println("Util.toStringList() error - NoSuchElementException! (It's probably nothing to worry about...)");
 		}
 		return utilitiesStringBuilder.toString();
+	}
+
+	public static String subspeciesToStringList(Collection<Subspecies> subspecies, boolean capitalise) {
+		return Util.toStringList(subspecies,
+				(Subspecies o) -> 
+				"<span style='color:"+o.getColour(null).toWebHexString()+";'>"
+					+(capitalise
+							?Util.capitaliseSentence(o.getNamePlural(null))
+							:o.getNamePlural(null))
+					+"</span>",
+				"and");
 	}
 
 	public static String clothesToStringList(Collection<AbstractClothing> clothingSet, boolean capitalise) {

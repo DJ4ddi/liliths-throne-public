@@ -32,6 +32,7 @@ import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.SVGImages;
 import com.lilithsthrone.utils.Colour;
+import com.lilithsthrone.utils.SvgUtil;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.world.WorldType;
@@ -486,6 +487,9 @@ public enum Subspecies {
 
 		@Override
 		public String getSVGString(GameCharacter character) {
+			if(character==null) {
+				return SVGImages.SVG_IMAGE_PROVIDER.getFoxTail9();
+			}
 			switch(character.getTailCount()) {
 				case 1:
 					return SVGImages.SVG_IMAGE_PROVIDER.getFoxTail1();
@@ -511,6 +515,9 @@ public enum Subspecies {
 
 		@Override
 		public String getSVGStringDesaturated(GameCharacter character) {
+			if(character==null) {
+				return SVGImages.SVG_IMAGE_PROVIDER.getFoxTailDesaturated9();
+			}
 			switch(character.getTailCount()) {
 				case 1:
 					return SVGImages.SVG_IMAGE_PROVIDER.getFoxTailDesaturated1();
@@ -598,6 +605,9 @@ public enum Subspecies {
 		
 		@Override
 		public String getSVGString(GameCharacter character) {
+			if(character==null) {
+				return SVGImages.SVG_IMAGE_PROVIDER.getFoxTail9();
+			}
 			switch(character.getTailCount()) {
 				case 1:
 					return SVGImages.SVG_IMAGE_PROVIDER.getFoxTail1();
@@ -623,6 +633,9 @@ public enum Subspecies {
 
 		@Override
 		public String getSVGStringDesaturated(GameCharacter character) {
+			if(character==null) {
+				return SVGImages.SVG_IMAGE_PROVIDER.getFoxTailDesaturated9();
+			}
 			switch(character.getTailCount()) {
 				case 1:
 					return SVGImages.SVG_IMAGE_PROVIDER.getFoxTailDesaturated1();
@@ -1271,11 +1284,17 @@ public enum Subspecies {
 
 		@Override
 		public String getSVGString(GameCharacter character) {
+			if(character==null) {
+				return Subspecies.HUMAN.getSlimeSVGString(null);
+			}
 			return Subspecies.getFleshSubspecies(character.getBody()).getSlimeSVGString(character);
 		}
 
 		@Override
 		public String getSVGStringDesaturated(GameCharacter character) {
+			if(character==null) {
+				return Subspecies.HUMAN.getSVGStringDesaturated(null);
+			}
 			return Subspecies.getFleshSubspecies(character.getBody()).getSVGStringDesaturated(character);
 		}
 	},
@@ -1789,20 +1808,20 @@ public enum Subspecies {
 				
 				String baseSVGString = SVGStringBackground + "<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGString+"</div>";
 				
-				slimeSVGString = Util.colourReplacement(this.toString(),
+				slimeSVGString = SvgUtil.colourReplacement(this.toString(),
 						Colour.RACE_SLIME,
 						Colour.RACE_SLIME,
 						Colour.RACE_SLIME,
 						"<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>" + SVGImages.SVG_IMAGE_PROVIDER.getRaceBackgroundSlime()+"</div>"
 						+ "<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGString+"</div>");
 				
-				SVGStringDesaturated = Util.colourReplacement(this.toString(),
+				SVGStringDesaturated = SvgUtil.colourReplacement(this.toString(),
 						Colour.BASE_GREY,
 						Colour.BASE_GREY,
 						Colour.BASE_GREY,
 						baseSVGString);
 				
-				SVGString = Util.colourReplacement(this.toString(),
+				SVGString = SvgUtil.colourReplacement(this.toString(),
 						colour,
 						colour,
 						colour,
@@ -1812,24 +1831,6 @@ public enum Subspecies {
 				e.printStackTrace();
 			}
 			
-//			try {
-//				InputStream is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/" + iconPathName + ".svg");
-//				if(is==null) {
-//					System.err.println("Error! Subspecies icon file does not exist (Trying to read from '"+iconPathName+"')! (Code 2)");
-//				}
-//				SVGStringDesaturated = Util.inputStreamToString(is);
-//	
-//				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ff2a2a", Colour.BASE_GREY.getShades()[0]);
-//				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ff5555|#f55", Colour.BASE_GREY.getShades()[1]);
-//				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ff8080", Colour.BASE_GREY.getShades()[2]);
-//				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ffaaaa|#faa", Colour.BASE_GREY.getShades()[3]);
-//				SVGStringDesaturated = SVGStringDesaturated.replaceAll("#ffd5d5", Colour.BASE_GREY.getShades()[4]);
-//	
-//				is.close();
-//	
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
 			
 		} else {
 			SVGString = "";

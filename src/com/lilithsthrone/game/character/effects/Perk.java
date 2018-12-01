@@ -16,6 +16,7 @@ import com.lilithsthrone.game.combat.SpellSchool;
 import com.lilithsthrone.game.combat.SpellUpgrade;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.utils.Colour;
+import com.lilithsthrone.utils.SvgUtil;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 
@@ -1242,7 +1243,7 @@ public enum Perk {
 
 	ELEMENTAL_BOUND_ARCANE(20,
 			true,
-			"Bound to Air",
+			"Bound to Arcane",
 			PerkCategory.JOB,
 			"combat/spell/elemental_arcane",
 			Colour.SPELL_SCHOOL_AIR,
@@ -3777,12 +3778,8 @@ public enum Perk {
 					System.err.println("Error! Perk icon file does not exist (Trying to read from '"+pathName+"')!");
 				}
 				SVGString = Util.inputStreamToString(is);
-	
-				SVGString = SVGString.replaceAll("#ff2a2a", colour.getShades()[0]);
-				SVGString = SVGString.replaceAll("#ff5555|#f55", colour.getShades()[1]);
-				SVGString = SVGString.replaceAll("#ff8080", colour.getShades()[2]);
-				SVGString = SVGString.replaceAll("#ffaaaa|#faa", colour.getShades()[3]);
-				SVGString = SVGString.replaceAll("#ffd5d5", colour.getShades()[4]);
+				
+				SVGString = SvgUtil.colourReplacement(this.toString(), colour, SVGString);
 	
 				is.close();
 	
